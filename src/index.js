@@ -13,6 +13,7 @@ import {
   userIsNotAuthenticatedRedir,
   userIsAuthenticatedRedir
 } from './utils/auth';
+import './index.css';
 
 // ========================================================
 // Store Instantiation

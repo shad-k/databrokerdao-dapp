@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RegisterForm } from './RegisterForm';
+import RegisterForm from './RegisterForm';
 
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
