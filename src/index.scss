@@ -1,0 +1,16 @@
+$md-font-name: Poppins;
+
+@import 'react-md/src/scss/react-md';
+
+$dbdao-pink: #ee274c;
+$dbdao-purple: #2e3192;
+
+$md-primary-color: $dbdao-pink;
+$md-secondary-color: $dbdao-purple;
+
+@include react-md-everything;
+
+body {
+  margin: 0;
+  padding: 0;
+}

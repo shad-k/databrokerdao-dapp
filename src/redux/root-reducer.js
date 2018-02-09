@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 // TODO: import reducers
+import { reducer as auth } from './authentication/reducer';
 
 /**
  * This is the global reducer to which all reducers which are loaded at runtime are added.
@@ -19,6 +20,7 @@ const rootReducer = (asyncReducers, initialState) => {
 
   return combineReducers({
     routing: routerReducer,
+    auth,
     // TODO: add reducers
     ...asyncReducers,
     ...missingReducers

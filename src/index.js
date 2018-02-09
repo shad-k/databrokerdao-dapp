@@ -6,8 +6,13 @@ import createHistory from 'history/createBrowserHistory';
 import { Switch, Route, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import createStore from './redux/create-store';
-import LoginComponent from './components/authentication/Login';
+import AuthContainer from './components/authentication/AuthContainer';
+import SearchContainer from './components/search/SearchContainer';
 import './styles/index.css';
+import {
+  userIsNotAuthenticatedRedir,
+  userIsAuthenticatedRedir
+} from './utils/auth';
 
 // ========================================================
 // Store Instantiation
@@ -21,12 +26,16 @@ const store = createStore(initialState, history);
 // ========================================================
 const MOUNT_NODE = document.getElementById('root');
 
+const auth = userIsNotAuthenticatedRedir(AuthContainer);
+const search = userIsAuthenticatedRedir(SearchContainer);
+
 const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Switch>
-          <Route path="/login" component={withRouter(LoginComponent)} />
+          <Route path="/account" component={withRouter(auth)} />
+          <Route component={withRouter(search)} />
         </Switch>
       </ConnectedRouter>
     </Provider>,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-class LoginComponent extends Component {
+class SearchContainer extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
@@ -12,10 +12,10 @@ class LoginComponent extends Component {
   render() {
     return (
       <div>
-        <p>Login</p>
+        <p>Search</p>
       </div>
     );
   }
 }
 
-export default connect()(LoginComponent);
+export default connect()(SearchContainer);

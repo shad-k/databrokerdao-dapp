@@ -1,0 +1,48 @@
+.account-logo {
+  height: 50px;
+}
+
+.account-title {
+  margin-top: 10px;
+  color: black;
+  font-weight: 700;
+}
+
+.account-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.account-footer-text {
+  line-height: 30px;
+  display: inline-block;
+  height: 30px;
+}
+
+.account-footer-logo {
+  height: 30px;
+  display: inline-block;
+}
+
+.error-message {
+  text-align: left;
+  color: red;
+  font-size: 0.8em;
+}
+
+.register-prompt,
+.login-prompt {
+  float: right;
+  margin-top: 30px;
+  color: #666;
+  font-size: 0.8em;
+  text-align: right;
+}
+
+.register-prompt a,
+.login-prompt a {
+  color: #666;
+}
