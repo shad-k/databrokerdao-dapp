@@ -9,11 +9,18 @@ import createStore from './redux/create-store';
 import AuthContainer from './components/authentication/AuthContainer';
 import SearchContainer from './components/search/SearchContainer';
 import './styles/index.css';
+import WebFontLoader from 'webfontloader';
 import {
   userIsNotAuthenticatedRedir,
   userIsAuthenticatedRedir
 } from './utils/auth';
 import './index.css';
+
+WebFontLoader.load({
+  google: {
+    families: ['Open Sans:300,400,500,700', 'Material Icons']
+  }
+});
 
 // ========================================================
 // Store Instantiation
