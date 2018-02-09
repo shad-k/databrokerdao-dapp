@@ -58,6 +58,9 @@ class SearchContainer extends Component {
         id="fixed-toolbar-example"
         fixed
         colored
+        style={{
+          backgroundImage: 'linear-gradient(to right,#ee274c 10%, #2e3192 100%)'
+        }}
         nav={
           <div className="md-inline-block">
             <img src={Logo} alt="DataBroker DAO" className="headerLogo" />
