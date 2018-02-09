@@ -1,5 +1,10 @@
 # DataBroker DAO webapp
 
+## Login credentials
+
+Username: admin0@settlemint.com
+Password: settlemint
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
