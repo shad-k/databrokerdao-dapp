@@ -30,7 +30,7 @@ class AuthContainer extends Component {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: `linear-gradient(to right,#EE274C 10%, #2E3192 100%)`,
+          background: `linear-gradient(to right,#EE274C 100%, #2E3192 100%)`,
           backgroundPosition: 'center bottom',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
