@@ -9,9 +9,13 @@ export default class ContentCard extends Component {
     `;
 
     return(
-      <StyledCard className='md-block-centered'>
-        {this.props.children}
-      </StyledCard>
+      <div>
+        <div style={{height:"84px"}}>
+        </div>
+        <StyledCard className='md-block-centered'>
+          {this.props.children}
+        </StyledCard>
+      </div>
     );
   }
 }

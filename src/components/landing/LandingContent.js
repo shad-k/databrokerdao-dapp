@@ -10,12 +10,16 @@ export default class LandingContent extends Component {
     `;
 
     return (
-      <StyledCard className='md-block-centered'>
-        <CardText>
-          <h2>Buy and sell data!</h2>
-          <Link to="/discover">Discover sensors</Link>
-        </CardText>
-      </StyledCard>
+      <div>
+        <div style={{height:"84px"}}>
+        </div>
+        <StyledCard className='md-block-centered'>
+          <CardText>
+            <h2>Buy and sell data!</h2>
+            <Link to="/discover">Discover sensors</Link>
+          </CardText>
+        </StyledCard>
+      </div>
     );
   }
 }

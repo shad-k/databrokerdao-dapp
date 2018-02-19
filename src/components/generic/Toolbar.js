@@ -17,7 +17,7 @@ export default class Toolbar extends Component {
       padding: 12px 25px;
       box-shadow: 0 1px 12px rgba(0,0,0,0.4);
       position: fixed;
-      z-index: 1;
+      z-index: 100;
     `;
 
     const StyledLogo = styled.img`
@@ -26,15 +26,13 @@ export default class Toolbar extends Component {
     `;
 
     return (
-      <div>
-        <StyledToolbar className="clearfix" >
+      <div className="clearfix">
+        <StyledToolbar >
           <StyledLogo src={Logo} alt="SettleMint"/>
           {this.props.showTabs &&
             <Tabs />
           }
         </StyledToolbar>
-        <div style={{height:"84px"}}>
-        </div>
       </div>
     );
   }
