@@ -16,6 +16,8 @@ export default class Toolbar extends Component {
       width: 100%;
       padding: 12px 25px;
       box-shadow: 0 1px 12px rgba(0,0,0,0.4);
+      position: fixed;
+      z-index: 1;
     `;
 
     const StyledLogo = styled.img`
@@ -31,6 +33,8 @@ export default class Toolbar extends Component {
             <Tabs />
           }
         </StyledToolbar>
+        <div style={{height:"84px"}}>
+        </div>
       </div>
     );
   }
