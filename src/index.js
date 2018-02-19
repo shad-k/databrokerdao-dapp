@@ -8,6 +8,12 @@ import { ConnectedRouter } from 'react-router-redux';
 import createStore from './redux/create-store';
 import AuthContainer from './components/authentication/AuthContainer';
 import SearchContainer from './components/search/SearchContainer';
+import LandingScreen from './components/landing/LandingScreen';
+import DiscoverScreen from './components/discover/DiscoverScreen';
+import PurchasesScreen from './components/purchases/PurchasesScreen';
+import AddSensorScreen from './components/add-sensor/AddSensorScreen';
+import WalletScreen from './components/wallet/WalletScreen';
+
 import './styles/index.css';
 import WebFontLoader from 'webfontloader';
 import {
@@ -34,16 +40,20 @@ const store = createStore(initialState, history);
 // ========================================================
 const MOUNT_NODE = document.getElementById('root');
 
-const auth = userIsNotAuthenticatedRedir(AuthContainer);
-const search = userIsAuthenticatedRedir(SearchContainer);
+// const auth = userIsNotAuthenticatedRedir(AuthContainer);
+// const search = userIsAuthenticatedRedir(SearchContainer);
 
 const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Switch>
-          <Route path="/account" component={withRouter(auth)} />
-          <Route component={withRouter(search)} />
+          {/*}<Route path="/account" component={withRouter(auth)} />*/}
+          <Route path="/discover" component={withRouter(DiscoverScreen)} />
+          <Route path="/purchases" component={withRouter(PurchasesScreen)} />
+          <Route path="/add-sensor" component={withRouter(AddSensorScreen)} />
+          <Route path="/wallet" component={withRouter(WalletScreen)} />
+          <Route path="/" component={withRouter(LandingScreen)} />
         </Switch>
       </ConnectedRouter>
     </Provider>,
