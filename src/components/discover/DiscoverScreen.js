@@ -10,7 +10,7 @@ export default class DiscoverScreen extends Component {
       <div>
         <Toolbar showTabs={true} />
         <Grid className="" noSpacing>
-          <Cell size={2} className="" style={{position:"absolute", height:"100%", backgroundColor:"yellow", paddingTop:"60px", overflowY:"auto"}}>
+          <Cell size={2} className="" style={{position:"absolute", height:"100%", backgroundColor:"white", paddingTop:"60px", overflowY:"auto"}}>
             <div style={{backgroundColor:"gray"}}>
               <h2>Filter stuff</h2>
             </div>
