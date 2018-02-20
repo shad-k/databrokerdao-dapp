@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { Grid, Cell, List, ListItem } from 'react-md';
 
-import Toolbar from '../generic/Toolbar.js';
+import Toolbar from '../generic/Toolbar';
+import Filter from './Filter'
 
 export default class DiscoverScreen extends Component {
   render() {
@@ -11,9 +12,7 @@ export default class DiscoverScreen extends Component {
         <Toolbar showTabs={true} />
         <Grid className="" noSpacing>
           <Cell size={2} className="" style={{position:"absolute", height:"100%", backgroundColor:"white", paddingTop:"60px", overflowY:"auto"}}>
-            <div style={{backgroundColor:"gray"}}>
-              <h2>Filter stuff</h2>
-            </div>
+            <Filter />
             <List>
               <ListItem primaryText="Temp Sensor Falconplein" />
               <ListItem primaryText="CO2 sensor Volkswagen" />
