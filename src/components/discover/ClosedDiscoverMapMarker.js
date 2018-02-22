@@ -13,19 +13,9 @@ export default class ClosedDiscoverMapMarker extends Component {
       font-size:25px;
     `;
 
-    const StyledLabel = styled.span`
-      color:white;
-      font-weight:800;
-      font-size:16px;
-      display:table-cell;
-      vertical-align:middle;
-      padding-left:8px;
-    `;
-
       return (
           <div style={{display:"table",padding:"10px"}}>
             <StyledIcon>wb_sunny</StyledIcon>
-            <StyledLabel>20&#8451;</StyledLabel>
           </div>
       );
   }

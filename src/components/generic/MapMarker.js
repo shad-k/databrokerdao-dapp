@@ -12,8 +12,8 @@ export default class MapMarker extends Component {
     const StyledPin = styled.div`
       width: 0;
       height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
       border-top: 10px solid rgba(0,0,0,0.7);
       position: relative;
       left: 50%;

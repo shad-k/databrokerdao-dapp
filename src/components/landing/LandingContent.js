@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
-import { Link, push } from 'react-router-dom';
+import { Link, push, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Card, CardText, Button, List, ListItemControl, Avatar, FontIcon, Checkbox } from 'react-md';
 
-export default class LandingContent extends Component {
+export default withRouter(class LandingContent extends Component {
   constructor() {
     super()
   }
@@ -117,4 +116,4 @@ export default class LandingContent extends Component {
       </div>
     );
   }
-}
+})

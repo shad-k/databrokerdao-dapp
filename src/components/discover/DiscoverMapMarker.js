@@ -11,7 +11,7 @@ export default class DiscoverMapMarker extends Component {
   constructor(props){
     super(props);
 
-    this.state = {expanded:true};
+    this.state = {expanded:false};
   }
 
   toggleExpanded() {

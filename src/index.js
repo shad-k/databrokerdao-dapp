@@ -13,6 +13,7 @@ import DiscoverScreen from './components/discover/DiscoverScreen';
 import PurchasesScreen from './components/purchases/PurchasesScreen';
 import AddSensorScreen from './components/add-sensor/AddSensorScreen';
 import WalletScreen from './components/wallet/WalletScreen';
+import SensorDetailsScreen from './components/sensor-details/SensorDetailsScreen';
 
 import './styles/index.css';
 import WebFontLoader from 'webfontloader';
@@ -53,6 +54,7 @@ const render = () => {
           <Route path="/purchases" component={withRouter(PurchasesScreen)} />
           <Route path="/add-sensor" component={withRouter(AddSensorScreen)} />
           <Route path="/wallet" component={withRouter(WalletScreen)} />
+          <Route path="/sensor-details" component={withRouter(SensorDetailsScreen)} />
           <Route path="/" component={withRouter(LandingScreen)} />
         </Switch>
       </ConnectedRouter>

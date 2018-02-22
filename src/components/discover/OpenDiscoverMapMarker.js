@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
+import { push, withRouter } from 'react-router-dom';
 import { FontIcon, Button } from 'react-md';
 import styled from 'styled-components';
 
 import MapMarker from '../generic/MapMarker';
 
-export default class ClosedDiscoverMapMarker extends Component {
+export default withRouter(class ClosedDiscoverMapMarker extends Component {
   onPurchaseButtonClicked() {
-    console.log("Purchasing!!!");
-
+    console.log("Purchasing");
+    this.props.history.push('/sensor-details');
   }
 
   render() {
@@ -56,4 +56,4 @@ export default class ClosedDiscoverMapMarker extends Component {
           </div>
       );
   }
-}
+})
