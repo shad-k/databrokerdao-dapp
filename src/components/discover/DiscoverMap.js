@@ -1,0 +1,18 @@
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
+
+import DiscoverMapMarker from './DiscoverMapMarker';
+
+export default withScriptjs(withGoogleMap(class DiscoverMap extends Component {
+  render() {
+    return (
+      <GoogleMap
+       defaultZoom={13}
+       defaultCenter={{ lat: 50.889844, lng: 4.700518 }}
+      >
+        <DiscoverMapMarker position={{ lat: 50.878421, lng: 4.699932 }}/>
+      </GoogleMap>
+    );
+  }
+}))

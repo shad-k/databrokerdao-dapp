@@ -7,14 +7,12 @@ import LandingMapMarker from './LandingMapMarker';
 export default withScriptjs(withGoogleMap(class LandingMap extends Component {
   render() {
     return (
-      <div>
-        <GoogleMap
-         defaultZoom={12}
-         defaultCenter={{ lat: 50.879844, lng: 4.700518 }}
-        >
-          <LandingMapMarker position={{ lat: 50.861844, lng: 4.701518 }}/>
-        </GoogleMap>
-      </div>
+      <GoogleMap
+       defaultZoom={13}
+       defaultCenter={{ lat: 50.889844, lng: 4.700518 }}
+      >
+        <LandingMapMarker position={{ lat: 50.878421, lng: 4.699932 }}/>
+      </GoogleMap>
     );
   }
 }))

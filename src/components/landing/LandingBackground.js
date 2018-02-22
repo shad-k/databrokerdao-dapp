@@ -15,14 +15,12 @@ export default class LandingBackground extends Component {
     };
 
     return (
-      <div>
-        <LandingMap
-          googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-          loadingElement={<div style={mapElementsStyle} />}
-          containerElement={<div style={{zIndex:"-1", ...mapElementsStyle}} />}
-          mapElement={<div style={mapElementsStyle} />}
-          />
-      </div>
+      <LandingMap
+        googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp"
+        loadingElement={<div style={mapElementsStyle} />}
+        containerElement={<div style={{zIndex:"-1", ...mapElementsStyle}} />}
+        mapElement={<div style={mapElementsStyle} />}
+        />
     );
   }
 }
