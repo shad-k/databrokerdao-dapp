@@ -1,32 +1,33 @@
 import React, { Component } from 'react';
 import { push } from 'react-router-redux';
-import { FontIcon } from 'react-md';
+import { FontIcon, Button } from 'react-md';
 import styled from 'styled-components';
 
 import MapMarker from '../generic/MapMarker';
+import ClosedDiscoverMapMarker from './ClosedDiscoverMapMarker';
+import OpenDiscoverMapMarker from './OpenDiscoverMapMarker';
 
 export default class DiscoverMapMarker extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {expanded:true};
+  }
+
+  toggleExpanded() {
+    this.setState({expanded:!this.state.expanded});
+  }
+
   render() {
-    const StyledIcon = styled(FontIcon)`
-      color:white;
-      float:left;
-      fontSize:25px;
-    `;
-
-    const StyledLabel = styled.span`
-      color:white;
-      font-weight:800;
-      font-size:16px;
-      display:table-cell;
-      vertical-align:middle;
-      padding-left:8px;
-    `;
-
     return (
-      <MapMarker position={this.props.position} style={{display:"table"}}>
-          <div style={{display:"table"}}>
-            <StyledIcon>wb_sunny</StyledIcon>
-            <StyledLabel>20&#8451; ("500DTX per hour")</StyledLabel>
+      <MapMarker position={this.props.position}>
+          <div style={{cursor:"pointer"}} onClick={event => this.toggleExpanded()}>
+            {!this.state.expanded &&
+              <ClosedDiscoverMapMarker/>
+            }
+            {this.state.expanded &&
+              <OpenDiscoverMapMarker/>
+            }
           </div>
       </MapMarker>
     );
