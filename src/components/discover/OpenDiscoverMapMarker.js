@@ -13,16 +13,15 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
 
   render() {
     const StyledContentContainer = styled.div`
-      display:table;
       padding:10px;
       width:200px;
+      display: flex;
+      align-items: center;
     `;
 
     const StyledIcon = styled(FontIcon)`
       color:white;
       font-size:25px;
-      display:table-cell;
-      vertical-align:middle;
     `;
 
     const StyledSensorName = styled.div`
@@ -49,8 +48,10 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
           <div>
             <StyledContentContainer>
               <StyledIcon>wb_sunny</StyledIcon>
-              <StyledSensorName>Temperature sensor</StyledSensorName>
-              <StyledSensorDetails>Updated every hour</StyledSensorDetails>
+              <div>
+                <StyledSensorName>Temperature sensor</StyledSensorName>
+                <StyledSensorDetails>Updated every hour</StyledSensorDetails>
+              </div>
             </StyledContentContainer>
             <StyledButton raised primary onClick={event => this.onPurchaseButtonClicked()}>Purchase</StyledButton>
           </div>

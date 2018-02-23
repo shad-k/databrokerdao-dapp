@@ -7,9 +7,14 @@ import MapMarker from '../generic/MapMarker';
 
 export default class LandingMapMarker extends Component {
   render() {
+    const StyledContentContainer = styled.div`
+      padding:10px;
+      display: flex;
+      align-items:center;
+    `;
+
     const StyledIcon = styled(FontIcon)`
       color:white;
-      float:left;
       fontSize:25px;
     `;
 
@@ -17,17 +22,16 @@ export default class LandingMapMarker extends Component {
       color:white;
       font-weight:700;
       font-size:16px;
-      display:table-cell;
-      vertical-align:middle;
       padding-left:8px;
+      width:50px;
     `;
 
     return (
-      <MapMarker position={this.props.position} style={{display:"table"}}>
-          <div style={{display:"table", padding:"10px"}}>
-            <StyledIcon>wb_sunny</StyledIcon>
-            <StyledLabel>20&#8451;</StyledLabel>
-          </div>
+      <MapMarker position={this.props.position}>
+        <StyledContentContainer>
+          <StyledIcon>wb_sunny</StyledIcon>
+          <StyledLabel>20&#8451;</StyledLabel>
+        </StyledContentContainer>
       </MapMarker>
     );
   }

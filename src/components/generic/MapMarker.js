@@ -26,7 +26,7 @@ export default class MapMarker extends Component {
         mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
       >
         <div style={{transform: "translate(-50%, -100%)"}}>
-          <StyledContent className="clearfix">
+          <StyledContent>
             {this.props.children}
           </StyledContent>
           <StyledPin>
