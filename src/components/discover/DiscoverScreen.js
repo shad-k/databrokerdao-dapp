@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
+import { withRouter } from 'react-router-dom';
 import { List, ListItem } from 'react-md';
 import styled from 'styled-components';
 
@@ -7,7 +7,11 @@ import Toolbar from '../generic/Toolbar';
 import Filter from './Filter'
 import DiscoverMap from './DiscoverMap'
 
-export default class DiscoverScreen extends Component {
+export default withRouter(class DiscoverScreen extends Component {
+  onListItemClick() {
+    this.props.history.push('/sensor-details');
+  }
+
   render() {
     const StyledSidebar = styled.div`
       flex: initial;
@@ -35,12 +39,12 @@ export default class DiscoverScreen extends Component {
         <StyledSidebar>
           <Filter />
           <List>
-            <ListItem primaryText="Temp Sensor Falconplein" />
-            <ListItem primaryText="CO2 sensor Volkswagen" />
-            <ListItem primaryText="Windsensor Kathedraal" />
-            <ListItem primaryText="Temp Sensor Falconplein" />
-            <ListItem primaryText="CO2 sensor Volkswagen" />
-            <ListItem primaryText="Windsensor Kathedraal" />
+            <ListItem primaryText="Temp Sensor Falconplein link" onClick={(event) => this.onListItemClick()}/>
+            <ListItem primaryText="CO2 sensor Volkswagen" onClick={(event) => this.onListItemClick()}/>
+            <ListItem primaryText="Windsensor Kathedraal" onClick={(event) => this.onListItemClick()}/>
+            <ListItem primaryText="Temp Sensor Falconplein" onClick={(event) => this.onListItemClick()}/>
+            <ListItem primaryText="CO2 sensor Volkswagen" onClick={(event) => this.onListItemClick()}/>
+            <ListItem primaryText="Windsensor Kathedraal" onClick={(event) => this.onListItemClick()}/>
           </List>
         </StyledSidebar>
         <StyledContent>
@@ -54,4 +58,4 @@ export default class DiscoverScreen extends Component {
       </div>
     );
   }
-}
+})

@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { Link, push, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { Card, CardText, Button, List, ListItemControl, Avatar, FontIcon, Checkbox } from 'react-md';
+import { Card, CardText, Button, List, ListItemControl, FontIcon, Checkbox } from 'react-md';
 
 export default withRouter(class LandingContent extends Component {
-  constructor() {
-    super()
-  }
-
   onDiscoverButtonClicked = e => {
     // Save filter to state (if needed), log button click to Mixpanel,...
     this.props.history.push('/discover');

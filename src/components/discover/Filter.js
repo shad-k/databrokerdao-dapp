@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Button, FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField } from 'react-md';
+import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField } from 'react-md';
 
 export default class Filter extends Component {
   render() {

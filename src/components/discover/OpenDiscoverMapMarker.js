@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { push, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { FontIcon, Button } from 'react-md';
 import styled from 'styled-components';
-
-import MapMarker from '../generic/MapMarker';
 
 export default withRouter(class ClosedDiscoverMapMarker extends Component {
   onPurchaseButtonClicked() {

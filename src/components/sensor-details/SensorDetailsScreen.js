@@ -1,21 +1,60 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
-import { CardTitle, CardText } from 'react-md/lib/Cards';
+import { Button } from 'react-md';
+import styled from 'styled-components';
 
 import Toolbar from '../generic/Toolbar';
-import ContentCard from '../generic/ContentCard';
+import CenteredCard from '../generic/CenteredCard';
+import CardContent from '../generic/CardContent';
+import ToolbarSpacer from '../generic/ToolbarSpacer';
 
 export default class SensorDetailsScreen extends Component {
   render() {
+    const StyledContentContainer = styled.div`
+      display:flex;
+      padding:15px;
+    `;
+
+    const StyledContentCell = styled.div`
+      margin:15px;
+      flex:1;
+    `;
+
+    const StyledSensorAttribute = styled.p`
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 2;
+    `;
+
     return (
       <div>
         <Toolbar showTabs={true} />
-        <ContentCard >
-          <CardTitle title='Details of this sensor' />
-          <CardText>
-            <p>Hallo ik ben zomaar een beetje gewone tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. </p>
-          </CardText>
-        </ContentCard>
+        <ToolbarSpacer/>
+        <CenteredCard>
+          <CardContent noMarginBottom>
+            <h1>BarVista Temperature Sensor</h1>
+          </CardContent>
+          <StyledContentContainer>
+            <StyledContentCell>
+              <StyledSensorAttribute>Updated every two months</StyledSensorAttribute>
+              <StyledSensorAttribute>20 DTX per hour</StyledSensorAttribute>
+              <StyledSensorAttribute>200 DTX stakes by owner (?)</StyledSensorAttribute>
+              <Button raised primary>Purchase access</Button>
+            </StyledContentCell>
+            <StyledContentCell style={{backgroundColor:"#5DBCD7"}}>
+
+            </StyledContentCell>
+          </StyledContentContainer>
+        </CenteredCard>
+        <CenteredCard>
+          <CardContent>
+            <h1>Example readings</h1>
+            <div style={{backgroundColor:"rgba(0,0,0,0.1)", borderRadius:"12px", padding:"15px"}}>
+              <code>&#123;
+                temperature:800, women:26, men:187
+              &#125;</code>
+            </div>
+          </CardContent>
+        </CenteredCard>
       </div>
     );
   }

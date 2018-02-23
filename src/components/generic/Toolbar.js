@@ -21,6 +21,8 @@ export default class Toolbar extends Component {
       z-index: 100;
       display: flex;
       justify-content: space-between;
+      position: absolute;
+      top: 0;
     `;
 
     const StyledLogoContainer = styled.div`

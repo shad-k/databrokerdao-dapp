@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
 import { FontIcon } from 'react-md';
 import styled from 'styled-components';
 

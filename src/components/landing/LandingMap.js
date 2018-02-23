@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, OverlayView } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 
 import LandingMapMarker from './LandingMapMarker';
 

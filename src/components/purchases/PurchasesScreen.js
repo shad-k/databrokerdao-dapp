@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
-import { CardTitle, CardText } from 'react-md/lib/Cards';
 
 import Toolbar from '../generic/Toolbar';
-import ContentCard from '../generic/ContentCard';
+import CenteredCard from '../generic/CenteredCard';
+import CardContent from '../generic/CardContent';
+import ToolbarSpacer from '../generic/ToolbarSpacer';
 
 export default class PurchasesScreen extends Component {
   render() {
     return (
       <div>
         <Toolbar showTabs={true} />
-        <ContentCard >
-          <CardTitle title='Purchased sensor data' />
-          <CardText>
+        <ToolbarSpacer/>
+        <CenteredCard >
+          <CardContent>
+            <h1>Purchased sensor data</h1>
             Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst.
-          </CardText>
-        </ContentCard>
+          </CardContent>
+        </CenteredCard>
       </div>
     );
   }
