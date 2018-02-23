@@ -15,7 +15,7 @@ export default class LandingMapMarker extends Component {
 
     const StyledLabel = styled.span`
       color:white;
-      font-weight:800;
+      font-weight:700;
       font-size:16px;
       display:table-cell;
       vertical-align:middle;

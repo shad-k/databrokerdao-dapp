@@ -27,7 +27,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
 
     const StyledSensorName = styled.div`
       color:white;
-      font-weight:800;
+      font-weight:700;
       font-size:16px;
       width: 100%;
       margin-left: 8px;

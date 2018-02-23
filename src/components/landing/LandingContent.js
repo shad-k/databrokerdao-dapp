@@ -16,7 +16,8 @@ export default withRouter(class LandingContent extends Component {
   render() {
     const StyledCard = styled(Card)`
       max-width: 600px;
-      margin-top: 140px;
+      position: relative;
+      top: 140px;
     `;
 
     const StyledH1 = styled.h1`

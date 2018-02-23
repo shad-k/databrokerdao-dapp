@@ -9,21 +9,20 @@ import AddSensorIcon from '../../assets/add-sensor-icon.svg';
 export default class Tabs extends Component {
   render() {
     const StyledTabBarContainer = styled.div`
-      margin: 0 auto;
       width: 100%;
       max-width: 630px;
-      position: absolute;
-      left: 50%;
-      transform: translate(-50%,0);
+      display: flex;
+      justify-content: space-between;
     `;
 
     const StyledTabBarItem = styled(Link)`
-      float: left;
       margin-right: 46px;
       color: white;
-      font-weight: 800;
-      display: table;
+      font-weight: 700;
       text-decoration: none;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
       &:last-child {
         margin-right:0;
       }
@@ -37,8 +36,6 @@ export default class Tabs extends Component {
     `;
 
     const StyledTabBarItemContent = styled.div`
-      display: table-cell;
-      vertical-align: middle;
       text-transform: uppercase;
       font-size: 18px;
     `;

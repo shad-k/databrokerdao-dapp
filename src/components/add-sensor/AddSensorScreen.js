@@ -11,8 +11,10 @@ export default class AddSensorScreen extends Component {
       <div>
         <Toolbar showTabs={true} />
         <ContentCard >
-          <CardTitle title='Add your sensor' />
-
+          <CardTitle title='Sell your sensor data on DataBroker DAO' />
+          <CardText>
+            Please Log In or Create an Account first.
+          </CardText>
         </ContentCard>
       </div>
     );

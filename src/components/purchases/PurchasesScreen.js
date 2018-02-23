@@ -13,7 +13,7 @@ export default class PurchasesScreen extends Component {
         <ContentCard >
           <CardTitle title='Purchased sensor data' />
           <CardText>
-            <p>Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. </p>
+            Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst. Hallo ik ben zomaar wat tekst.
           </CardText>
         </ContentCard>
       </div>

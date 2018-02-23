@@ -19,44 +19,46 @@ export default class Toolbar extends Component {
       box-shadow: 0 1px 11px rgba(0,0,0,0.5);
       position: fixed;
       z-index: 100;
+      display: flex;
+      justify-content: space-between;
+    `;
+
+    const StyledLogoContainer = styled.div`
+      flex: 1;
     `;
 
     const StyledLogo = styled.img`
       height: 40px;
-      float: left;
     `;
 
     const StyledWalletLinkContainer = styled.div`
-      position:absolute;
-      right:0;
-      height:40px;
-      display:table;
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     `;
 
     const StyledWalletLink = styled(Link)`
       color: white;
-      font-weight: 800;
+      font-weight: 700;
       text-decoration: none;
       font-size: 15px;
-      display: table-cell;
-      vertical-align: middle;
-      padding-right: 25px;
     `;
 
     return (
-      <div className="clearfix">
-        <StyledToolbar >
+      <StyledToolbar >
+        <StyledLogoContainer>
           <StyledLogo src={Logo} alt="SettleMint"/>
-          {this.props.showTabs &&
-            <Tabs />
-          }
-          <StyledWalletLinkContainer>
-            <StyledWalletLink to="/wallet">
-              Log In
-            </StyledWalletLink>
-          </StyledWalletLinkContainer>
-        </StyledToolbar>
-      </div>
+        </StyledLogoContainer>
+        {this.props.showTabs &&
+          <Tabs />
+        }
+        <StyledWalletLinkContainer>
+          <StyledWalletLink to="/wallet">
+            Log In
+          </StyledWalletLink>
+        </StyledWalletLinkContainer>
+      </StyledToolbar>
     );
   }
 }
