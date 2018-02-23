@@ -31,10 +31,11 @@ export default class SensorDetailsScreen extends Component {
         <ToolbarSpacer/>
         <CenteredCard>
           <CardContent noMarginBottom>
-            <h1>BarVista Temperature Sensor</h1>
+            <h1>BarVista Party Level Sensor</h1>
           </CardContent>
           <StyledContentContainer>
             <StyledContentCell>
+              <StyledSensorAttribute>Temperature sensor</StyledSensorAttribute>
               <StyledSensorAttribute>Updated every two months</StyledSensorAttribute>
               <StyledSensorAttribute>20 DTX per hour</StyledSensorAttribute>
               <StyledSensorAttribute>200 DTX stakes by owner (?)</StyledSensorAttribute>
