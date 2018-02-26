@@ -10,6 +10,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
   }
 
   render() {
+
     const StyledContentContainer = styled.div`
       padding:10px;
       width:200px;

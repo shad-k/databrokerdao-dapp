@@ -8,6 +8,12 @@ import Filter from './Filter'
 import DiscoverMap from './DiscoverMap'
 
 export default withRouter(class DiscoverScreen extends Component {
+  componentDidMount() {
+    //Get streams from API
+
+    
+  }
+
   onListItemClick() {
     this.props.history.push('/sensor-details');
   }

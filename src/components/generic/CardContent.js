@@ -9,7 +9,7 @@ export default class CardContent extends Component {
     `;
 
     return(
-      <StyledContent>
+      <StyledContent style={this.props.style}>
         {this.props.children}
       </StyledContent>
     );

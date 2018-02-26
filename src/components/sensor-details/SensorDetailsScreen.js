@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-md';
+import { Button, FontIcon } from 'react-md';
 import styled from 'styled-components';
 
 import Toolbar from '../generic/Toolbar';
@@ -22,7 +22,18 @@ export default class SensorDetailsScreen extends Component {
     const StyledSensorAttribute = styled.p`
       font-weight: 700;
       font-size: 18px;
-      line-height: 2;
+      display: flex;
+      align-content: center;
+      margin-bottom: 20px;
+    `;
+
+    const StyledSensorNameCardContent = styled.div`
+      display:flex;
+      justify-content:space-between;
+    `;
+
+    const StyledAttributeLabel = styled.span`
+      margin-left: 12px;
     `;
 
     return (
@@ -31,15 +42,29 @@ export default class SensorDetailsScreen extends Component {
         <ToolbarSpacer/>
         <CenteredCard>
           <CardContent noMarginBottom>
-            <h1>BarVista Party Level Sensor</h1>
+            <StyledSensorNameCardContent>
+              <h1 style={{display:"inline-block"}}>BarVista Party Level Sensor</h1>
+              <Button raised primary>Purchase access</Button>
+            </StyledSensorNameCardContent>
           </CardContent>
           <StyledContentContainer>
             <StyledContentCell>
-              <StyledSensorAttribute>Temperature sensor</StyledSensorAttribute>
-              <StyledSensorAttribute>Updated every two months</StyledSensorAttribute>
-              <StyledSensorAttribute>20 DTX per hour</StyledSensorAttribute>
-              <StyledSensorAttribute>200 DTX stakes by owner (?)</StyledSensorAttribute>
-              <Button raised primary>Purchase access</Button>
+              <StyledSensorAttribute>
+                <FontIcon>wb_sunny</FontIcon>
+                <StyledAttributeLabel>Temperature sensor</StyledAttributeLabel>
+              </StyledSensorAttribute>
+              <StyledSensorAttribute>
+                <FontIcon>update</FontIcon>
+                <StyledAttributeLabel>Updated every two months</StyledAttributeLabel>
+              </StyledSensorAttribute>
+              <StyledSensorAttribute>
+                <FontIcon>payment</FontIcon>
+                <StyledAttributeLabel>20 DTX per hour</StyledAttributeLabel>
+              </StyledSensorAttribute>
+              <StyledSensorAttribute>
+                <FontIcon>security</FontIcon>
+                <StyledAttributeLabel>200 DTX stakes by owner (?)</StyledAttributeLabel>
+              </StyledSensorAttribute>
             </StyledContentCell>
             <StyledContentCell style={{backgroundColor:"#5DBCD7"}}>
 
