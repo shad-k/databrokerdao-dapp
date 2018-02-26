@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 
-import STREAMS_ACTION_TYPES from './actions.js';
+import { STREAMS_ACTION_TYPES } from './actions.js';
 
 export const DEFAULT_STATE = {
   filter: {
@@ -15,6 +15,7 @@ export const DEFAULT_STATE = {
 };
 
 function fetchedStreams (state, action) {
+  console.log("Fetched streams reducer");
   console.log(action.payload);
   return state; // Add the streams from action.payload
 }

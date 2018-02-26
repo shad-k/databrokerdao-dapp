@@ -7,10 +7,11 @@ import { connect } from 'react-redux'
 import Toolbar from '../generic/Toolbar';
 import Filter from './Filter'
 import DiscoverMap from './DiscoverMap'
-import STREAMS_ACTION_FUNCTIONS from '../../redux/streams/actions';
+import { STREAMS_ACTION_FUNCTIONS } from '../../redux/streams/actions';
 
 class DiscoverScreen extends Component {
   componentDidMount() {
+
     //Get streams from API
     console.log("Get streams from API at component did mount");
 
@@ -70,14 +71,14 @@ class DiscoverScreen extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    fetchStreams: () => dispatch(STREAMS_ACTION_FUNCTIONS.fetchStreams()),
-    dispatch,
-  }
+  return ({
+    fetchStreams: () => dispatch(STREAMS_ACTION_FUNCTIONS.fetchStreams),
+    dispatch
+  })
 }
 
 const mapStateToProps = state => ({
-  streams: state.streams,
+  streams: state.streams
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiscoverScreen)
