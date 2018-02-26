@@ -1,8 +1,10 @@
 import { createSelector } from 'reselect';
 
-export const streamsSlice = state => state.streams;
+export const getFilter = state => state.filter;
 
-export const streams = createSelector(
-  streamsSelector,
-  streamsSelector => slice.streams
-)
+export const getStreams = createSelector(
+  getFilter,
+  (filter) => {
+    console.log("trying to get streams");
+  }
+);

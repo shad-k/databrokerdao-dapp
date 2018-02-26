@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { List, ListItem } from 'react-md';
 import styled from 'styled-components';
+import { connect } from 'react-redux'
 
 import Toolbar from '../generic/Toolbar';
 import Filter from './Filter'
 import DiscoverMap from './DiscoverMap'
+import STREAMS_ACTION_FUNCTIONS from '../../redux/streams/actions';
 
-export default withRouter(class DiscoverScreen extends Component {
+class DiscoverScreen extends Component {
   componentDidMount() {
     //Get streams from API
+    console.log("Get streams from API at component did mount");
 
-    
+    this.props.fetchStreams();
   }
 
   onListItemClick() {
@@ -64,4 +67,17 @@ export default withRouter(class DiscoverScreen extends Component {
       </div>
     );
   }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchStreams: () => dispatch(STREAMS_ACTION_FUNCTIONS.fetchStreams()),
+    dispatch,
+  }
+}
+
+const mapStateToProps = state => ({
+  streams: state.streams,
 })
+
+export default connect(mapStateToProps, mapDispatchToProps)(DiscoverScreen)
