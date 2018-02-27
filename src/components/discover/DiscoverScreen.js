@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { List, ListItem } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
+import _ from 'lodash';
 
 import Toolbar from '../generic/Toolbar';
 import Filter from './Filter'
@@ -11,15 +12,27 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class DiscoverScreen extends Component {
   componentDidMount() {
-
     //Get streams from API
-    console.log("Get streams from API at component did mount");
-
     this.props.fetchStreams();
   }
 
-  onListItemClick() {
-    this.props.history.push('/sensor-details');
+  onStreamListItemClick(stream) {
+    console.log("Click on stream");
+    console.log(stream);
+    this.props.history.push(`/sensor-details/${stream.id}`);
+  }
+
+  renderStreamsListItems(streams){
+    let listItems = _.map(streams, stream => {
+      return <ListItem primaryText={stream.name} onClick={(event) => this.onStreamListItemClick(stream)}/>;
+    });
+
+    if(listItems.length > 0)
+      return listItems;
+    else if(listItems.length === 0 && this.props.fetchingStreams)
+      return <ListItem primaryText={'loading streams'} disabled/>;
+    else
+      return <ListItem primaryText={'no streams'} disabled/>;
   }
 
   render() {
@@ -52,15 +65,8 @@ class DiscoverScreen extends Component {
         <StyledSidebar>
           <Filter />
           <List>
-            <ListItem primaryText="Temp Sensor Falconplein link" onClick={(event) => this.onListItemClick()}/>
-            <ListItem primaryText="CO2 sensor Volkswagen" onClick={(event) => this.onListItemClick()}/>
-            <ListItem primaryText="Windsensor Kathedraal" onClick={(event) => this.onListItemClick()}/>
-            <ListItem primaryText="Temp Sensor Falconplein" onClick={(event) => this.onListItemClick()}/>
-            <ListItem primaryText="CO2 sensor Volkswagen" onClick={(event) => this.onListItemClick()}/>
-            <ListItem primaryText="Windsensor Kathedraal" onClick={(event) => this.onListItemClick()}/>
+            {this.renderStreamsListItems(this.props.streams)}
           </List>
-          <p>{JSON.stringify(this.props.streams)}</p>
-          <p>{this.props.fetchingStreams?'true':'false'}</p>
         </StyledSidebar>
         <StyledContent>
           <DiscoverMap
@@ -76,10 +82,9 @@ class DiscoverScreen extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return ({
-    fetchStreams: () => dispatch(STREAMS_ACTIONS.fetchStreams),
-    dispatch
-  })
+  return {
+    fetchStreams: () => STREAMS_ACTIONS.fetchStreams(dispatch)
+  }
 }
 
 const mapStateToProps = state => ({

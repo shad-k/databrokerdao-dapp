@@ -17,7 +17,11 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
       return Immutable.set(state, "fetchingStreams", action.value);
     }
     case STREAMS_TYPES.FETCH_STREAMS:{
-        return Immutable.merge(state, {streams: action.streams, fetchingStreams: false});
+      return Immutable.merge(state, {streams: action.streams, fetchingStreams: false});
+    }
+    case STREAMS_TYPES.FETCH_STREAM:{
+      console.log("Reducer active");
+      return Immutable.merge(state, {streams: action.stream, fetchingStream: false});
     }
   }
 

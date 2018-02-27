@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { Button, FontIcon } from 'react-md';
 import styled from 'styled-components';
+import { connect } from 'react-redux'
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
 import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
+import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
-export default class SensorDetailsScreen extends Component {
+class SensorDetailsScreen extends Component {
+  componentDidMount() {
+    //In case this stream was not in state yet, load it (in case it was: refresh to get latest version)
+    this.props.fetchStream();
+  }
+
   render() {
     const StyledContentContainer = styled.div`
       display:flex;
@@ -36,6 +43,23 @@ export default class SensorDetailsScreen extends Component {
       margin-left: 12px;
     `;
 
+    const { stream } = this.props;
+
+    if(!stream)
+      return(
+        <div>
+          <Toolbar showTabs={true} />
+          <ToolbarSpacer/>
+          <CenteredCard>
+            <CardContent>
+              <StyledSensorNameCardContent>
+                <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'Loading...'}</h1>
+              </StyledSensorNameCardContent>
+            </CardContent>
+          </CenteredCard>
+        </div>
+      );
+
     return (
       <div>
         <Toolbar showTabs={true} />
@@ -43,7 +67,7 @@ export default class SensorDetailsScreen extends Component {
         <CenteredCard>
           <CardContent noMarginBottom>
             <StyledSensorNameCardContent>
-              <h1 style={{display:"inline-block"}}>BarVista Party Level Sensor</h1>
+              <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'loading'}</h1>
               <Button raised primary>Purchase access</Button>
             </StyledSensorNameCardContent>
           </CardContent>
@@ -63,7 +87,7 @@ export default class SensorDetailsScreen extends Component {
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <FontIcon>security</FontIcon>
-                <StyledAttributeLabel>200 DTX stakes by owner (?)</StyledAttributeLabel>
+                <StyledAttributeLabel>200 DTX staked by owner (?)</StyledAttributeLabel>
               </StyledSensorAttribute>
             </StyledContentCell>
             <StyledContentCell style={{backgroundColor:"#5DBCD7"}}>
@@ -85,3 +109,17 @@ export default class SensorDetailsScreen extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    fetchStream: () => STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.id)
+  }
+}
+
+function mapStateToProps({streams}, ownProps) {
+  return {
+    stream: streams.streams[ownProps.match.params.id]
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SensorDetailsScreen)
