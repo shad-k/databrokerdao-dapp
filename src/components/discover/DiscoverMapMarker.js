@@ -20,10 +20,10 @@ export default class DiscoverMapMarker extends Component {
       <MapMarker position={this.props.position}>
           <div style={{cursor:"pointer"}} onClick={event => this.toggleExpanded()}>
             {!this.state.expanded &&
-              <ClosedDiscoverMapMarker/>
+              <ClosedDiscoverMapMarker stream={this.props.stream}/>
             }
             {this.state.expanded &&
-              <OpenDiscoverMapMarker/>
+              <OpenDiscoverMapMarker stream={this.props.stream}/>
             }
           </div>
       </MapMarker>

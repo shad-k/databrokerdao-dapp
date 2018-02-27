@@ -54,7 +54,7 @@ const render = () => {
           <Route path="/purchases" component={withRouter(PurchasesScreen)} />
           <Route path="/add-sensor" component={withRouter(AddSensorScreen)} />
           <Route path="/wallet" component={withRouter(WalletScreen)} />
-          <Route path="/sensor-details/:id" component={withRouter(StreamDetailsScreen)} />
+          <Route path="/stream-details/:id" component={withRouter(StreamDetailsScreen)} />
           <Route path="/" component={withRouter(LandingScreen)} />
         </Switch>
       </ConnectedRouter>

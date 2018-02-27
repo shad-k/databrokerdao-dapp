@@ -23,12 +23,20 @@ export const STREAMS_ACTIONS = {
           12323: {
             id:'12323',
             name:'Barvista temperature',
-            type:'temperature'
+            type:'temperature',
+            geo: {
+              lat: '50.848451',
+              lng: '4.692932'
+            }
           },
           3223: {
             id:'3223',
             name:'Seven Oaks temperature',
-            type:'temperature'
+            type:'temperature',
+            geo: {
+              lat: '50.878451',
+              lng: '4.699932'
+            }
           }
         }
       });
@@ -42,7 +50,11 @@ export const STREAMS_ACTIONS = {
         stream: {
           id:'63452',
           name:'Detail temperature sensor',
-          type:'temperature'
+          type:'temperature',
+          geo: {
+            lat: '50.878451',
+            lng: '4.699932'
+          }
         }
       });
     },1000);

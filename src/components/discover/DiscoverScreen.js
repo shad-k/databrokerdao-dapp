@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { List, ListItem } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
@@ -19,7 +18,7 @@ class DiscoverScreen extends Component {
   onStreamListItemClick(stream) {
     console.log("Click on stream");
     console.log(stream);
-    this.props.history.push(`/sensor-details/${stream.id}`);
+    this.props.history.push(`/stream-details/${stream.id}`);
   }
 
   renderStreamsListItems(streams){

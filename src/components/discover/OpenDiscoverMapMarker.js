@@ -5,8 +5,7 @@ import styled from 'styled-components';
 
 export default withRouter(class ClosedDiscoverMapMarker extends Component {
   onPurchaseButtonClicked() {
-    console.log("Purchasing");
-    this.props.history.push('/sensor-details');
+    this.props.history.push(`/stream-details/${this.props.stream.id}`);
   }
 
   render() {
@@ -48,7 +47,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
             <StyledContentContainer>
               <StyledIcon>wb_sunny</StyledIcon>
               <div>
-                <StyledSensorName>Temperature sensor</StyledSensorName>
+                <StyledSensorName>{this.props.stream.name}</StyledSensorName>
                 <StyledSensorDetails>Updated every hour</StyledSensorDetails>
               </div>
             </StyledContentContainer>
