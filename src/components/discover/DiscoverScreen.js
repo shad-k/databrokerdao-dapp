@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import Toolbar from '../generic/Toolbar';
 import Filter from './Filter'
 import DiscoverMap from './DiscoverMap'
-import { STREAMS_ACTION_FUNCTIONS } from '../../redux/streams/actions';
+import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class DiscoverScreen extends Component {
   componentDidMount() {
@@ -43,6 +43,9 @@ class DiscoverScreen extends Component {
       left: "300"
     };
 
+    console.log("Discover ff renderen ofwa");
+    console.log(this.props.streams);
+
     return (
       <div style={{height:"100%", display:"flex", alignItems:"stretch"}}>
         <Toolbar showTabs={true} />
@@ -56,6 +59,8 @@ class DiscoverScreen extends Component {
             <ListItem primaryText="CO2 sensor Volkswagen" onClick={(event) => this.onListItemClick()}/>
             <ListItem primaryText="Windsensor Kathedraal" onClick={(event) => this.onListItemClick()}/>
           </List>
+          <p>{JSON.stringify(this.props.streams)}</p>
+          <p>{this.props.fetchingStreams?'true':'false'}</p>
         </StyledSidebar>
         <StyledContent>
           <DiscoverMap
@@ -72,13 +77,15 @@ class DiscoverScreen extends Component {
 
 function mapDispatchToProps(dispatch) {
   return ({
-    fetchStreams: () => dispatch(STREAMS_ACTION_FUNCTIONS.fetchStreams),
+    fetchStreams: () => dispatch(STREAMS_ACTIONS.fetchStreams),
     dispatch
   })
 }
 
 const mapStateToProps = state => ({
-  streams: state.streams
+  streams: state.streams.streams,
+  fetchingStreams: state.streams.fetchingStreams,
+  filter: state.streams.filter
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiscoverScreen)

@@ -34,7 +34,7 @@ export default class Filter extends Component {
             label="Location"
             data={["Antwerp","Diepenbeek","Berlin","New York","Leuven"]}
             filter={Autocomplete.caseInsensitiveFilter}
-            value="Leuven, Belgium"
+            defaultValue="Leuven, Belgium"
           />
         </StyledFilterContainer>
         <StyledFilterContainer>
