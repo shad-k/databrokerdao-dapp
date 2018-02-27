@@ -4,7 +4,6 @@ export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',
   FETCHING_STREAMS: 'FETCHING_STREAMS',
   FETCH_STREAM: 'FETCH_STREAM',
-  FETCHING_STREAM: 'FETCHING_STREAM',
   FETCH_STREAM_TYPES: 'FETCH_STREAM_TYPES'
 };
 
@@ -37,20 +36,13 @@ export const STREAMS_ACTIONS = {
 
   },
   fetchStream: (dispatch, streamID) => {
-    dispatch({
-      type: STREAMS_TYPES.FETCHING_STREAM,
-      value: true
-    });
-
     setTimeout(() => {
       dispatch({
         type: STREAMS_TYPES.FETCH_STREAM,
         stream: {
-          63452: {
-            id:'63452',
-            name:'Detail temperature sensor',
-            type:'temperature'
-          }
+          id:'63452',
+          name:'Detail temperature sensor',
+          type:'temperature'
         }
       });
     },1000);

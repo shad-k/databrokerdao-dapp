@@ -9,7 +9,7 @@ import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
-class SensorDetailsScreen extends Component {
+class StreamDetailsScreen extends Component {
   componentDidMount() {
     //In case this stream was not in state yet, load it (in case it was: refresh to get latest version)
     this.props.fetchStream();
@@ -122,4 +122,4 @@ function mapStateToProps({streams}, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SensorDetailsScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(StreamDetailsScreen)

@@ -7,7 +7,7 @@ export const DEFAULT_STATE = {
     location:null,
     geo:null
   },
-  streams: [],
+  streams: {},
   fetchingStreams: false
 };
 
@@ -21,7 +21,20 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.FETCH_STREAM:{
       console.log("Reducer active");
-      return Immutable.merge(state, {streams: action.stream, fetchingStream: false});
+      console.log(state.streams);
+      console.log(action.stream);
+      // const stateStreams = Immutable.asMutable(state).streams;
+      // console.log(action.stream);
+      // stateStreams[action.stream.id] = action.stream;
+      // console.log(stateStreams);
+
+      const stateStreams = Immutable.asMutable(state, {deep:true}).streams;
+      // const newStreamID = ;
+      // console.log(`new id: ${newStreamID}`);
+      stateStreams[action.stream.id] = action.stream;
+      console.log(stateStreams);
+
+      return Immutable.merge(state, {streams: stateStreams});
     }
   }
 

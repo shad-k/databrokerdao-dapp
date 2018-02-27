@@ -24,7 +24,7 @@ class DiscoverScreen extends Component {
 
   renderStreamsListItems(streams){
     let listItems = _.map(streams, stream => {
-      return <ListItem primaryText={stream.name} onClick={(event) => this.onStreamListItemClick(stream)}/>;
+      return <ListItem key={stream.id} primaryText={stream.name} onClick={(event) => this.onStreamListItemClick(stream)}/>;
     });
 
     if(listItems.length > 0)
