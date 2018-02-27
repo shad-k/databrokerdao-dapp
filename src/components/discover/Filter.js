@@ -1,14 +1,47 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField, ListItem } from 'react-md';
+import { connect } from 'react-redux'
+import _ from 'lodash';
 
-export default class Filter extends Component {
+class Filter extends Component {
   submitFilter() {
     console.log("Filter has been changed!!");
+
+    //Update filter in Redux state
   }
 
   addTypeToFilter(key){
     console.log(key);
+
+    this.submitFilter();
+  }
+
+  removeTypeFromFilter(key){
+    console.log("Remove filter");
+  }
+
+  renderTypeChips(){
+    const StyledChip = styled(Chip)`
+      width:100%;
+      margin-bottom:16px;
+      &:last-child{
+        margin-bottom:0;
+      }
+    `;
+
+    const types = this.props.filter.types;
+
+    return _.map(types, type => {
+      return(
+        <StyledChip
+          label={type.name}
+          avatar={<Avatar><FontIcon>wb_sunny</FontIcon></Avatar>}
+          onClick={() => this.removeTypeFromFilter(1)}
+          removable
+        />
+      )
+    });
   }
 
   render() {
@@ -18,14 +51,6 @@ export default class Filter extends Component {
       padding: 4px 16px 16px 16px;
       &:first-child{
         margin-top: 20px;
-      }
-    `;
-
-    const StyledChip = styled(Chip)`
-      width:100%;
-      margin-bottom:16px;
-      &:last-child{
-        margin-bottom:0;
       }
     `;
 
@@ -66,29 +91,15 @@ export default class Filter extends Component {
               label="Sensor type(s)"
             />
           </StyledDropdownMenu>
-          <StyledChip
-            style={{}}
-            label="Temperature"
-            avatar={<Avatar><FontIcon>wb_sunny</FontIcon></Avatar>}
-            removable
-          />
-          <StyledChip
-            label="Humidity"
-            avatar={<Avatar><FontIcon>pets</FontIcon></Avatar>}
-            removable
-          />
-          <StyledChip
-            label="Wind speed"
-            avatar={<Avatar><FontIcon>directions_car</FontIcon></Avatar>}
-            removable
-          />
-          <StyledChip
-            label="Air pollution"
-            avatar={<Avatar><FontIcon>cloud</FontIcon></Avatar>}
-            removable
-          />
+          {this.renderTypeChips()}
         </StyledFilterContainer>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  filter: state.streams.filter
+})
+
+export default connect(mapStateToProps, null)(Filter)

@@ -5,10 +5,45 @@ import { STREAMS_TYPES } from './actions.js';
 export const DEFAULT_STATE = {
   filter: {
     location:null,
-    geo:null
+    types:[ //Types in current filter
+      {
+        id:'temperature',
+        name:'Temperature'
+      },
+      {
+        id:'humidity',
+        name:'Humidity'
+      },
+      {
+        id:'pm10',
+        name:'PM10'
+      },
+      {
+        id:'pm25',
+        name:'PM2.5'
+      }
+    ]
   },
   streams: {},
-  fetchingStreams: false
+  fetchingStreams: false,
+  stream_types: [ //All possible types the user could filter on
+    {
+      id:'temperature',
+      name:'Temperature'
+    },
+    {
+      id:'humidity',
+      name:'Humidity'
+    },
+    {
+      id:'pm10',
+      name:'PM10'
+    },
+    {
+      id:'pm25',
+      name:'PM2.5'
+    }
+  ]
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
