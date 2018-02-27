@@ -8,7 +8,7 @@ import DiscoverMapMarker from './DiscoverMapMarker';
 class DiscoverMap extends Component {
   renderMapMarkers(streams){
     return _.map(streams, stream => {
-      return <DiscoverMapMarker stream={stream} position={{ lat: stream.geo.lat, lng: stream.geo.lng }}/>;
+      return <DiscoverMapMarker key={stream.id} stream={stream} position={{ lat: stream.geo.lat, lng: stream.geo.lng }}/>;
     });
   }
 

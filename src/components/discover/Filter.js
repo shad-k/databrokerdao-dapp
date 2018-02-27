@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField } from 'react-md';
+import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField, ListItem } from 'react-md';
 
 export default class Filter extends Component {
+  submitFilter() {
+    console.log("Filter has been changed!!");
+  }
+
+  addTypeToFilter(key){
+    console.log(key);
+  }
+
   render() {
     const StyledFilterContainer = styled.div`
       background: #F3F3F3;
@@ -40,7 +48,12 @@ export default class Filter extends Component {
         <StyledFilterContainer>
           <StyledDropdownMenu
             id="textfield-dropdown-menu"
-            menuItems={["Temperature","CO2","Humidity","Light"]}
+            menuItems={[
+              <ListItem key={1} primaryText="Temperature" onClick={() => this.addTypeToFilter(1)}/>,
+              <ListItem key={2} primaryText="CO2" onClick={() => this.addTypeToFilter(2)}/>,
+              <ListItem key={3} primaryText="Humidity" onClick={() => this.addTypeToFilter(3)}/>,
+              <ListItem key={4} primaryText="Light" onClick={() => this.addTypeToFilter(4)}/>
+            ]}
             toggleQuery=".md-text-field-container"
             anchor={{
               x: DropdownMenu.HorizontalAnchors.INNER_LEFT,
