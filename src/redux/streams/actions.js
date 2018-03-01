@@ -28,7 +28,7 @@ export const STREAMS_ACTIONS = {
           12323: {
             id:'12323',
             name:'Barvista temperature',
-            type:'temperature',
+            type:'pm10',
             geo: {
               lat: '50.848451',
               lng: '4.692932'

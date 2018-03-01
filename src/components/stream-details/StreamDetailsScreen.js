@@ -43,9 +43,9 @@ class StreamDetailsScreen extends Component {
       margin-left: 12px;
     `;
 
-    const { stream } = this.props;
+    const { stream, availableStreamTypes } = this.props;
 
-    if(!stream)
+    if(!stream || !availableStreamTypes)
       return(
         <div>
           <Toolbar showTabs={true} />
@@ -60,7 +60,7 @@ class StreamDetailsScreen extends Component {
         </div>
       );
 
-    console.log(this.props.availableStreamTypes);
+    console.log(availableStreamTypes);
 
     return (
       <div>
@@ -77,7 +77,7 @@ class StreamDetailsScreen extends Component {
             <StyledContentCell>
               <StyledSensorAttribute>
                 <FontIcon>wb_sunny</FontIcon>
-                <StyledAttributeLabel>{this.props.availableStreamTypes[stream.type]}</StyledAttributeLabel>
+                <StyledAttributeLabel>{availableStreamTypes[stream.type].name}</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <FontIcon>update</FontIcon>
