@@ -9,8 +9,6 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class Filter extends Component {
   componentDidMount() {
-    console.log("Filter component did mount");
-
     this.props.fetchAvailableStreamTypes();
   }
 
@@ -52,7 +50,6 @@ class Filter extends Component {
     const types = this.props.filter.types;
 
     return _.map(types, type => {
-      console.log(type);
       return(
         <StyledChip
           key={type.id}

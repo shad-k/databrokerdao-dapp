@@ -11,14 +11,11 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class DiscoverScreen extends Component {
   componentDidMount() {
-    console.log("Discover screen did mount");
     //Get streams from API
-    this.props.fetchStreams();
+    this.props.fetchStreams(this.props.filter);
   }
 
   onStreamListItemClick(stream) {
-    console.log("Click on stream");
-    console.log(stream);
     this.props.history.push(`/stream-details/${stream.id}`);
   }
 
@@ -80,7 +77,7 @@ class DiscoverScreen extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStreams: () => STREAMS_ACTIONS.fetchStreams(dispatch)
+    fetchStreams: (filter) => STREAMS_ACTIONS.fetchStreams(dispatch, filter)
   }
 }
 
