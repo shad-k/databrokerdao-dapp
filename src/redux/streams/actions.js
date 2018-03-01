@@ -51,7 +51,7 @@ export const STREAMS_ACTIONS = {
           }
         }
       });
-    },2000);
+    },500);
 
   },
   fetchStream: (dispatch, streamID) => {

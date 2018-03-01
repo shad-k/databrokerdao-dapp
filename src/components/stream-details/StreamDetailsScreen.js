@@ -8,6 +8,7 @@ import CenteredCard from '../generic/CenteredCard';
 import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
+import Icon from '../generic/icons';
 
 class StreamDetailsScreen extends Component {
   componentDidMount() {
@@ -43,6 +44,12 @@ class StreamDetailsScreen extends Component {
       margin-left: 12px;
     `;
 
+    const StyledTypeIcon = styled.data`
+      opacity: 0.54;
+      width: 20px;
+      height: 20px;
+    `;
+
     const { stream, availableStreamTypes } = this.props;
 
     if(!stream || !availableStreamTypes)
@@ -76,7 +83,7 @@ class StreamDetailsScreen extends Component {
           <StyledContentContainer>
             <StyledContentCell>
               <StyledSensorAttribute>
-                <FontIcon>wb_sunny</FontIcon>
+                <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                 <StyledAttributeLabel>{availableStreamTypes[stream.type].name}</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>

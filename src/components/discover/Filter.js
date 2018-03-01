@@ -49,8 +49,6 @@ class Filter extends Component {
 
     const types = this.props.filter.types;
     const availableTypes = this.props.availableStreamTypes;
-    console.log("Dit zijn available types:");
-    console.log(availableTypes);
 
     if(availableTypes.length == 0)
       return '';

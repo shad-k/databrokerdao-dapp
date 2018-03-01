@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>iconmonstr-flower-1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iconmonstr-flower-1">
+            <path d="M8.5,3.551 C8.447,1.684 9.991,0 12,0 C13.867,0 15.5,1.484 15.5,3.551 C16.824,2.172 19.085,2.115 20.485,3.514 C21.753,4.782 21.959,6.926 20.449,8.5 C22.306,8.446 24,9.984 24,12 C24,13.862 22.521,15.5 20.449,15.5 C21.91,16.961 21.806,19.164 20.485,20.485 C19.167,21.802 16.965,21.915 15.5,20.449 C15.5,22.519 13.862,24 12,24 C9.996,24 8.445,22.319 8.5,20.449 C6.94,21.946 4.794,21.765 3.514,20.485 C2.116,19.086 2.17,16.825 3.551,15.5 C1.487,15.5 0,13.87 0,12 C0,9.993 1.682,8.447 3.551,8.5 C2.09,7.039 2.193,4.835 3.514,3.514 C4.831,2.197 7.035,2.086 8.5,3.551 Z" id="Shape" fill="#000000"></path>
+            <text id="2.5" font-family="Arial-Black, Arial Black" font-size="8" font-weight="700" letter-spacing="0.321428597" fill="#FFFFFF">
+                <tspan x="5.34988835" y="15">2.5</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
