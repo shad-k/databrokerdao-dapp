@@ -4,27 +4,47 @@ import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField, ListItem
 import { connect } from 'react-redux'
 import _ from 'lodash';
 
+import { STREAMS_ACTIONS } from '../../redux/streams/actions';
+
 class Filter extends Component {
+  componentDidMount() {
+    console.log("Filter component did mount");
+
+    this.props.fetchAvailableStreamTypes();
+  }
+
   submitFilter() {
     console.log("Filter has been changed!!");
 
     //Update filter in Redux state
   }
 
-  addTypeToFilter(key){
-    console.log(key);
+  addTypeToFilter(id){
+    console.log(id);
 
     this.submitFilter();
   }
 
-  removeTypeFromFilter(key){
+  removeTypeFromFilter(id){
     console.log("Remove filter");
+    console.log(id);
+  }
+
+  renderTypeListItems(){
+    const types = this.props.availableStreamTypes;
+
+    return _.map(types, type => {
+      return(
+        <ListItem key={type.id} primaryText={type.name} onClick={() => this.addTypeToFilter(type.id)}/>
+      )
+    });
   }
 
   renderTypeChips(){
     const StyledChip = styled(Chip)`
       width:100%;
       margin-bottom:16px;
+      cursor: pointer;
       &:last-child{
         margin-bottom:0;
       }
@@ -33,11 +53,13 @@ class Filter extends Component {
     const types = this.props.filter.types;
 
     return _.map(types, type => {
+      console.log(type);
       return(
         <StyledChip
+          key={type.id}
           label={type.name}
           avatar={<Avatar><FontIcon>wb_sunny</FontIcon></Avatar>}
-          onClick={() => this.removeTypeFromFilter(1)}
+          onClick={() => this.removeTypeFromFilter(type.id)}
           removable
         />
       )
@@ -73,12 +95,7 @@ class Filter extends Component {
         <StyledFilterContainer>
           <StyledDropdownMenu
             id="textfield-dropdown-menu"
-            menuItems={[
-              <ListItem key={1} primaryText="Temperature" onClick={() => this.addTypeToFilter(1)}/>,
-              <ListItem key={2} primaryText="CO2" onClick={() => this.addTypeToFilter(2)}/>,
-              <ListItem key={3} primaryText="Humidity" onClick={() => this.addTypeToFilter(3)}/>,
-              <ListItem key={4} primaryText="Light" onClick={() => this.addTypeToFilter(4)}/>
-            ]}
+            menuItems={this.renderTypeListItems()}
             toggleQuery=".md-text-field-container"
             anchor={{
               x: DropdownMenu.HorizontalAnchors.INNER_LEFT,
@@ -98,8 +115,15 @@ class Filter extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch)
+  }
+}
+
 const mapStateToProps = state => ({
+  availableStreamTypes: state.streams.availableStreamTypes,
   filter: state.streams.filter
 })
 
-export default connect(mapStateToProps, null)(Filter)
+export default connect(mapStateToProps, mapDispatchToProps)(Filter)

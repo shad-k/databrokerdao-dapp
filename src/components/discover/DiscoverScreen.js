@@ -11,6 +11,7 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class DiscoverScreen extends Component {
   componentDidMount() {
+    console.log("Discover screen did mount");
     //Get streams from API
     this.props.fetchStreams();
   }
@@ -54,9 +55,6 @@ class DiscoverScreen extends Component {
       top:"0",
       left: "300"
     };
-
-    console.log("Discover ff renderen ofwa");
-    console.log(this.props.streams);
 
     return (
       <div style={{height:"100%", display:"flex", alignItems:"stretch"}}>

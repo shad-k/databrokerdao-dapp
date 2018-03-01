@@ -4,7 +4,7 @@ export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',
   FETCHING_STREAMS: 'FETCHING_STREAMS',
   FETCH_STREAM: 'FETCH_STREAM',
-  FETCH_STREAM_TYPES: 'FETCH_STREAM_TYPES'
+  FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES'
 };
 
 export const STREAMS_ACTIONS = {
@@ -40,7 +40,7 @@ export const STREAMS_ACTIONS = {
           }
         }
       });
-    },2000);
+    },1000);
 
   },
   fetchStream: (dispatch, streamID) => {
@@ -59,13 +59,28 @@ export const STREAMS_ACTIONS = {
       });
     },1000);
   },
-  fetchStreamTypes: () => {
-    console.log("test test");
-
-    return {
-      type: STREAMS_TYPES.FETCH_STREAM_TYPES,
-      stream_types: ["temperature","humidity"]
-    };
+  fetchAvailableStreamTypes: (dispatch) => {
+    dispatch({
+      type: STREAMS_TYPES.FETCH_AVAILABLE_STREAM_TYPES,
+      availableStreamTypes: [
+        {
+          id:'temperature',
+          name:'Temperature'
+        },
+        {
+          id:'humidity',
+          name:'Humidity'
+        },
+        {
+          id:'pm10',
+          name:'PM10'
+        },
+        {
+          id:'pm25',
+          name:'PM2.5'
+        }
+      ]
+    });
     // return een action met de nieuwe stream types als payload
   }
 };

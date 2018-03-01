@@ -13,37 +13,12 @@ export const DEFAULT_STATE = {
       {
         id:'humidity',
         name:'Humidity'
-      },
-      {
-        id:'pm10',
-        name:'PM10'
-      },
-      {
-        id:'pm25',
-        name:'PM2.5'
       }
     ]
   },
   streams: {},
   fetchingStreams: false,
-  stream_types: [ //All possible types the user could filter on
-    {
-      id:'temperature',
-      name:'Temperature'
-    },
-    {
-      id:'humidity',
-      name:'Humidity'
-    },
-    {
-      id:'pm10',
-      name:'PM10'
-    },
-    {
-      id:'pm25',
-      name:'PM2.5'
-    }
-  ]
+  availableStreamTypes: [] //All possible types the user could filter on
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
@@ -59,6 +34,10 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
       newStreams[action.stream.id] = action.stream;
 
       return Immutable.merge(state, {streams: newStreams});
+    }
+    case STREAMS_TYPES.FETCH_AVAILABLE_STREAM_TYPES:{
+      console.log("Reducer fetch available s t");
+      return Immutable.merge(state, {availableStreamTypes: action.availableStreamTypes})
     }
   }
 
