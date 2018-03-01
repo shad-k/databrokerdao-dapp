@@ -1,35 +1,17 @@
 import React, { Component } from 'react';
-import { List, ListItem } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
-import _ from 'lodash';
 
 import Toolbar from '../generic/Toolbar';
-import Filter from './Filter'
-import DiscoverMap from './DiscoverMap'
+import Filter from './Filter';
+import DiscoverMap from './DiscoverMap';
+import DiscoverStreamsList from './DiscoverStreamsList';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class DiscoverScreen extends Component {
   componentDidMount() {
     //Get streams from API
-    this.props.fetchStreams(this.props.filter);
-  }
-
-  onStreamListItemClick(stream) {
-    this.props.history.push(`/stream-details/${stream.id}`);
-  }
-
-  renderStreamsListItems(streams){
-    let listItems = _.map(streams, stream => {
-      return <ListItem key={stream.id} primaryText={stream.name} onClick={(event) => this.onStreamListItemClick(stream)}/>;
-    });
-
-    if(listItems.length > 0)
-      return listItems;
-    else if(listItems.length === 0 && this.props.fetchingStreams)
-      return <ListItem primaryText={'loading streams'} disabled/>;
-    else
-      return <ListItem primaryText={'no streams'} disabled/>;
+    this.props.fetchStreams();
   }
 
   render() {
@@ -58,9 +40,7 @@ class DiscoverScreen extends Component {
         <Toolbar showTabs={true} />
         <StyledSidebar>
           <Filter />
-          <List>
-            {this.renderStreamsListItems(this.props.streams)}
-          </List>
+          <DiscoverStreamsList />
         </StyledSidebar>
         <StyledContent>
           <DiscoverMap
@@ -77,14 +57,8 @@ class DiscoverScreen extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStreams: (filter) => STREAMS_ACTIONS.fetchStreams(dispatch, filter)
+    fetchStreams: () => STREAMS_ACTIONS.fetchStreams(dispatch)
   }
 }
 
-const mapStateToProps = state => ({
-  streams: state.streams.streams,
-  fetchingStreams: state.streams.fetchingStreams,
-  filter: state.streams.filter
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DiscoverScreen)
+export default connect(null, mapDispatchToProps)(DiscoverScreen)

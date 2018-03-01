@@ -26,8 +26,7 @@ class DiscoverMap extends Component {
 }
 
 const mapStateToProps = state => ({
-  streams: state.streams.streams,
-  fetchingStreams: state.streams.fetchingStreams
+  streams: state.streams.streams
 })
 
 export default connect(mapStateToProps, null)(withScriptjs(withGoogleMap(DiscoverMap)))

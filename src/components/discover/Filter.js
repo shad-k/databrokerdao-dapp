@@ -102,7 +102,7 @@ class Filter extends Component {
           >
             <TextField
               id="dropdown-menu-textfield"
-              label="Sensor type(s)"
+              label="Add sensor type"
             />
           </StyledDropdownMenu>
           {this.renderTypeChips()}

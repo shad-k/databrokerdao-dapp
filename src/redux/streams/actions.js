@@ -11,7 +11,7 @@ export const STREAMS_TYPES = {
 };
 
 export const STREAMS_ACTIONS = {
-  fetchStreams: (dispatch, filter) => {
+  fetchStreams: (dispatch, filter = {}) => {
     console.log("Fetch streams!!11!!");
 
     //This is where we will do api call to get new streams
@@ -45,7 +45,7 @@ export const STREAMS_ACTIONS = {
           }
         }
       });
-    },1000);
+    },2000);
 
   },
   fetchStream: (dispatch, streamID) => {
