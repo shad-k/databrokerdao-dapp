@@ -14,10 +14,10 @@ class Filter extends Component {
 
   addTypeToFilter(type){
     const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
-    if(_.findIndex(newFilter.types,(_type)=>{return _.isEqual(_type.id,type.id)}) === -1)
+    if(_.findIndex(newFilter.types,(_type)=>{return _.isEqual(_type.id,type.id)}) === -1){
       newFilter.types = _.concat(newFilter.types, type);
-
-    this.props.updateFilter(newFilter);
+      this.props.updateFilter(newFilter);
+    }
   }
 
   removeTypeFromFilter(id){

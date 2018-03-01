@@ -60,6 +60,8 @@ class StreamDetailsScreen extends Component {
         </div>
       );
 
+    console.log(this.props.availableStreamTypes);
+
     return (
       <div>
         <Toolbar showTabs={true} />
@@ -75,7 +77,7 @@ class StreamDetailsScreen extends Component {
             <StyledContentCell>
               <StyledSensorAttribute>
                 <FontIcon>wb_sunny</FontIcon>
-                <StyledAttributeLabel>Temperature sensor</StyledAttributeLabel>
+                <StyledAttributeLabel>{this.props.availableStreamTypes[stream.type]}</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <FontIcon>update</FontIcon>
@@ -83,11 +85,11 @@ class StreamDetailsScreen extends Component {
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <FontIcon>payment</FontIcon>
-                <StyledAttributeLabel>20 DTX per hour</StyledAttributeLabel>
+                <StyledAttributeLabel>{stream.price} DTX per hour</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <FontIcon>security</FontIcon>
-                <StyledAttributeLabel>200 DTX staked by owner (?)</StyledAttributeLabel>
+                <StyledAttributeLabel>{stream.stake} DTX staked by owner (?)</StyledAttributeLabel>
               </StyledSensorAttribute>
             </StyledContentCell>
             <StyledContentCell style={{backgroundColor:"#5DBCD7"}}>
@@ -99,9 +101,7 @@ class StreamDetailsScreen extends Component {
           <CardContent>
             <h1>Example readings</h1>
             <div style={{backgroundColor:"rgba(0,0,0,0.1)", borderRadius:"12px", padding:"15px"}}>
-              <code>&#123;
-                temperature:800, women:26, men:187
-              &#125;</code>
+              <code>{stream.example}</code>
             </div>
           </CardContent>
         </CenteredCard>
@@ -116,9 +116,10 @@ function mapDispatchToProps(dispatch, ownProps) {
   }
 }
 
-function mapStateToProps({streams}, ownProps) {
+function mapStateToProps(state, ownProps) {
   return {
-    stream: streams.streams[ownProps.match.params.id]
+    stream: state.streams.streams[ownProps.match.params.id],
+    availableStreamTypes: state.streams.availableStreamTypes
   };
 }
 

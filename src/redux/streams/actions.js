@@ -32,7 +32,10 @@ export const STREAMS_ACTIONS = {
             geo: {
               lat: '50.848451',
               lng: '4.692932'
-            }
+            },
+            price: '20',
+            stake: '200',
+            example:'{temperature:23, women:29, men:183}'
           },
           3223: {
             id:'3223',
@@ -41,7 +44,10 @@ export const STREAMS_ACTIONS = {
             geo: {
               lat: '50.878451',
               lng: '4.699932'
-            }
+            },
+            price: '30',
+            stake: '5000',
+            example:'{temperature:22, women:12, men:89}'
           }
         }
       });
@@ -54,12 +60,15 @@ export const STREAMS_ACTIONS = {
         type: STREAMS_TYPES.FETCH_STREAM,
         stream: {
           id:'63452',
-          name:'Detail temperature sensor',
+          name:'De Rector party level',
           type:'temperature',
           geo: {
             lat: '50.878451',
             lng: '4.699932'
-          }
+          },
+          price: '18',
+          stake: '100',
+          example:'{temperature:21, women:19, men:49}'
         }
       });
     },1000);
@@ -67,24 +76,24 @@ export const STREAMS_ACTIONS = {
   fetchAvailableStreamTypes: (dispatch) => {
     dispatch({
       type: STREAMS_TYPES.FETCH_AVAILABLE_STREAM_TYPES,
-      availableStreamTypes: [
-        {
+      availableStreamTypes: {
+        temperature: {
           id:'temperature',
           name:'Temperature'
         },
-        {
+        humidity: {
           id:'humidity',
           name:'Humidity'
         },
-        {
+        pm10: {
           id:'pm10',
           name:'PM10'
         },
-        {
+        pm25: {
           id:'pm25',
           name:'PM2.5'
         }
-      ]
+      }
     });
   },
   updateFilter: (dispatch, filter) => {
