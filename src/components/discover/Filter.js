@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField, ListItem } from 'react-md';
 import { connect } from 'react-redux'
 import _ from 'lodash';
+import Immutable from 'seamless-immutable';
 
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
@@ -13,18 +14,18 @@ class Filter extends Component {
     this.props.fetchAvailableStreamTypes();
   }
 
-  submitFilter() {
-    console.log("Filter has been changed!!");
-
-    //Update filter in Redux state
-  }
-
   addTypeToFilter(type){
-    this.props.addFilterType(type);
+    const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
+    newFilter.types = _.concat(newFilter.types, type);
+
+    this.props.updateFilter(newFilter);
   }
 
   removeTypeFromFilter(id){
-    this.props.removeFilterType(id);
+    const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
+    newFilter.types = _.remove(newFilter.types, (type) => {return !_.isEqual(type.id, id)});
+
+    this.props.updateFilter(newFilter);
   }
 
   renderTypeListItems(){
@@ -84,9 +85,10 @@ class Filter extends Component {
           <Autocomplete
             id="sensor-type-filter"
             label="Location"
-            data={["Antwerp","Diepenbeek","Berlin","New York","Leuven"]}
+            data={["Antwerp","Brussels","Leuven","Hasselt","Kortrijk","Ghent"]}
             filter={Autocomplete.caseInsensitiveFilter}
             defaultValue="Leuven, Belgium"
+            disabled
           />
         </StyledFilterContainer>
         <StyledFilterContainer>
@@ -115,8 +117,7 @@ class Filter extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch),
-    removeFilterType: (filterType) => STREAMS_ACTIONS.removeFilterType(dispatch, filterType),
-    addFilterType: (filterType) => STREAMS_ACTIONS.addFilterType(dispatch, filterType)
+    updateFilter: (filter) => STREAMS_ACTIONS.updateFilter(dispatch, filter)
   }
 }
 
