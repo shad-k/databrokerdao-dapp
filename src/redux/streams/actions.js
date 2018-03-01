@@ -4,7 +4,8 @@ export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',
   FETCHING_STREAMS: 'FETCHING_STREAMS',
   FETCH_STREAM: 'FETCH_STREAM',
-  FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES'
+  FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES',
+  REMOVE_FILTER_TYPE: 'REMOVE_FILTER_TYPE'
 };
 
 export const STREAMS_ACTIONS = {
@@ -81,6 +82,13 @@ export const STREAMS_ACTIONS = {
         }
       ]
     });
-    // return een action met de nieuwe stream types als payload
+  },
+  removeFilterType: (dispatch, removedType) => {
+    console.log("remove filter type action");
+
+    dispatch({
+      type: STREAMS_TYPES.REMOVE_FILTER_TYPE,
+      removedType //ES6 syntax sugar
+    });
   }
 };

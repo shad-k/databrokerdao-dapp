@@ -1,4 +1,5 @@
 import Immutable from 'seamless-immutable';
+import _ from 'lodash';
 
 import { STREAMS_TYPES } from './actions.js';
 
@@ -32,12 +33,15 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     case STREAMS_TYPES.FETCH_STREAM:{
       const newStreams = Immutable.asMutable(state, {deep:true}).streams;
       newStreams[action.stream.id] = action.stream;
-
       return Immutable.merge(state, {streams: newStreams});
     }
     case STREAMS_TYPES.FETCH_AVAILABLE_STREAM_TYPES:{
-      console.log("Reducer fetch available s t");
       return Immutable.merge(state, {availableStreamTypes: action.availableStreamTypes})
+    }
+    case STREAMS_TYPES.REMOVE_FILTER_TYPE:{
+      const newFilter = Immutable.asMutable(state, {deep:true}).filter;
+      newFilter.types = _.remove(newFilter.types, (type) => {return type.id !== action.removedType});//_.remove returns array of all REMOVED items
+      return Immutable.merge(state, {filter: newFilter});
     }
   }
 

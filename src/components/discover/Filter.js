@@ -28,6 +28,8 @@ class Filter extends Component {
   removeTypeFromFilter(id){
     console.log("Remove filter");
     console.log(id);
+
+    this.props.removeFilterType(id);
   }
 
   renderTypeListItems(){
@@ -117,7 +119,8 @@ class Filter extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch)
+    fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch),
+    removeFilterType: (filterType) => STREAMS_ACTIONS.removeFilterType(dispatch, filterType)
   }
 }
 
