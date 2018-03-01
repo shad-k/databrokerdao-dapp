@@ -8,7 +8,7 @@ import CenteredCard from '../generic/CenteredCard';
 import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
-import Icon from '../generic/icons';
+import Icon from '../generic/icon';
 
 class StreamDetailsScreen extends Component {
   componentDidMount() {

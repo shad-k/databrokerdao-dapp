@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { FontIcon, Button } from 'react-md';
 import styled from 'styled-components';
 
+import Icon from '../generic/icon';
+
 export default withRouter(class ClosedDiscoverMapMarker extends Component {
   onPurchaseButtonClicked() {
     this.props.history.push(`/stream-details/${this.props.stream.id}`);
@@ -45,7 +47,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       return (
           <div>
             <StyledContentContainer>
-              <StyledIcon>wb_sunny</StyledIcon>
+              <Icon icon={this.props.stream.type} style={{color:"white"}}/>
               <div>
                 <StyledSensorName>{this.props.stream.name}</StyledSensorName>
                 <StyledSensorDetails>Updated every hour</StyledSensorDetails>

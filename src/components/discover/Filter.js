@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash';
 import Immutable from 'seamless-immutable';
 
+import Icon from '../generic/icon';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class Filter extends Component {
@@ -58,7 +59,7 @@ class Filter extends Component {
         <StyledChip
           key={type}
           label={availableTypes[type].name}
-          avatar={<Avatar><FontIcon>wb_sunny</FontIcon></Avatar>}
+          avatar={<Avatar><Icon icon={type} style={{fill:"white", width:"15px", height:"15px"}} /></Avatar>}
           onClick={() => this.removeTypeFromFilter(type)}
           removable
         />

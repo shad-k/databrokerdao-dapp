@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { FontIcon } from 'react-md';
 import styled from 'styled-components';
 
+import Icon from '../generic/icon';
+
 export default class ClosedDiscoverMapMarker extends Component {
   render() {
     const StyledIconContainer = styled.div`
@@ -17,7 +19,7 @@ export default class ClosedDiscoverMapMarker extends Component {
 
       return (
           <StyledIconContainer>
-            <StyledIcon>wb_sunny</StyledIcon>
+            <Icon icon={this.props.stream.type} style={{color:"white"}}/>
           </StyledIconContainer>
       );
   }
