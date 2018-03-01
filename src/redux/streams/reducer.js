@@ -40,7 +40,14 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.REMOVE_FILTER_TYPE:{
       const newFilter = Immutable.asMutable(state, {deep:true}).filter;
-      newFilter.types = _.remove(newFilter.types, (type) => {return type.id !== action.removedType});//_.remove returns array of all REMOVED items
+      newFilter.types = _.remove(newFilter.types, (type) => {return type.id !== action.removedTypeID});//_.remove returns array of all REMOVED items
+      return Immutable.merge(state, {filter: newFilter});
+    }
+    case STREAMS_TYPES.ADD_FILTER_TYPE:{
+      console.log("Allokes er is een nieuw filter type");
+      console.log(action.addedType);
+      const newFilter = Immutable.asMutable(state, {deep:true}).filter;
+      newFilter.types = _.concat(newFilter.types, action.addedType);
       return Immutable.merge(state, {filter: newFilter});
     }
   }

@@ -19,16 +19,11 @@ class Filter extends Component {
     //Update filter in Redux state
   }
 
-  addTypeToFilter(id){
-    console.log(id);
-
-    this.submitFilter();
+  addTypeToFilter(type){
+    this.props.addFilterType(type);
   }
 
   removeTypeFromFilter(id){
-    console.log("Remove filter");
-    console.log(id);
-
     this.props.removeFilterType(id);
   }
 
@@ -37,7 +32,7 @@ class Filter extends Component {
 
     return _.map(types, type => {
       return(
-        <ListItem key={type.id} primaryText={type.name} onClick={() => this.addTypeToFilter(type.id)}/>
+        <ListItem key={type.id} primaryText={type.name} onClick={() => this.addTypeToFilter(type)}/>
       )
     });
   }
@@ -120,7 +115,8 @@ class Filter extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch),
-    removeFilterType: (filterType) => STREAMS_ACTIONS.removeFilterType(dispatch, filterType)
+    removeFilterType: (filterType) => STREAMS_ACTIONS.removeFilterType(dispatch, filterType),
+    addFilterType: (filterType) => STREAMS_ACTIONS.addFilterType(dispatch, filterType)
   }
 }
 

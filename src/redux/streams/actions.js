@@ -5,7 +5,8 @@ export const STREAMS_TYPES = {
   FETCHING_STREAMS: 'FETCHING_STREAMS',
   FETCH_STREAM: 'FETCH_STREAM',
   FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES',
-  REMOVE_FILTER_TYPE: 'REMOVE_FILTER_TYPE'
+  REMOVE_FILTER_TYPE: 'REMOVE_FILTER_TYPE',
+  ADD_FILTER_TYPE: 'ADD_FILTER_TYPE'
 };
 
 export const STREAMS_ACTIONS = {
@@ -83,12 +84,22 @@ export const STREAMS_ACTIONS = {
       ]
     });
   },
-  removeFilterType: (dispatch, removedType) => {
+  removeFilterType: (dispatch, removedTypeID) => {
     console.log("remove filter type action");
 
     dispatch({
       type: STREAMS_TYPES.REMOVE_FILTER_TYPE,
-      removedType //ES6 syntax sugar
+      removedTypeID //ES6 syntax sugar
     });
+
+    //TODO: get updated set of streams from api
+  },
+  addFilterType: (dispatch, addedType) => {
+    dispatch({
+      type: STREAMS_TYPES.ADD_FILTER_TYPE,
+      addedType //ES6 syntax sugar
+    });
+
+    //TODO: get updated set of streams from api
   }
 };
