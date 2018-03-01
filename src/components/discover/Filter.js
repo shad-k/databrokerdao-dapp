@@ -14,16 +14,16 @@ class Filter extends Component {
 
   addTypeToFilter(type){
     const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
-    if(_.findIndex(newFilter.types,(_type)=>{return _.isEqual(_type.id,type.id)}) === -1){
-      newFilter.types = _.concat(newFilter.types, type);
+
+    if(_.indexOf(newFilter.types, type.id) === -1){
+      newFilter.types = _.concat(newFilter.types, type.id);
       this.props.updateFilter(newFilter);
     }
   }
 
   removeTypeFromFilter(id){
     const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
-    newFilter.types = _.remove(newFilter.types, (type) => {return !_.isEqual(type.id, id)});
-
+    newFilter.types = _.pull(newFilter.types, id);
     this.props.updateFilter(newFilter);
   }
 
@@ -48,14 +48,20 @@ class Filter extends Component {
     `;
 
     const types = this.props.filter.types;
+    const availableTypes = this.props.availableStreamTypes;
+    console.log("Dit zijn available types:");
+    console.log(availableTypes);
+
+    if(availableTypes.length == 0)
+      return '';
 
     return _.map(types, type => {
       return(
         <StyledChip
-          key={type.id}
-          label={type.name}
+          key={type}
+          label={availableTypes[type].name}
           avatar={<Avatar><FontIcon>wb_sunny</FontIcon></Avatar>}
-          onClick={() => this.removeTypeFromFilter(type.id)}
+          onClick={() => this.removeTypeFromFilter(type)}
           removable
         />
       )

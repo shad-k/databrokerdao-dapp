@@ -6,16 +6,7 @@ import { STREAMS_TYPES } from './actions.js';
 export const DEFAULT_STATE = {
   filter: {
     location:null,
-    types:[ //Types in current filter
-      {
-        id:'temperature',
-        name:'Temperature'
-      },
-      {
-        id:'humidity',
-        name:'Humidity'
-      }
-    ]
+    types:['temperature','humidity'] //Types in current filter
   },
   streams: {},
   fetchingStreams: false,
