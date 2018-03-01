@@ -29,14 +29,15 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       font-weight:700;
       font-size:16px;
       width: 100%;
-      margin-left: 8px;
+      margin-left: 9px;
+      margin-bottom: 3px;
     `;
 
     const StyledSensorDetails = styled.div`
       color:white;
       font-size:14px;
       width: 100%;
-      margin-left: 8px;
+      margin-left: 9px;
     `;
 
     const StyledButton = styled(Button)`
