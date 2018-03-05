@@ -1,17 +1,35 @@
 //Import axios
+import _ from 'lodash';
+
+import EXAMPLE_STREAMS_API_RESPONSE from '../../example-api-responses/streams';
 
 export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',
   FETCHING_STREAMS: 'FETCHING_STREAMS',
   FETCH_STREAM: 'FETCH_STREAM',
   FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES',
-  REMOVE_FILTER_TYPE: 'REMOVE_FILTER_TYPE', //depracted
-  ADD_FILTER_TYPE: 'ADD_FILTER_TYPE', //depracted
   UPDATED_FILTER: 'UPDATED_FILTER'
 };
 
 export const STREAMS_ACTIONS = {
   fetchStreams: (dispatch, filter = {}) => {
+    const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
+
+    const parsedResponse = {};
+    _.each(response.items, (item) => {
+      parsedResponse[item._id] = {
+        id:item._id,
+        name:item.metadata.name,
+        type:item.metadata.type,
+        price:item.price,
+        stake:item.stake,
+        example:item.metadata.example,
+        geo:item.metadata.geo
+      };
+    });
+
+    console.log(parsedResponse);
+
     //This is where we will do api call to get new streams
     dispatch({
       type: STREAMS_TYPES.FETCHING_STREAMS,
@@ -22,32 +40,7 @@ export const STREAMS_ACTIONS = {
     setTimeout(() => {
       dispatch({
         type: STREAMS_TYPES.FETCH_STREAMS,
-        streams: {
-          12323: {
-            id:'12323',
-            name:'Barvista temperature',
-            type:'pm10',
-            geo: {
-              lat: '50.848451',
-              lng: '4.692932'
-            },
-            price: '20',
-            stake: '200',
-            example:'{temperature:23, women:29, men:183}'
-          },
-          3223: {
-            id:'3223',
-            name:'Seven Oaks temperature',
-            type:'temperature',
-            geo: {
-              lat: '50.878451',
-              lng: '4.699932'
-            },
-            price: '30',
-            stake: '5000',
-            example:'{temperature:22, women:12, men:89}'
-          }
-        }
+        streams: parsedResponse
       });
     },500);
 
