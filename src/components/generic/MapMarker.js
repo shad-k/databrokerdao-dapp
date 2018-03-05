@@ -6,7 +6,7 @@ export default class MapMarker extends Component {
   render() {
     const StyledContent = styled.div`
       background:rgba(0,0,0,0.7);
-      border-radius:12px;
+      border-radius:7px;
     `;
 
     const StyledPin = styled.div`
