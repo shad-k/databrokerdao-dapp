@@ -3,7 +3,6 @@ import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 import { connect } from 'react-redux'
 import _ from 'lodash';
 
-import { getStreams } from '../../redux/streams/selectors.js'
 import DiscoverMapMarker from './DiscoverMapMarker';
 
 class DiscoverMap extends Component {

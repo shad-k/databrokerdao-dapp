@@ -105,6 +105,7 @@ class Filter extends Component {
               y: DropdownMenu.VerticalAnchors.OVERLAP,
             }}
             position={DropdownMenu.Positions.BELOW}
+            style={{cursor:"pointer"}}
           >
             <TextField
               id="dropdown-menu-textfield"

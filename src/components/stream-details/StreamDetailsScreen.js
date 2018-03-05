@@ -9,11 +9,24 @@ import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 import Icon from '../generic/Icon';
+import StakingExplainerDialog from './StakingExplainerDialog';
 
 class StreamDetailsScreen extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      StakingExplainerVisible: false
+    };
+  }
+
   componentDidMount() {
     //In case this stream was not in state yet, load it (in case it was: refresh to get latest version)
     this.props.fetchStream();
+  }
+
+  toggleStakingExplainer(){
+    this.setState({StakingExplainerVisible: !this.state.StakingExplainerVisible});
   }
 
   render() {
@@ -44,12 +57,6 @@ class StreamDetailsScreen extends Component {
       margin-left: 12px;
     `;
 
-    const StyledTypeIcon = styled.data`
-      opacity: 0.54;
-      width: 20px;
-      height: 20px;
-    `;
-
     const { stream, availableStreamTypes } = this.props;
 
     if(!stream || !availableStreamTypes)
@@ -66,8 +73,6 @@ class StreamDetailsScreen extends Component {
           </CenteredCard>
         </div>
       );
-
-    console.log(availableStreamTypes);
 
     return (
       <div>
@@ -96,7 +101,9 @@ class StreamDetailsScreen extends Component {
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <FontIcon>security</FontIcon>
-                <StyledAttributeLabel>{stream.stake} DTX staked by owner (?)</StyledAttributeLabel>
+                <StyledAttributeLabel>
+                  {stream.stake} DTX staked by owner (<span onClick={event => this.toggleStakingExplainer()}>?</span>)
+                </StyledAttributeLabel>
               </StyledSensorAttribute>
             </StyledContentCell>
             <StyledContentCell style={{backgroundColor:"#5DBCD7"}}>
@@ -112,6 +119,7 @@ class StreamDetailsScreen extends Component {
             </div>
           </CardContent>
         </CenteredCard>
+        <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
       </div>
     );
   }
