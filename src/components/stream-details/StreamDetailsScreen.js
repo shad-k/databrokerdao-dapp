@@ -96,11 +96,11 @@ class StreamDetailsScreen extends Component {
                 <StyledAttributeLabel>Updated every two months</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
-                <FontIcon>payment</FontIcon>
+                <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                 <StyledAttributeLabel>{stream.price} DTX per hour</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
-                <FontIcon>security</FontIcon>
+                <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                 <StyledAttributeLabel>
                   {stream.stake} DTX staked by owner (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
                 </StyledAttributeLabel>
