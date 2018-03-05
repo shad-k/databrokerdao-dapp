@@ -102,7 +102,7 @@ class StreamDetailsScreen extends Component {
               <StyledSensorAttribute>
                 <FontIcon>security</FontIcon>
                 <StyledAttributeLabel>
-                  {stream.stake} DTX staked by owner (<span onClick={event => this.toggleStakingExplainer()}>?</span>)
+                  {stream.stake} DTX staked by owner (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
                 </StyledAttributeLabel>
               </StyledSensorAttribute>
             </StyledContentCell>

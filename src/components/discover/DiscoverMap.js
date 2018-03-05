@@ -7,6 +7,9 @@ import DiscoverMapMarker from './DiscoverMapMarker';
 
 class DiscoverMap extends Component {
   renderMapMarkers(streams){
+    if(this.props.fetchingStreams)
+      return;
+
     return _.map(streams, stream => {
       return <DiscoverMapMarker key={stream.id} stream={stream} position={{ lat: stream.geo.lat, lng: stream.geo.lng }}/>;
     });
@@ -25,7 +28,8 @@ class DiscoverMap extends Component {
 }
 
 const mapStateToProps = state => ({
-  streams: state.streams.streams
+  streams: state.streams.streams,
+  fetchingStreams: state.streams.fetchingStreams
 })
 
 export default connect(mapStateToProps, null)(withScriptjs(withGoogleMap(DiscoverMap)))
