@@ -3,7 +3,7 @@ import { FontIcon } from 'react-md';
 import styled from 'styled-components';
 
 import MapMarker from '../generic/MapMarker';
-import Icon from '../generic/icon';
+import Icon from '../generic/Icon';
 
 export default class LandingMapMarker extends Component {
   render() {

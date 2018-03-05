@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { FontIcon, Button } from 'react-md';
+import { Button } from 'react-md';
 import styled from 'styled-components';
 
-import Icon from '../generic/icon';
+import Icon from '../generic/Icon';
 
 export default withRouter(class ClosedDiscoverMapMarker extends Component {
   onPurchaseButtonClicked() {
@@ -17,11 +17,6 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       width:200px;
       display: flex;
       align-items: center;
-    `;
-
-    const StyledIcon = styled(FontIcon)`
-      color:white;
-      font-size:25px;
     `;
 
     const StyledSensorName = styled.div`

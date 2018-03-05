@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { FontIcon } from 'react-md';
 import styled from 'styled-components';
 
-import Icon from '../generic/icon';
+import Icon from '../generic/Icon';
 
 export default class ClosedDiscoverMapMarker extends Component {
   render() {
@@ -10,11 +9,6 @@ export default class ClosedDiscoverMapMarker extends Component {
       padding:10px;
       display:flex;
       align-items:center;
-    `;
-
-    const StyledIcon = styled(FontIcon)`
-      color:white;
-      font-size:25px;
     `;
 
       return (

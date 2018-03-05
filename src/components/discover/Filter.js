@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField, ListItem } from 'react-md';
+import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField, ListItem, IconSeparator, AccessibleFakeButton } from 'react-md';
 import { connect } from 'react-redux'
 import _ from 'lodash';
 import Immutable from 'seamless-immutable';
 
-import Icon from '../generic/icon';
+import Icon from '../generic/Icon';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class Filter extends Component {
@@ -71,9 +71,10 @@ class Filter extends Component {
     const StyledFilterContainer = styled.div`
       background: #F3F3F3;
       margin: 0 14px 14px 14px;
-      padding: 4px 16px 16px 16px;
+      padding: 0 16px 16px 16px;
       &:first-child{
         margin-top: 20px;
+        padding-top: 4px;
       }
     `;
 
@@ -100,14 +101,16 @@ class Filter extends Component {
             menuItems={this.renderTypeListItems()}
             toggleQuery=".md-text-field-container"
             anchor={{
-              x: DropdownMenu.HorizontalAnchors.INNER_LEFT,
-              y: DropdownMenu.VerticalAnchors.BOTTOM,
+              x: DropdownMenu.HorizontalAnchors.CENTER,
+              y: DropdownMenu.VerticalAnchors.OVERLAP,
             }}
             position={DropdownMenu.Positions.BELOW}
           >
             <TextField
               id="dropdown-menu-textfield"
               label="Add sensor type"
+              disabled
+              inlineIndicator={<FontIcon>arrow_drop_down</FontIcon>}
             />
           </StyledDropdownMenu>
           {this.renderTypeChips()}
