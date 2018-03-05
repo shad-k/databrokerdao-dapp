@@ -31,8 +31,6 @@ class LandingContent extends Component {
     if(this.state.pm10)
       filters.push('pm10');
 
-    console.log(filters);
-
     this.props.updateFilter({
       location:null,
       types:filters
@@ -70,7 +68,7 @@ class LandingContent extends Component {
     const StyledCard = styled(Card)`
       max-width: 600px;
       position: relative;
-      top: 140px;
+      top: 120px;
     `;
 
     const StyledH1 = styled.h1`
@@ -113,6 +111,8 @@ class LandingContent extends Component {
                   <Checkbox
                     id="temperature"
                     value="temperature"
+                    name="temperature"
+                    aria-label="temperature"
                     style={{display:"inline"}}
                     checked={this.state.temperature}
                     onChange={() => this.toggleFilterType('temperature')}
@@ -124,6 +124,8 @@ class LandingContent extends Component {
                   <Checkbox
                     id="humidity"
                     value="humidity"
+                    name="humidity"
+                    aria-label="humidity"
                     style={{display:"inline"}}
                     checked={this.state.humidity}
                     onChange={() => this.toggleFilterType('humidity')}
@@ -137,6 +139,8 @@ class LandingContent extends Component {
                   <Checkbox
                     id="pm25"
                     value="pm25"
+                    name="pm25"
+                    aria-label="pm25"
                     style={{display:"inline"}}
                     checked={this.state.pm25}
                     onChange={() => this.toggleFilterType('pm25')}
@@ -148,6 +152,8 @@ class LandingContent extends Component {
                   <Checkbox
                     id="pm10"
                     value="pm10"
+                    name="pm10"
+                    aria-label="pm10"
                     style={{display:"inline"}}
                     checked={this.state.pm10}
                     onChange={() => this.toggleFilterType('pm10')}

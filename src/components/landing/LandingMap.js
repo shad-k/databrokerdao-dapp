@@ -8,7 +8,7 @@ export default withScriptjs(withGoogleMap(class LandingMap extends Component {
     return (
       <GoogleMap
         defaultZoom={14}
-        defaultCenter={{ lat: 50.879844, lng: 4.700518 }}
+        defaultCenter={{ lat: 50.889244, lng: 4.700518 }}
       >
         <LandingMapMarker position={{ lat: 50.878421, lng: 4.699932 }}/>
       </GoogleMap>

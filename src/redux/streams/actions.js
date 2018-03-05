@@ -28,8 +28,6 @@ export const STREAMS_ACTIONS = {
       };
     });
 
-    console.log(parsedResponse);
-
     //This is where we will do api call to get new streams
     dispatch({
       type: STREAMS_TYPES.FETCHING_STREAMS,
