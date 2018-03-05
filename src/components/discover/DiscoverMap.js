@@ -20,6 +20,7 @@ class DiscoverMap extends Component {
       <GoogleMap
        defaultZoom={14}
        defaultCenter={{ lat: 50.879844, lng: 4.700518 }}
+       options={{clickableIcons: false}}
       >
         {this.renderMapMarkers(this.props.streams)}
       </GoogleMap>

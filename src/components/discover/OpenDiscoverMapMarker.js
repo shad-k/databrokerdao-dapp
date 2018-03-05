@@ -14,7 +14,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
 
     const StyledContentContainer = styled.div`
       padding:10px;
-      width:200px;
+      width:240px;
       display: flex;
       align-items: center;
     `;
@@ -43,8 +43,8 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       return (
           <div>
             <StyledContentContainer>
-              <Icon icon={this.props.stream.type} style={{color:"white"}}/>
-              <div>
+              <Icon icon={this.props.stream.type} style={{color:"white", width:"24px", height:"24px"}}/>
+              <div style={{width:"196px"}}>
                 <StyledSensorName>{this.props.stream.name}</StyledSensorName>
                 <StyledSensorDetails>Updated every hour</StyledSensorDetails>
               </div>
