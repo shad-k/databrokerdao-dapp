@@ -1,0 +1,39 @@
+language: node_js
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+cache:
+  directories:
+    - node_modules
+    - ~/.npm
+
+notifications:
+  slack:
+    rooms:
+      - settlemint:5QuOPa3Z4kJbfbNIgei0asur#mint
+
+node_js:
+  - '8'
+
+before_install:
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  - npm install -g npm@5
+
+after_success:
+  - npm run semantic-release
+  - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}";
+  - if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]); then
+    docker build --build-arg NPM_TOKEN=${NPM_TOKEN} --build-arg REACT_APP_DAPI_URL="https://databrokerdao-dapi-staging.settlemint.com" -t settlemint/${PROJECT_NAME}:${TRAVIS_BRANCH} -t settlemint/${PROJECT_NAME}:${TRAVIS_BRANCH}-`date +%s` .;
+    docker push settlemint/${PROJECT_NAME};
+    fi
+  - if ([ $TRAVIS_BRANCH == "production" ] && [ $TRAVIS_PULL_REQUEST == "false" ]); then
+    docker build --build-arg NPM_TOKEN=${NPM_TOKEN} --build-arg REACT_APP_DAPI_URL="https://databrokerdao-dapi.settlemint.com" -t settlemint/${PROJECT_NAME}:${TRAVIS_BRANCH} -t settlemint/${PROJECT_NAME}:${TRAVIS_BRANCH}-`date +%s` .;
+    docker push settlemint/${PROJECT_NAME};
+    fi
+  - if ([ $TRAVIS_BRANCH == "demo" ] && [ $TRAVIS_PULL_REQUEST == "false" ]); then
+    docker build --build-arg NPM_TOKEN=${NPM_TOKEN} --build-arg REACT_APP_DAPI_URL="https://databrokerdao-dapi-demo.settlemint.com" -t settlemint/${PROJECT_NAME}:${TRAVIS_BRANCH} -t settlemint/${PROJECT_NAME}:${TRAVIS_BRANCH}-`date +%s` .;
+    docker push settlemint/${PROJECT_NAME};
+    fi
