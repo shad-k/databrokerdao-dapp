@@ -41,7 +41,7 @@ const store = createStore(initialState, history);
 // ========================================================
 const MOUNT_NODE = document.getElementById('root');
 
-// const auth = userIsNotAuthenticatedRedir(AuthContainer);
+const auth = userIsNotAuthenticatedRedir(AuthContainer);
 // const search = userIsAuthenticatedRedir(SearchContainer);
 
 const render = () => {
@@ -49,13 +49,13 @@ const render = () => {
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Switch>
-          {/*}<Route path="/account" component={withRouter(auth)} />*/}
+          <Route path="/account" component={withRouter(auth)} />
           <Route path="/discover" component={withRouter(DiscoverScreen)} />
           <Route path="/purchases" component={withRouter(PurchasesScreen)} />
           <Route path="/add-sensor" component={withRouter(AddSensorScreen)} />
           <Route path="/wallet" component={withRouter(WalletScreen)} />
           <Route path="/stream-details/:id" component={withRouter(StreamDetailsScreen)} />
-          <Route path="/" component={withRouter(LandingScreen)} />
+          <Route path="/" component={LandingScreen} />
         </Switch>
       </ConnectedRouter>
     </Provider>,
