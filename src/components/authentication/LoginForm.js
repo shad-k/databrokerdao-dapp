@@ -55,12 +55,12 @@ const PureLoginForm = ({
           Login
         </Button>
       )}
-      {!isSubmitting && (
+      {/*!isSubmitting && (
         <span className="login-prompt">
           No account yet?<br />
           <Link to="/account/register">Register here.</Link>
         </span>
-      )}
+      )*/}
     </div>
   </form>
 );

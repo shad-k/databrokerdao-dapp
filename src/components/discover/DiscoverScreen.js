@@ -1,15 +1,64 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
+import styled from 'styled-components';
+import { connect } from 'react-redux'
 
-import Toolbar from '../generic/Toolbar.js';
+import Toolbar from '../generic/Toolbar';
+import Filter from './Filter';
+import DiscoverMap from './DiscoverMap';
+import DiscoverStreamsList from './DiscoverStreamsList';
+import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
-export default class DiscoverScreen extends Component {
+class DiscoverScreen extends Component {
+  componentDidMount() {
+    //Get streams from API
+    this.props.fetchStreams();
+  }
+
   render() {
+    const StyledSidebar = styled.div`
+      flex: initial;
+      width: 300px;
+      background-color:white;
+      padding-top:60px;
+      overflow-y: auto;
+    `;
+
+    const StyledContent = styled.div`
+      flex: 1;
+    `;
+
+    const mapElementsStyle = {
+      height: `100%`,
+      width: "calc(100% - 300px)",
+      position:"absolute",
+      top:"0",
+      left: "300"
+    };
+
     return (
-      <div>
+      <div style={{height:"100%", display:"flex", alignItems:"stretch"}}>
         <Toolbar showTabs={true} />
-        <h2>Welcome to discover</h2>
+        <StyledSidebar>
+          <Filter />
+          <DiscoverStreamsList />
+        </StyledSidebar>
+        <StyledContent>
+          <DiscoverMap
+            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp"
+            loadingElement={<div style={mapElementsStyle} />}
+            containerElement={<div style={{mapElementsStyle}} />}
+            mapElement={<div style={mapElementsStyle} />}
+            />
+        </StyledContent>
       </div>
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchStreams: () => STREAMS_ACTIONS.fetchStreams(dispatch)
+  }
+}
+
+export default connect(null, mapDispatchToProps)(DiscoverScreen)

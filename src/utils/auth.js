@@ -32,7 +32,7 @@ export const userIsAuthenticated = connectedAuthWrapper(
 
 export const userIsAuthenticatedRedir = connectedRouterRedirect({
   ...userIsAuthenticatedDefaults,
-  redirectPath: '/account/login'
+  redirectPath: '/'
 });
 
 const userIsNotAuthenticatedDefaults = {

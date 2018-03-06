@@ -1,31 +1,74 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-export default class Tabs extends Component {
+import DiscoverIcon from '../../assets/discover-icon.svg';
+import PurchasesIcon from '../../assets/purchases-icon.svg';
+import AddSensorIcon from '../../assets/add-sensor-icon.svg';
+
+export default withRouter(class Tabs extends Component {
   render() {
+    const StyledTabBarContainer = styled.div`
+      width: 100%;
+      max-width: 630px;
+      display: flex;
+      justify-content: space-between;
+    `;
+
     const StyledTabBarItem = styled(Link)`
-      float: left;
-      margin-right: 20px;
+      margin-right: 46px;
       color: white;
-      font-weight: 800;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      opacity:0.7;
+      transition: all 0.5s ease;
+      &:hover{
+        opacity: 0.9;
+      }
+      &:last-child {
+        margin-right:0;
+      }
+      &.active, &.active:hover{
+        opacity:1;
+      }
+    `;
+
+    const StyledTabBarItemIcon = styled.img`
+      width: 34px;
+      height: 34px;
+      margin-right: 12px;
+      padding-top: 2px;
+    `;
+
+    const StyledTabBarItemContent = styled.div`
+      text-transform: uppercase;
+      font-size: 18px;
     `;
 
     return(
-      <div>
-        <StyledTabBarItem to="/discover">
-          Discover
+      <StyledTabBarContainer>
+        <StyledTabBarItem to="/discover" className={this.props.location.pathname === '/discover'?'active':''}>
+          <StyledTabBarItemIcon src={DiscoverIcon} alt="Discover" />
+          <StyledTabBarItemContent>
+            Discover
+          </StyledTabBarItemContent>
         </StyledTabBarItem>
-        <StyledTabBarItem to="/purchases">
-          Purchased streams
+        <StyledTabBarItem to="/purchases" className={this.props.location.pathname === '/purchases'?'active':''}>
+          <StyledTabBarItemIcon src={PurchasesIcon} alt="Purchases" />
+          <StyledTabBarItemContent>
+            Purchased streams
+          </StyledTabBarItemContent>
         </StyledTabBarItem>
-        <StyledTabBarItem to="/add-sensor">
-          Add sensor
+        <StyledTabBarItem to="/add-sensor" className={this.props.location.pathname === '/add-sensor'?'active':''}>
+          <StyledTabBarItemIcon src={AddSensorIcon} alt="Add sensor" />
+          <StyledTabBarItemContent>
+            Add sensor
+          </StyledTabBarItemContent>
         </StyledTabBarItem>
-        <StyledTabBarItem to="/wallet">
-          Wallet
-        </StyledTabBarItem>
-      </div>
+      </StyledTabBarContainer>
     );
   }
-}
+})

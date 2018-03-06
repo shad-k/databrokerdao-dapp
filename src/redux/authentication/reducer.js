@@ -57,6 +57,7 @@ async function getJWTToken(axiosClient, encryptedPrivateKey) {
     },
     encrypted: true
   });
+  console.log(tokenResponse);
   localStorage.setItem('jwtToken', tokenResponse.data.token);
   return tokenResponse.data.token;
 }
@@ -92,24 +93,28 @@ export function register(values, { props, setSubmitting, setErrors }) {
       //   done: true
       // });
       // GET THE JWT TOKEN
-      // console.log('GET THE JWT TOKEN');
+      console.log('GET THE JWT TOKEN');
       const token = await getJWTToken(axiosClient, encryptedPrivateKey);
-      // console.log({
-      //   token
-      // });
+      console.log(token);
+
       dispatch({
         type: TOKEN_RECEIVED,
         payload: { token, address }
       });
       // GET THE ROLES OF THE USER
-      const roleResponse = await axiosClient.get(
-        `/wallet/roles?address=${encodeURIComponent(address)}`
-      );
-      localStorage.setItem('roles', roleResponse.data.roles);
-      dispatch({
-        type: ROLES_RECEIVED,
-        payload: { roles: roleResponse.data.roles }
-      });
+      // TODO add JWT token to the axios client!
+      // TODO enable back
+      // const roleResponse = await axiosClient.get(
+      //   `/wallet/roles?address=${encodeURIComponent(address)}`
+      // );
+      // localStorage.setItem('roles', roleResponse.data.roles);
+      // dispatch({
+      //   type: ROLES_RECEIVED,
+      //   payload: { roles: roleResponse.data.roles }
+      // });
+
+      if(props.callBack)
+        props.callBack();
     } catch (error) {
       //console.log(error);
       setErrors({

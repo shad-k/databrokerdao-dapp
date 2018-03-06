@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
 
-import Toolbar from '../generic/Toolbar.js';
+import Toolbar from '../generic/Toolbar';
+import LandingContent from './LandingContent';
+import LandingBackground from './LandingBackground';
 
 export default class LandingScreen extends Component {
   render() {
     return (
       <div>
-        <Toolbar showTabs={true} />
-        <h2>Buy and sell data!</h2>
-        <div>Map</div>
-        <div>Paper</div>
+        <Toolbar showTabs={false} />
+        <LandingContent />
+        <LandingBackground/>
       </div>
     );
   }
