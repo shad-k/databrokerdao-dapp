@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 import Logo from '../../assets/databroker-logo-white.svg';
 import Tabs from './Tabs.js';
 
-export default class Toolbar extends Component {
+class Toolbar extends Component {
   static propTypes = {
     showTabs: propTypes.bool
   }
@@ -56,11 +57,19 @@ export default class Toolbar extends Component {
           <Tabs />
         }
         <StyledWalletLinkContainer>
-          <StyledWalletLink to="/wallet">
-            Log In
-          </StyledWalletLink>
+          {this.props.token &&
+            <StyledWalletLink to="/wallet">
+              Wallet
+            </StyledWalletLink>
+          }
         </StyledWalletLinkContainer>
       </StyledToolbar>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  token: state.auth.token
+});
+
+export default connect(mapStateToProps, null)(Toolbar)

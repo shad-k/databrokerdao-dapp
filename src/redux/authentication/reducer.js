@@ -57,6 +57,7 @@ async function getJWTToken(axiosClient, encryptedPrivateKey) {
     },
     encrypted: true
   });
+  console.log(tokenResponse);
   localStorage.setItem('jwtToken', tokenResponse.data.token);
   return tokenResponse.data.token;
 }
@@ -94,9 +95,7 @@ export function register(values, { props, setSubmitting, setErrors }) {
       // GET THE JWT TOKEN
       // console.log('GET THE JWT TOKEN');
       const token = await getJWTToken(axiosClient, encryptedPrivateKey);
-      // console.log({
-      //   token
-      // });
+
       dispatch({
         type: TOKEN_RECEIVED,
         payload: { token, address }
