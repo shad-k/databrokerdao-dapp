@@ -10,13 +10,15 @@ import ToolbarSpacer from '../generic/ToolbarSpacer';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 import Icon from '../generic/Icon';
 import StakingExplainerDialog from './StakingExplainerDialog';
+import PurchaseStreamDialog from './PurchaseStreamDialog';
 
 class StreamDetailsScreen extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      StakingExplainerVisible: false
+      StakingExplainerVisible: false,
+      PurchaseStreamVisible: false
     };
   }
 
@@ -27,6 +29,10 @@ class StreamDetailsScreen extends Component {
 
   toggleStakingExplainer(){
     this.setState({StakingExplainerVisible: !this.state.StakingExplainerVisible});
+  }
+
+  togglePurchaseStream(){
+    this.setState({PurchaseStreamVisible: !this.state.PurchaseStreamVisible});
   }
 
   render() {
@@ -82,7 +88,7 @@ class StreamDetailsScreen extends Component {
           <CardContent noMarginBottom>
             <StyledSensorNameCardContent>
               <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'loading'}</h1>
-              <Button raised primary>Purchase access</Button>
+              <Button raised primary onClick={event => this.togglePurchaseStream()}>Purchase access</Button>
             </StyledSensorNameCardContent>
           </CardContent>
           <StyledContentContainer>
@@ -120,6 +126,7 @@ class StreamDetailsScreen extends Component {
           </CardContent>
         </CenteredCard>
         <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
+        <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} hideEventHandler={() => this.togglePurchaseStream()} />
       </div>
     );
   }

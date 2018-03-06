@@ -62,6 +62,11 @@ class Toolbar extends Component {
               Wallet
             </StyledWalletLink>
           }
+          {!this.props.token &&
+            <StyledWalletLink to="/account/login">
+              Log In
+            </StyledWalletLink>
+          }
         </StyledWalletLinkContainer>
       </StyledToolbar>
     );
