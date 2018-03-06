@@ -19,12 +19,12 @@ export const STREAMS_ACTIONS = {
     _.each(response.items, (item) => {
       parsedResponse[item._id] = {
         id:item._id,
-        name:item.metadata.name,
-        type:item.metadata.type,
+        name:item.name,
+        type:item.type,
         price:item.price,
         stake:item.stake,
-        example:item.metadata.example,
-        geo:item.metadata.geo
+        example:item.example,
+        geo:item.geo
       };
     });
 

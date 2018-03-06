@@ -20,16 +20,15 @@ const exampleResponse = `{
          "key":"0x0b6f4349b3a7df2d7021d43e27176c0bc2035cf0",
          "contractaddress":"0xd54ecbb6a120155f532711964267204ca7698e74",
          "challenges":"0",
-         "metadata":{
-            "name":"Temperature outside Bar Berlin",
-            "geo":{
-               "lat":50.880722,
-               "lng":4.692725
-            },
-            "type":"temperature",
-            "example":"\{'value':11,'unit':'celsius'\}",
-            "updateinterval":60000
+         "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
+         "name":"Temperature outside Bar Berlin",
+         "geo":{
+            "lat":50.880722,
+            "lng":4.692725
          },
+         "type":"temperature",
+         "example":"\{'value':11,'unit':'celsius'\}",
+         "updateinterval":60000,
          "stake":"10",
          "whitelisted":true,
          "gatekeeper":"0x1601c0bd352bf7ab463cacfcf4ceecbe13233ad5",
@@ -46,16 +45,15 @@ const exampleResponse = `{
          "key":"0x0b6f4349b3a7df2d7021d43e27176c0bc2035cf0",
          "contractaddress":"0xd54ecbb6a120155f532711964267204ca7698e74",
          "challenges":"0",
-         "metadata":{
-            "name":"Humidity in Bar Vista",
-            "geo":{
-               "lat":50.878421,
-               "lng":4.699932
-            },
-            "type":"humidity",
-            "example":"\{'value':80,'unit':'percent'\}",
-            "updateinterval":60000
-         },
+          "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
+        "name":"Humidity in Bar Vista",
+        "geo":{
+           "lat":50.878421,
+           "lng":4.699932
+        },
+        "type":"humidity",
+        "example":"\{'value':80,'unit':'percent'\}",
+        "updateinterval":60000,
          "stake":"10",
          "whitelisted":true,
          "gatekeeper":"0x1601c0bd352bf7ab463cacfcf4ceecbe13233ad5",
@@ -72,16 +70,15 @@ const exampleResponse = `{
          "key":"0x0b6f4349b3a7df2d7021d43e27176c0bc2035cf0",
          "contractaddress":"0xd54ecbb6a120155f532711964267204ca7698e74",
          "challenges":"0",
-         "metadata":{
-            "name":"PM 2.5 fine dust Leuven Station NMBS",
-            "geo":{
-               "lat":50.883464,
-               "lng":4.716273
-            },
-            "type":"pm25",
-            "example":"\{'value':900,'unit':'ton'\}",
-            "updateinterval":60000
-         },
+         "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
+          "name":"PM 2.5 fine dust Leuven Station NMBS",
+          "geo":{
+             "lat":50.883464,
+             "lng":4.716273
+          },
+          "type":"pm25",
+          "example":"\{'value':900,'unit':'ton'\}",
+          "updateinterval":60000,
          "stake":"10",
          "whitelisted":true,
          "gatekeeper":"0x1601c0bd352bf7ab463cacfcf4ceecbe13233ad5",
@@ -98,16 +95,15 @@ const exampleResponse = `{
          "key":"0x0b6f4349b3a7df2d7021d43e27176c0bc2035cf0",
          "contractaddress":"0xd54ecbb6a120155f532711964267204ca7698e74",
          "challenges":"0",
-         "metadata":{
-            "name":"PM10 fine dust Sint-Donatuspark",
-            "geo":{
-               "lat":50.876874,
-               "lng":4.705446
-            },
-            "type":"pm10",
-            "example":"\{'value':134,'unit':'ton'\}",
-            "updateinterval":60000
-         },
+         "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
+          "name":"PM10 fine dust Sint-Donatuspark",
+          "geo":{
+             "lat":50.876874,
+             "lng":4.705446
+          },
+          "type":"pm10",
+          "example":"\{'value':134,'unit':'ton'\}",
+          "updateinterval":60000,
          "stake":"10",
          "whitelisted":true,
          "gatekeeper":"0x1601c0bd352bf7ab463cacfcf4ceecbe13233ad5",
