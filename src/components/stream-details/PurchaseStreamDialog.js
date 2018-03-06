@@ -1,10 +1,27 @@
 import React, { Component } from 'react';
 import { Button, FontIcon, DialogContainer } from 'react-md';
 
+const STEP_INTRO = 1, STEP_REGISTRATION = 2, STEP_CONFIG = 3, STEP_SAVING = 4, STEP_SUCCESS = 5;
+
 export default class PurchaseStreamDialog extends Component {
-  hide = () => {
-    this.setState({ visible: false });
-  };
+  constructor(props){
+    super(props);
+
+    this.state = {
+      step: STEP_INTRO
+    };
+  }
+
+  finishStep(step){
+    if(step == STEP_INTRO)
+      this.setState({step:STEP_CONFIG});
+    else if(step == STEP_CONFIG)
+      this.setState({step:STEP_SAVING});
+    else if(step == STEP_SAVING)
+      this.setState({step:STEP_SUCCESS});
+    else if(step == STEP_SUCCESS)
+      this.props.hideEventHandler();
+  }
 
   render(){
     const { visible } = this.props.visible;
@@ -15,12 +32,50 @@ export default class PurchaseStreamDialog extends Component {
         visible={this.props.visible}
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
-        dialogStyle={{width:"540px", height:"540px"}}
+        dialogStyle={{width:"500px"}}
       >
-        <h1>Buy access and improve your life</h1>
-        <p className="md-color--secondary-text">
-          Thanks you very much for your purchase!!11!!
-        </p>
+        <div style={{display:(this.state.step == STEP_INTRO)?'block':'none'}}>
+          <h1>How to purchase access</h1>
+          <p>
+            Some explainer about DTX and other great things about how Databroker works.
+          </p>
+          <p>
+            Maybe a cool visual or something could be cool too.
+          </p>
+          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
+            <Button raised primary onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
+          </div>
+        </div>
+        <div style={{display:(this.state.step == STEP_REGISTRATION)?'block':'none'}}>
+          {/* Registration form */}
+        </div>
+        <div style={{display:(this.state.step == STEP_CONFIG)?'block':'none'}}>
+          <h1>Choose duration and delivery method</h1>
+          <p>
+            Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
+          </p>
+          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
+            <Button raised primary onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
+          </div>
+        </div>
+        <div style={{display:(this.state.step == STEP_SAVING)?'block':'none'}}>
+          <h1>Saving to the blockchain</h1>
+          <p>
+            Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
+          </p>
+          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
+            <Button raised primary onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
+          </div>
+        </div>
+        <div style={{display:(this.state.step == STEP_SUCCESS)?'block':'none'}}>
+          <h1>Great success</h1>
+          <p>
+            Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
+          </p>
+          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
+            <Button raised primary onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
+          </div>
+        </div>
       </DialogContainer>
     );
   }
