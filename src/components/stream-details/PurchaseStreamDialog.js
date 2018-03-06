@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { Button, FontIcon, DialogContainer } from 'react-md';
+import { connect } from 'react-redux';
 
-const STEP_INTRO = 1, STEP_REGISTRATION = 2, STEP_CONFIG = 3, STEP_SAVING = 4, STEP_SUCCESS = 5;
+import RegisterForm from '../authentication/RegisterForm';
+import { register } from '../../redux/authentication/reducer';
 
-export default class PurchaseStreamDialog extends Component {
+const STEP_INTRO = 1,
+  STEP_REGISTRATION = 2,
+  STEP_WELCOME = 3,
+  STEP_CONFIG = 4,
+  STEP_SAVING = 5,
+  STEP_SUCCESS = 6;
+
+class PurchaseStreamDialog extends Component {
   constructor(props){
     super(props);
 
@@ -14,7 +23,11 @@ export default class PurchaseStreamDialog extends Component {
 
   finishStep(step){
     if(step == STEP_INTRO)
-      this.setState({step:STEP_CONFIG});
+      this.setState({step:STEP_REGISTRATION});
+    else if(step == STEP_REGISTRATION)
+      this.setState({step:STEP_WELCOME});
+    else if(step == STEP_WELCOME)
+        this.setState({step:STEP_CONFIG});
     else if(step == STEP_CONFIG)
       this.setState({step:STEP_SAVING});
     else if(step == STEP_SAVING)
@@ -47,7 +60,19 @@ export default class PurchaseStreamDialog extends Component {
           </div>
         </div>
         <div style={{display:(this.state.step == STEP_REGISTRATION)?'block':'none'}}>
-          {/* Registration form */}
+          <RegisterForm
+            register={(values, settings) => this.props.dispatch(register(values, settings))}
+            callBack={() => {this.finishStep(STEP_REGISTRATION)}}
+          />
+        </div>
+        <div style={{display:(this.state.step == STEP_WELCOME)?'block':'none'}}>
+          <h1>Welcome new user!</h1>
+          <p>
+            So happy to see you amigo.
+          </p>
+          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
+            <Button raised primary onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
+          </div>
         </div>
         <div style={{display:(this.state.step == STEP_CONFIG)?'block':'none'}}>
           <h1>Choose duration and delivery method</h1>
@@ -68,7 +93,7 @@ export default class PurchaseStreamDialog extends Component {
           </div>
         </div>
         <div style={{display:(this.state.step == STEP_SUCCESS)?'block':'none'}}>
-          <h1>Great success</h1>
+          <h1>Great success!</h1>
           <p>
             Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
           </p>
@@ -80,3 +105,11 @@ export default class PurchaseStreamDialog extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch
+  };
+}
+
+export default connect(null, mapDispatchToProps)(PurchaseStreamDialog);
