@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { Button, FontIcon } from 'react-md';
 import styled from 'styled-components';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
 import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
-import Icon from '../generic/Icon';
+import Icon from '../generic/icon';
 import StakingExplainerDialog from './StakingExplainerDialog';
 import PurchaseStreamDialog from './PurchaseStreamDialog';
 
 class StreamDetailsScreen extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -27,23 +27,25 @@ class StreamDetailsScreen extends Component {
     this.props.fetchStream();
   }
 
-  toggleStakingExplainer(){
-    this.setState({StakingExplainerVisible: !this.state.StakingExplainerVisible});
+  toggleStakingExplainer() {
+    this.setState({
+      StakingExplainerVisible: !this.state.StakingExplainerVisible
+    });
   }
 
-  togglePurchaseStream(){
-    this.setState({PurchaseStreamVisible: !this.state.PurchaseStreamVisible});
+  togglePurchaseStream() {
+    this.setState({ PurchaseStreamVisible: !this.state.PurchaseStreamVisible });
   }
 
   render() {
     const StyledContentContainer = styled.div`
-      display:flex;
-      padding:15px;
+      display: flex;
+      padding: 15px;
     `;
 
     const StyledContentCell = styled.div`
-      margin:15px;
-      flex:1;
+      margin: 15px;
+      flex: 1;
     `;
 
     const StyledSensorAttribute = styled.p`
@@ -55,8 +57,8 @@ class StreamDetailsScreen extends Component {
     `;
 
     const StyledSensorNameCardContent = styled.div`
-      display:flex;
-      justify-content:space-between;
+      display: flex;
+      justify-content: space-between;
     `;
 
     const StyledAttributeLabel = styled.span`
@@ -65,15 +67,17 @@ class StreamDetailsScreen extends Component {
 
     const { stream, availableStreamTypes } = this.props;
 
-    if(!stream || !availableStreamTypes)
-      return(
+    if (!stream || !availableStreamTypes)
+      return (
         <div>
           <Toolbar showTabs={true} />
-          <ToolbarSpacer/>
+          <ToolbarSpacer />
           <CenteredCard>
             <CardContent>
               <StyledSensorNameCardContent>
-                <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'Loading...'}</h1>
+                <h1 style={{ display: 'inline-block' }}>
+                  {stream ? stream.name : 'Loading...'}
+                </h1>
               </StyledSensorNameCardContent>
             </CardContent>
           </CenteredCard>
@@ -83,50 +87,100 @@ class StreamDetailsScreen extends Component {
     return (
       <div>
         <Toolbar showTabs={true} />
-        <ToolbarSpacer/>
+        <ToolbarSpacer />
         <CenteredCard>
           <CardContent noMarginBottom>
             <StyledSensorNameCardContent>
-              <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'loading'}</h1>
-              <Button raised primary onClick={event => this.togglePurchaseStream()}>Purchase access</Button>
+              <h1 style={{ display: 'inline-block' }}>
+                {stream ? stream.name : 'loading'}
+              </h1>
+              <Button
+                raised
+                primary
+                onClick={event => this.togglePurchaseStream()}
+              >
+                Purchase access
+              </Button>
             </StyledSensorNameCardContent>
           </CardContent>
           <StyledContentContainer>
             <StyledContentCell>
               <StyledSensorAttribute>
-                <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                <StyledAttributeLabel>{availableStreamTypes[stream.type].name}</StyledAttributeLabel>
+                <Icon
+                  icon={stream.type}
+                  style={{
+                    fill: 'rgba(0,0,0,0.54)',
+                    width: '20px',
+                    height: '20px'
+                  }}
+                />
+                <StyledAttributeLabel>
+                  {availableStreamTypes[stream.type].name}
+                </StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <FontIcon>update</FontIcon>
-                <StyledAttributeLabel>Updated every two months</StyledAttributeLabel>
-              </StyledSensorAttribute>
-              <StyledSensorAttribute>
-                <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                <StyledAttributeLabel>{stream.price} DTX per hour</StyledAttributeLabel>
-              </StyledSensorAttribute>
-              <StyledSensorAttribute>
-                <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                 <StyledAttributeLabel>
-                  {stream.stake} DTX staked by owner (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
+                  Updated every two months
+                </StyledAttributeLabel>
+              </StyledSensorAttribute>
+              <StyledSensorAttribute>
+                <Icon
+                  icon="dtx"
+                  style={{
+                    fill: 'rgba(0,0,0,0.54)',
+                    width: '20px',
+                    height: '20px'
+                  }}
+                />
+                <StyledAttributeLabel>
+                  {stream.price} DTX per hour
+                </StyledAttributeLabel>
+              </StyledSensorAttribute>
+              <StyledSensorAttribute>
+                <Icon
+                  icon="staking"
+                  style={{
+                    fill: 'rgba(0,0,0,0.54)',
+                    width: '20px',
+                    height: '20px'
+                  }}
+                />
+                <StyledAttributeLabel>
+                  {stream.stake} DTX staked by owner (<span
+                    className="clickable"
+                    onClick={event => this.toggleStakingExplainer()}
+                  >
+                    ?
+                  </span>)
                 </StyledAttributeLabel>
               </StyledSensorAttribute>
             </StyledContentCell>
-            <StyledContentCell style={{backgroundColor:"#5DBCD7"}}>
-
-            </StyledContentCell>
+            <StyledContentCell style={{ backgroundColor: '#5DBCD7' }} />
           </StyledContentContainer>
         </CenteredCard>
         <CenteredCard>
           <CardContent>
             <h1>Example readings</h1>
-            <div style={{backgroundColor:"rgba(0,0,0,0.1)", borderRadius:"12px", padding:"15px"}}>
+            <div
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.1)',
+                borderRadius: '12px',
+                padding: '15px'
+              }}
+            >
               <code>{stream.example}</code>
             </div>
           </CardContent>
         </CenteredCard>
-        <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
-        <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} hideEventHandler={() => this.togglePurchaseStream()} />
+        <StakingExplainerDialog
+          visible={this.state.StakingExplainerVisible}
+          hideEventHandler={() => this.toggleStakingExplainer()}
+        />
+        <PurchaseStreamDialog
+          visible={this.state.PurchaseStreamVisible}
+          hideEventHandler={() => this.togglePurchaseStream()}
+        />
       </div>
     );
   }
@@ -134,8 +188,9 @@ class StreamDetailsScreen extends Component {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchStream: () => STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.id)
-  }
+    fetchStream: () =>
+      STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.id)
+  };
 }
 
 function mapStateToProps(state, ownProps) {
@@ -145,4 +200,6 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StreamDetailsScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  StreamDetailsScreen
+);
