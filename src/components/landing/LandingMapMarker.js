@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FontIcon } from 'react-md';
+// import { FontIcon } from 'react-md';
 import styled from 'styled-components';
 
 import MapMarker from '../generic/MapMarker';
