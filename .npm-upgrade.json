@@ -1,0 +1,12 @@
+{
+  "ignore": {
+    "bignumber.js": {
+      "versions": "6.0.0",
+      "reason": ""
+    },
+    "eslint-plugin-jsx-a11y": {
+      "versions": "6.0.3",
+      "reason": ""
+    }
+  }
+}
