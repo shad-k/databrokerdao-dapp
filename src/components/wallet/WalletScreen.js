@@ -10,6 +10,8 @@ import { logout } from '../../redux/authentication/reducer';
 
 class WalletScreen extends Component {
   render() {
+    const address = localStorage.getItem('address');
+
     return (
       <div>
         <Toolbar showTabs={true} />
@@ -17,8 +19,7 @@ class WalletScreen extends Component {
         <CenteredCard >
           <CardContent>
             <h1>Wallet</h1>
-            <p>Private key:</p>
-            <p style={{wordWrap:"break-word"}}>{this.props.token}</p>
+            <p>Address: {address}</p>
             <Button raised primary onClick={event => this.props.dispatch(logout())}>Log out</Button>
           </CardContent>
         </CenteredCard>
