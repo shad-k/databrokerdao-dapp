@@ -25,7 +25,7 @@ import './index.css';
 
 WebFontLoader.load({
   google: {
-    families: ['Open Sans:300,400,500,700', 'Material Icons']
+    families: ['Open Sans:300,400,500,700', 'Titillium Web:300,400,600,700,900', 'Material Icons']
   }
 });
 

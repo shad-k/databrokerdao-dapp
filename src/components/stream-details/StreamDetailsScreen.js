@@ -88,7 +88,7 @@ class StreamDetailsScreen extends Component {
           <CardContent noMarginBottom>
             <StyledSensorNameCardContent>
               <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'loading'}</h1>
-              <Button raised primary onClick={event => this.togglePurchaseStream()}>Purchase access</Button>
+              <Button raised secondary onClick={event => this.togglePurchaseStream()}>Purchase access</Button>
             </StyledSensorNameCardContent>
           </CardContent>
           <StyledContentContainer>

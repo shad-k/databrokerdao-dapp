@@ -73,8 +73,6 @@ class LandingContent extends Component {
 
     const StyledH1 = styled.h1`
       text-align:center;
-      font-weight:500;
-      color:rgba(0,0,0,0.7);
       line-height:1.5;
       margin-top:20px;
       margin-bottom: 10px;

@@ -10,7 +10,7 @@ export default withRouter(class Tabs extends Component {
   render() {
     const StyledTabBarContainer = styled.div`
       width: 100%;
-      max-width: 630px;
+      max-width: 700px;
       display: flex;
       justify-content: space-between;
     `;
@@ -19,6 +19,7 @@ export default withRouter(class Tabs extends Component {
       margin-right: 46px;
       color: white;
       font-weight: 700;
+      font-family: 'Titillium Web', sans-serif;
       text-decoration: none;
       display: flex;
       justify-content: flex-start;
@@ -37,15 +38,15 @@ export default withRouter(class Tabs extends Component {
     `;
 
     const StyledTabBarItemIcon = styled.img`
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       margin-right: 12px;
       padding-top: 2px;
     `;
 
     const StyledTabBarItemContent = styled.div`
       text-transform: uppercase;
-      font-size: 18px;
+      font-size: 22px;
     `;
 
     return(

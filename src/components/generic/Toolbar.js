@@ -58,14 +58,16 @@ class Toolbar extends Component {
       color: white;
       font-weight: 700;
       text-decoration: none;
-      font-size: 15px;
+      font-size: 18px;
+      font-family: 'Titillium Web', sans-serif;
     `;
 
     const StyledLoginSpan = styled.span`
       color: white;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 18px;
       cursor:pointer;
+      font-family: 'Titillium Web', sans-serif;
     `;
 
     return (

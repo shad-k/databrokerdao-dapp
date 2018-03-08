@@ -49,7 +49,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
                 <StyledSensorDetails>Updated every hour</StyledSensorDetails>
               </div>
             </StyledContentContainer>
-            <StyledButton raised primary onClick={event => this.onPurchaseButtonClicked()}>Purchase</StyledButton>
+            <StyledButton raised secondary onClick={event => this.onPurchaseButtonClicked()}>Purchase</StyledButton>
           </div>
       );
   }
