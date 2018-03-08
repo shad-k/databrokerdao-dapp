@@ -48,7 +48,7 @@ const exampleResponse = `{
           "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
         "name":"Humidity in Bar Vista",
         "geo":{
-           "lat":50.878421,
+           "lat":50.869721,
            "lng":4.699932
         },
         "type":"humidity",
