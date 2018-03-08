@@ -22,9 +22,8 @@ class Filter extends Component {
   }
 
   addTypeToFilter(event){
-    console.log(this.state.selectedType);
     const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
-    const newType = "temperature";
+    const newType = event.target.value;
 
     if(_.indexOf(newFilter.types, newType) === -1){
       newFilter.types = _.concat(newFilter.types, newType);
@@ -120,7 +119,7 @@ class Filter extends Component {
           disabled
         />*/}
         <h2>Type</h2>
-        <StyledSelect value={this.state.selectedType} onChange={(val) => this.addTypeToFilter(val)}>
+        <StyledSelect value={this.state.selectedType} onChange={(event) => this.addTypeToFilter(event)}>
           {this.renderTypeListItems()}
         </StyledSelect>
         {/*}<StyledDropdownMenu
