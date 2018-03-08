@@ -7,7 +7,7 @@ export default class MapMarker extends Component {
     const StyledContent = styled.div`
       /*background:rgba(0,0,0,0.85);*/
       background-color:#ee274c;
-      border-radius:10px;
+      border-radius:20px;
       z-index:3;
     `;
 
@@ -33,31 +33,37 @@ export default class MapMarker extends Component {
       z-index:-1;
     `;
 
-    /*
     const PulseAnimation = keyframes`
       0% {
-        transform: scale(0);
-        opacity: 0.0;
-      }
-      25% {
-        transform: scale(0);
-        opacity: 0.1;
-      }
-      50% {
-        transform: scale(0.1);
-        opacity: 0.3;
+        background-color:#07A300;
       }
       75% {
-        transform: scale(0.5);
-        opacity: 0.5;
+        background-color:#07A300;
       }
-      100% {
-        transform: scale(1);
-        opacity: 0.0;
+      80% {
+        background-color:white;
+      }
+      84%{
+        background-color:#07A300;
+      }
+      100%{
+        background-color:#07A300;
       }
     `;
 
-    const StyledPulse = styled.div`
+    const StyledStatusIndicator = styled.div`
+      width:12px;
+      height:12px;
+      border-radius:6px;
+      position:absolute;
+      right:0px;
+      top:0px;
+      background-color:#ee274c;
+      animation: ${PulseAnimation} 2s infinite;
+      border: 1px solid white;
+    `;
+
+    /*const StyledPulse = styled.div`
       left: 50%;
       z-index:-1;
       animation: ${PulseAnimation} 3s ease-out infinite;
@@ -83,6 +89,8 @@ export default class MapMarker extends Component {
           </StyledPin>
           <StyledShadow>
           </StyledShadow>
+          <StyledStatusIndicator>
+          </StyledStatusIndicator>
         </div>
       </OverlayView>
     );
