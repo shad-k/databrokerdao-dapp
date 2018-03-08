@@ -60,6 +60,7 @@ class PurchaseStreamDialog extends Component {
           </div>
         </div>
         <div style={{display:(this.state.step == STEP_REGISTRATION)?'block':'none'}}>
+          <h1>Registration</h1>
           <RegisterForm
             register={(values, settings) => this.props.dispatch(register(values, settings))}
             callBack={() => {this.finishStep(STEP_REGISTRATION)}}

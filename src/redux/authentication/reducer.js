@@ -57,7 +57,6 @@ async function getJWTToken(axiosClient, encryptedPrivateKey) {
     },
     encrypted: true
   });
-  console.log(tokenResponse);
   localStorage.setItem('jwtToken', tokenResponse.data.token);
   return tokenResponse.data.token;
 }

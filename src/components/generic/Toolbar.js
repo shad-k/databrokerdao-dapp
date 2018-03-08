@@ -6,10 +6,24 @@ import { connect } from 'react-redux'
 
 import Logo from '../../assets/databroker-logo-white.svg';
 import Tabs from './Tabs.js';
+import LoginDialog from '../authentication/LoginDialog';
 
 class Toolbar extends Component {
   static propTypes = {
     showTabs: propTypes.bool
+  }
+
+  constructor(props){
+    console.log("Toolbar constructor!");
+    super(props);
+
+    this.state = {
+      LoginVisible: false
+    };
+  }
+
+  toggleLogin(){
+    this.setState({LoginVisible: !this.state.LoginVisible});
   }
 
   render() {
@@ -48,27 +62,37 @@ class Toolbar extends Component {
       font-size: 15px;
     `;
 
+    const StyledLoginSpan = styled.span`
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+      cursor:pointer;
+    `;
+
     return (
-      <StyledToolbar >
-        <StyledLogoContainer>
-          <StyledLogo src={Logo} alt="SettleMint"/>
-        </StyledLogoContainer>
-        {this.props.showTabs &&
-          <Tabs />
-        }
-        <StyledWalletLinkContainer>
-          {this.props.token &&
-            <StyledWalletLink to="/wallet">
-              Wallet
-            </StyledWalletLink>
+      <div>
+        <StyledToolbar >
+          <StyledLogoContainer>
+            <StyledLogo src={Logo} alt="SettleMint"/>
+          </StyledLogoContainer>
+          {this.props.showTabs &&
+            <Tabs />
           }
-          {!this.props.token &&
-            <StyledWalletLink to="/account/login">
-              Log In
-            </StyledWalletLink>
-          }
-        </StyledWalletLinkContainer>
-      </StyledToolbar>
+          <StyledWalletLinkContainer>
+            {this.props.token &&
+              <StyledWalletLink to="/wallet">
+                My wallet
+              </StyledWalletLink>
+            }
+            {!this.props.token &&
+              <StyledLoginSpan onClick={event => this.toggleLogin()}>
+                Log In
+              </StyledLoginSpan>
+            }
+          </StyledWalletLinkContainer>
+        </StyledToolbar>
+        <LoginDialog visible={this.state.LoginVisible && !this.props.token} hideEventHandler={() => this.toggleLogin()} />
+      </div>
     );
   }
 }
