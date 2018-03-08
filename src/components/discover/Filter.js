@@ -13,11 +13,21 @@ class Filter extends Component {
     this.props.fetchAvailableStreamTypes();
   }
 
-  addTypeToFilter(type){
-    const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
+  constructor(props){
+    super(props);
 
-    if(_.indexOf(newFilter.types, type.id) === -1){
-      newFilter.types = _.concat(newFilter.types, type.id);
+    this.state = {
+      selectedType: "0"
+    };
+  }
+
+  addTypeToFilter(event){
+    console.log(this.state.selectedType);
+    const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
+    const newType = "temperature";
+
+    if(_.indexOf(newFilter.types, newType) === -1){
+      newFilter.types = _.concat(newFilter.types, newType);
       this.props.updateFilter(newFilter);
     }
   }
@@ -31,11 +41,16 @@ class Filter extends Component {
   renderTypeListItems(){
     const types = this.props.availableStreamTypes;
 
-    return _.map(types, type => {
+    const options = [<option key="0" value="0">-- add stream type --</option>];
+
+    //Concatenate arrays
+    return _.concat(options,_.map(types, type => {
       return(
-        <ListItem key={type.id} primaryText={type.name} onClick={() => this.addTypeToFilter(type)}/>
+        <option key={type.id} value={type.id}>
+          {type.name}
+        </option>
       )
-    });
+    }));
   }
 
   renderTypeChips(){
@@ -69,11 +84,7 @@ class Filter extends Component {
 
   render() {
     const StyledFilterContainer = styled.div`
-      margin: 0 14px 14px 14px;
-      &:first-child{
-        margin-top: 20px;
-        padding-top: 4px;
-      }
+      margin: 14px 16px 14px 16px;
     `;
 
     const StyledDropdownMenu = styled(DropdownMenu)`
@@ -81,40 +92,57 @@ class Filter extends Component {
       margin-bottom: 16px;
     `;
 
+    const StyledSelect = styled.select`
+      height:30px;
+      font-size:16px;
+      color:rgba(0,0,0,0.7);
+      background-color:white;
+      width:100%;
+      border:1px solid rgba(0,0,0,0.2);
+      border-radius:8px;
+      margin-bottom:20px;
+    `;
+
     return (
-      <div>
-        <h2 style={{margin:"20px 16px 0 16px"}}>Filter</h2>
-        <StyledFilterContainer>
-          <Autocomplete
-            id="sensor-type-filter"
-            label="Location"
-            data={["Antwerp","Brussels","Leuven","Hasselt","Kortrijk","Ghent"]}
-            filter={Autocomplete.caseInsensitiveFilter}
-            defaultValue="Leuven, Belgium"
+      <div style={{padding:"16px"}}>
+        <h2>Location</h2>
+        <StyledSelect>
+          <option value="leuven">Leuven</option>
+          <option value="newyorkcity" disabled>New York City</option>
+          <option value="singapore" disabled>Singapore</option>
+        </StyledSelect>
+        {/*}<Autocomplete
+          id="sensor-type-filter"
+          label="Location"
+          data={["Antwerp","Brussels","Leuven","Hasselt","Kortrijk","Ghent"]}
+          filter={Autocomplete.caseInsensitiveFilter}
+          defaultValue="Leuven, Belgium"
+          disabled
+        />*/}
+        <h2>Type</h2>
+        <StyledSelect value={this.state.selectedType} onChange={(val) => this.addTypeToFilter(val)}>
+          {this.renderTypeListItems()}
+        </StyledSelect>
+        {/*}<StyledDropdownMenu
+          id="textfield-dropdown-menu"
+          menuItems={this.renderTypeListItems()}
+          toggleQuery=".md-text-field-container"
+          anchor={{
+            x: DropdownMenu.HorizontalAnchors.CENTER,
+            y: DropdownMenu.VerticalAnchors.OVERLAP,
+          }}
+          position={DropdownMenu.Positions.BELOW}
+          style={{cursor:"pointer"}}
+        >
+          <TextField
+            id="dropdown-menu-textfield"
+            label="Add sensor type"
             disabled
+            inlineIndicator={<FontIcon>arrow_drop_down</FontIcon>}
           />
-        </StyledFilterContainer>
-        <StyledFilterContainer>
-          <StyledDropdownMenu
-            id="textfield-dropdown-menu"
-            menuItems={this.renderTypeListItems()}
-            toggleQuery=".md-text-field-container"
-            anchor={{
-              x: DropdownMenu.HorizontalAnchors.CENTER,
-              y: DropdownMenu.VerticalAnchors.OVERLAP,
-            }}
-            position={DropdownMenu.Positions.BELOW}
-            style={{cursor:"pointer"}}
-          >
-            <TextField
-              id="dropdown-menu-textfield"
-              label="Add sensor type"
-              disabled
-              inlineIndicator={<FontIcon>arrow_drop_down</FontIcon>}
-            />
-          </StyledDropdownMenu>
-          {this.renderTypeChips()}
-        </StyledFilterContainer>
+        </StyledDropdownMenu>*/}
+
+        {this.renderTypeChips()}
       </div>
     );
   }

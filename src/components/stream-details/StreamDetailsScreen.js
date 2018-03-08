@@ -119,7 +119,7 @@ class StreamDetailsScreen extends Component {
         </CenteredCard>
         <CenteredCard>
           <CardContent>
-            <h1>Example readings</h1>
+            <h1>Example reading(s)</h1>
             <div style={{backgroundColor:"rgba(0,0,0,0.1)", borderRadius:"12px", padding:"15px"}}>
               <code>{stream.example}</code>
             </div>
