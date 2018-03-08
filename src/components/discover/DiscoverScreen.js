@@ -19,8 +19,10 @@ class DiscoverScreen extends Component {
       flex: initial;
       width: 300px;
       background-color:white;
-      padding-top:60px;
+      padding-top:65px;
       overflow-y: auto;
+      box-shadow: 1px 0 8px rgba(0,0,0,0.15);
+      z-index:1;
     `;
 
     const StyledContent = styled.div`

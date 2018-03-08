@@ -14,7 +14,6 @@ class Toolbar extends Component {
   }
 
   constructor(props){
-    console.log("Toolbar constructor!");
     super(props);
 
     this.state = {
