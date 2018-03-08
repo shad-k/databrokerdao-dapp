@@ -24,9 +24,12 @@ class DiscoverStreamsList extends Component {
 
   render() {
     return (
-      <List>
-        {this.renderStreamsListItems(this.props.streams)}
-      </List>
+      <div>
+        <h2 style={{margin:"30px 16px 0 16px"}}>Streams</h2>
+        <List>
+          {this.renderStreamsListItems(this.props.streams)}
+        </List>
+      </div>
     );
   }
 }

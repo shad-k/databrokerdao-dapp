@@ -14,13 +14,14 @@ export default class StakingExplainerDialog extends Component {
       <DialogContainer
         id="staking-explainer"
         visible={this.props.visible}
-        title="How staking works"
         onHide={this.props.hideEventHandler}
         modal
         actions={actions}
         focusOnMount={false}
+        dialogStyle={{width:"500px"}}
       >
-        <p className="md-color--secondary-text">
+        <h1>About staking</h1>
+        <p>
           Hello and welcome everyone to the explaination about the staking. We are currently waiting for our teacher so please stay here and do not go away. OK?
         </p>
       </DialogContainer>

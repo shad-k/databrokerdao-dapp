@@ -17,7 +17,7 @@ class DiscoverScreen extends Component {
   render() {
     const StyledSidebar = styled.div`
       flex: initial;
-      width: 300px;
+      width: 340px;
       background-color:white;
       padding-top:65px;
       overflow-y: auto;
@@ -31,10 +31,10 @@ class DiscoverScreen extends Component {
 
     const mapElementsStyle = {
       height: `100%`,
-      width: "calc(100% - 300px)",
+      width: "calc(100% - 340px)",
       position:"absolute",
       top:"0",
-      left: "300"
+      left: "340"
     };
 
     const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";

@@ -159,7 +159,7 @@ class LandingContent extends Component {
                 </StyledTypeButton>
               </div>
             </div>
-            <StyledDiscoverButton primary raised onClick={this.onDiscoverButtonClicked.bind(this)}>
+            <StyledDiscoverButton secondary swapTheming flat onClick={this.onDiscoverButtonClicked.bind(this)}>
               Discover sensors
             </StyledDiscoverButton>
           </CardText>

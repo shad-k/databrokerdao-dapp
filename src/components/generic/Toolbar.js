@@ -56,7 +56,7 @@ class Toolbar extends Component {
 
     const StyledWalletLink = styled(Link)`
       color: white;
-      font-weight: 700;
+      font-weight: 600;
       text-decoration: none;
       font-size: 18px;
       font-family: 'Titillium Web', sans-serif;
@@ -64,7 +64,7 @@ class Toolbar extends Component {
 
     const StyledLoginSpan = styled.span`
       color: white;
-      font-weight: 700;
+      font-weight: 600;
       font-size: 18px;
       cursor:pointer;
       font-family: 'Titillium Web', sans-serif;

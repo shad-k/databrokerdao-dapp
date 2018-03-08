@@ -10,7 +10,7 @@ export default withRouter(class Tabs extends Component {
   render() {
     const StyledTabBarContainer = styled.div`
       width: 100%;
-      max-width: 700px;
+      max-width: 660px;
       display: flex;
       justify-content: space-between;
     `;
@@ -18,7 +18,7 @@ export default withRouter(class Tabs extends Component {
     const StyledTabBarItem = styled(Link)`
       margin-right: 46px;
       color: white;
-      font-weight: 700;
+      font-weight: 600;
       font-family: 'Titillium Web', sans-serif;
       text-decoration: none;
       display: flex;
@@ -38,8 +38,8 @@ export default withRouter(class Tabs extends Component {
     `;
 
     const StyledTabBarItemIcon = styled.img`
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       margin-right: 12px;
       padding-top: 2px;
     `;

@@ -69,9 +69,7 @@ class Filter extends Component {
 
   render() {
     const StyledFilterContainer = styled.div`
-      background: #F3F3F3;
       margin: 0 14px 14px 14px;
-      padding: 0 16px 16px 16px;
       &:first-child{
         margin-top: 20px;
         padding-top: 4px;
@@ -85,6 +83,7 @@ class Filter extends Component {
 
     return (
       <div>
+        <h2 style={{margin:"20px 16px 0 16px"}}>Filter</h2>
         <StyledFilterContainer>
           <Autocomplete
             id="sensor-type-filter"

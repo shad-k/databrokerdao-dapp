@@ -48,7 +48,7 @@ const PureRegisterForm = ({
           type="submit"
           disabled={isSubmitting}
           flat
-          primary
+          secondary
           swapTheming
           style={{ marginTop: '30px' }}
         >

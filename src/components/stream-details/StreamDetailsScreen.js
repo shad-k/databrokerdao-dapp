@@ -47,7 +47,7 @@ class StreamDetailsScreen extends Component {
     `;
 
     const StyledSensorAttribute = styled.p`
-      font-weight: 700;
+      font-weight: 400;
       font-size: 18px;
       display: flex;
       align-content: center;
@@ -88,7 +88,7 @@ class StreamDetailsScreen extends Component {
           <CardContent noMarginBottom>
             <StyledSensorNameCardContent>
               <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'loading'}</h1>
-              <Button raised secondary onClick={event => this.togglePurchaseStream()}>Purchase access</Button>
+              <Button flat secondary swapTheming onClick={event => this.togglePurchaseStream()}>Purchase access</Button>
             </StyledSensorNameCardContent>
           </CardContent>
           <StyledContentContainer>

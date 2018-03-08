@@ -56,7 +56,7 @@ class PurchaseStreamDialog extends Component {
             Maybe a cool visual or something could be cool too.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button raised primary onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
+            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step == STEP_REGISTRATION)?'block':'none'}}>
@@ -72,7 +72,7 @@ class PurchaseStreamDialog extends Component {
             So happy to see you amigo.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button raised primary onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
+            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step == STEP_CONFIG)?'block':'none'}}>
@@ -81,7 +81,7 @@ class PurchaseStreamDialog extends Component {
             Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button raised primary onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
+            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step == STEP_SAVING)?'block':'none'}}>
@@ -90,7 +90,7 @@ class PurchaseStreamDialog extends Component {
             Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button raised primary onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
+            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step == STEP_SUCCESS)?'block':'none'}}>
@@ -99,7 +99,7 @@ class PurchaseStreamDialog extends Component {
             Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button raised primary onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
+            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
           </div>
         </div>
       </DialogContainer>

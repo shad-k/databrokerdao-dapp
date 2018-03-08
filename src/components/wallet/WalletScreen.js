@@ -20,7 +20,7 @@ class WalletScreen extends Component {
           <CardContent>
             <h1>My wallet</h1>
             <p>Address: {address}</p>
-            <Button raised secondary onClick={event => this.props.dispatch(logout())}>Log out</Button>
+            <Button flat swapTheming secondary onClick={event => this.props.dispatch(logout())}>Log out</Button>
           </CardContent>
         </CenteredCard>
       </div>
