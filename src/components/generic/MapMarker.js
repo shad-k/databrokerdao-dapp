@@ -7,7 +7,7 @@ export default class MapMarker extends Component {
     const StyledContent = styled.div`
       /*background:rgba(0,0,0,0.85);*/
       background-color:#ee274c;
-      border-radius:20px;
+      border-radius:17px;
       z-index:3;
     `;
 
@@ -35,46 +35,33 @@ export default class MapMarker extends Component {
 
     const PulseAnimation = keyframes`
       0% {
-        background-color:#07A300;
+        background-color:#34E855;
       }
       75% {
-        background-color:#07A300;
+        background-color:#34E855;
       }
       80% {
         background-color:white;
       }
       84%{
-        background-color:#07A300;
+        background-color:#34E855;
       }
       100%{
-        background-color:#07A300;
+        background-color:#34E855;
       }
     `;
 
     const StyledStatusIndicator = styled.div`
-      width:12px;
-      height:12px;
+      width:9px;
+      height:9px;
       border-radius:6px;
       position:absolute;
-      right:0px;
-      top:0px;
+      right:1px;
+      top:1px;
       background-color:#ee274c;
       animation: ${PulseAnimation} 2s infinite;
-      border: 1px solid white;
+      border: 1px solid #00CE06;
     `;
-
-    /*const StyledPulse = styled.div`
-      left: 50%;
-      z-index:-1;
-      animation: ${PulseAnimation} 3s ease-out infinite;
-      width: 40px;
-      height: 20px;
-      border-radius:25px;
-      background: radial-gradient(closest-side, red, rgba(0,0,0,0));
-      position: relative;
-      transform-origin: 25px 10px;
-    `;
-    */
 
     return(
       <OverlayView

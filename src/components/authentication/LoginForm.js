@@ -50,7 +50,7 @@ const PureLoginForm = ({
           flat
           secondary
           swapTheming
-          style={{ marginTop: '30px' }}
+          style={{ marginTop: '30px', float:"right" }}
         >
           Login
         </Button>

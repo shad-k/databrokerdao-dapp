@@ -44,22 +44,22 @@ const PureRegisterForm = ({
         />
       )}
       {!isSubmitting && (
+        <span className="register-prompt">
+          Have an account?<br />
+          <Link to="/account/login">Login here.</Link>
+        </span>
+      )}
+      {!isSubmitting && (
         <Button
           type="submit"
           disabled={isSubmitting}
           flat
           secondary
           swapTheming
-          style={{ marginTop: '30px' }}
+          style={{ marginTop: '30px', float:"right" }}
         >
           Register
         </Button>
-      )}
-      {!isSubmitting && (
-        <span className="register-prompt">
-          Have an account?<br />
-          <Link to="/account/login">Login here.</Link>
-        </span>
       )}
     </div>
   </form>

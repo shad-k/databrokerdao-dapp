@@ -16,7 +16,6 @@ class LoginDialog extends Component {
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
         dialogStyle={{width:"500px"}}
-        title="Log In"
       >
         <h1>Log In</h1>
         <LoginForm
