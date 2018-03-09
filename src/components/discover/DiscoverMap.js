@@ -24,7 +24,7 @@ class DiscoverMap extends Component {
 
     return (
       <GoogleMap
-       defaultZoom={14}
+       defaultZoom={15}
        defaultCenter={{ lat: 50.879844, lng: 4.700518 }}
        options={MapOptions}
       >

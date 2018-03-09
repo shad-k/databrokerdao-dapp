@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FontIcon, DialogContainer } from 'react-md';
+import { DialogContainer } from 'react-md';
 import { connect } from 'react-redux';
 
 import LoginForm from './LoginForm';
@@ -7,8 +7,6 @@ import { login } from '../../redux/authentication/reducer';
 
 class LoginDialog extends Component {
   render(){
-    const { visible } = this.props.visible;
-
     return(
       <DialogContainer
         id="login"

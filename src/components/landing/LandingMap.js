@@ -30,7 +30,7 @@ class LandingMap extends Component {
 
     return (
       <GoogleMap
-        defaultZoom={14}
+        defaultZoom={15}
         defaultCenter={{ lat: 50.889244, lng: 4.700518 }}
         options={MapOptions}
       >

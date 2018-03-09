@@ -1,5 +1,4 @@
 import Immutable from 'seamless-immutable';
-import _ from 'lodash';
 
 import { STREAMS_TYPES } from './actions.js';
 

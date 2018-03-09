@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { Card, CardText, Button, List, ListItemControl, FontIcon, Checkbox, Paper } from 'react-md';
+import { Card, CardText, Button, Checkbox, Paper } from 'react-md';
 import { connect } from 'react-redux'
 
 import Icon from '../generic/Icon';

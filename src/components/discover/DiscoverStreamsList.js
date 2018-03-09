@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, ListItem, FontIcon } from 'react-md';
+import { List, FontIcon } from 'react-md';
 import { connect } from 'react-redux'
 import _ from 'lodash';
 import { withRouter } from 'react-router-dom';

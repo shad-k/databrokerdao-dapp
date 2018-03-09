@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { FontIcon, Chip, Avatar, Autocomplete, DropdownMenu, TextField, ListItem, IconSeparator, AccessibleFakeButton } from 'react-md';
+import { Chip, Avatar } from 'react-md';
 import { connect } from 'react-redux'
 import _ from 'lodash';
 import Immutable from 'seamless-immutable';
@@ -65,7 +65,7 @@ class Filter extends Component {
     const types = this.props.filter.types;
     const availableTypes = this.props.availableStreamTypes;
 
-    if(availableTypes.length == 0)
+    if(availableTypes.length === 0)
       return '';
 
     return _.map(types, type => {
@@ -82,15 +82,6 @@ class Filter extends Component {
   }
 
   render() {
-    const StyledFilterContainer = styled.div`
-      margin: 14px 16px 14px 16px;
-    `;
-
-    const StyledDropdownMenu = styled(DropdownMenu)`
-      width: 100%;
-      margin-bottom: 16px;
-    `;
-
     const StyledSelect = styled.select`
       height:30px;
       font-size:16px;
@@ -101,6 +92,7 @@ class Filter extends Component {
       border-radius:8px;
       margin-bottom:20px;
       -moz-appearance:none;
+      outline:0;
       &:-moz-focusring {
         color: transparent;
         text-shadow: 0 0 0 #000;

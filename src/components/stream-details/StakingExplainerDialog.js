@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Button, FontIcon, DialogContainer } from 'react-md';
+import { DialogContainer } from 'react-md';
 
 export default class StakingExplainerDialog extends Component {
   render(){
-    const { visible } = this.props.visible;
     const actions = [{
       onClick: this.props.hideEventHandler,
       primary: true,

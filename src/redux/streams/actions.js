@@ -14,18 +14,6 @@ export const STREAMS_TYPES = {
   UPDATED_FILTER: 'UPDATED_FILTER'
 };
 
-async function fetchStreamsFromAPI(){
-  const anonymousJWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldGhlcmV1bSI6IjA0OWI3MWExMDgzMDExZmIwZmU4ZGIwYzE2NDcyNGQzZGFkOWZiYjliNGE0NDBiZGM5NDkyNzg0YTQ5NzZlODgyMTJkYWUyMDFlMjIwODc5ZjcwZmQ5YTgyOWQwMWQxOTk2MjUyZmFhMWE5Y2NmY2UwYmYxNTMyMzAyMzlmZmRiNWUwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDJkYjFhOTI1NmMxZDM5M2RkOTNhYWU3MzIzYWU2NWFhY2Y3MDZmNThjNWQwZTAxZTg5YzM5OTYwMDZhYTFhMzlhNjQ3NDk5NjliMTViNmQwMzNiOThhOTZkOWM0NjhlNmRiM2M0OTBmMGE4ODJmN2MzZWFmNTgyYTNjZjU1OTY5IiwiaWF0IjoxNTE5MTE2NTA1fQ.flVIw-ChcFNLRj1_-Bz4He3jBL126xGgIVUOoBSAhnc";
-  const authenticatedAxiosClient = localStorage.getItem('jwtToken')?axios(localStorage.getItem('jwtToken')):axios(anonymousJWTToken);
-  const response = await authenticatedAxiosClient.get(
-    `/streamregistry/list`
-  );
-  console.log("Streams gekregen:");
-  console.log(response);
-
-  //TODO store in Redux state
-}
-
 export const STREAMS_ACTIONS = {
   fetchStreams: async (dispatch, filter = {}) => {
     dispatch({
