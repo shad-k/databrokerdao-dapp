@@ -57,25 +57,28 @@ export const STREAMS_ACTIONS = {
       streams: parsedResponse
     });
   },
-  fetchStream: (dispatch, streamID) => {
-    setTimeout(() => {
-      dispatch({
-        type: STREAMS_TYPES.FETCH_STREAM,
-        stream: {
-          id:'63452',
-          key: 'h282h2h9jn000',
-          name:'De Rector party level',
-          type:'temperature',
-          geo: {
-            lat: '50.878451',
-            lng: '4.699932'
-          },
-          price: '18',
-          stake: '100',
-          example:'{temperature:21, women:19, men:49}'
-        }
-      });
-    },1000);
+  fetchStream: async (dispatch, streamKey) => {
+    const authenticatedAxiosClient = axios(null,true);
+    const response = await authenticatedAxiosClient.get(
+      `/streamregistry/list/${streamKey}`
+    );
+
+    const responseStream = response.data;
+    const parsedResponse = {
+      id:responseStream._id,
+      key:responseStream.key,
+      name:responseStream.name,
+      type:responseStream.type,
+      price:responseStream.price,
+      stake:responseStream.stake,
+      example:responseStream.example,
+      geo:responseStream.geo
+    };
+
+    dispatch({
+      type: STREAMS_TYPES.FETCH_STREAM,
+      stream: parsedResponse
+    });
   },
   fetchAvailableStreamTypes: (dispatch) => {
     dispatch({

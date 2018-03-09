@@ -25,6 +25,7 @@ class StreamDetailsScreen extends Component {
   componentDidMount() {
     //In case this stream was not in state yet, load it (in case it was: refresh to get latest version)
     this.props.fetchStream();
+    this.props.fetchAvailableStreamTypes();
   }
 
   toggleStakingExplainer(){
@@ -136,7 +137,8 @@ class StreamDetailsScreen extends Component {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchStream: () => STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.key)
+    fetchStream: () => STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.key),
+    fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch)
   }
 }
 
