@@ -22,12 +22,16 @@ class PurchaseStreamDialog extends Component {
   }
 
   finishStep(step){
-    if(step == STEP_INTRO)
-      this.setState({step:STEP_REGISTRATION});
+    if(step == STEP_INTRO){
+        if(!this.props.token)
+          this.setState({step:STEP_REGISTRATION});
+        else
+          this.setState({step:STEP_CONFIG});
+    }
     else if(step == STEP_REGISTRATION)
       this.setState({step:STEP_WELCOME});
     else if(step == STEP_WELCOME)
-        this.setState({step:STEP_CONFIG});
+      this.setState({step:STEP_CONFIG});
     else if(step == STEP_CONFIG)
       this.setState({step:STEP_SAVING});
     else if(step == STEP_SAVING)
@@ -105,10 +109,14 @@ class PurchaseStreamDialog extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  token: state.auth.token
+});
+
 function mapDispatchToProps(dispatch) {
   return {
     dispatch
   };
 }
 
-export default connect(null, mapDispatchToProps)(PurchaseStreamDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(PurchaseStreamDialog);
