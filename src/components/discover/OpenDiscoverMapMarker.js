@@ -27,6 +27,9 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       margin-left: 9px;
       margin-bottom: 3px;
       cursor: pointer;
+      &:hover{
+        text-decoration:underline;
+      }
     `;
 
     const StyledSensorDetails = styled.div`

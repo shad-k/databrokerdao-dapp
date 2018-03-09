@@ -59,7 +59,7 @@ export default class MapMarker extends Component {
       right:0px;
       top:0px;
       background-color:#ee274c;
-      animation: ${PulseAnimation} 2s infinite;
+      animation: ${PulseAnimation} 1.5s infinite;
       border: 2px solid #18B81D;
     `;
 
