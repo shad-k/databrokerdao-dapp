@@ -11,7 +11,7 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 class DiscoverScreen extends Component {
   componentDidMount() {
     //Get streams from API
-    this.props.fetchStreams();
+    //this.props.fetchStreams();
   }
 
   render() {
@@ -61,7 +61,7 @@ class DiscoverScreen extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStreams: () => STREAMS_ACTIONS.fetchStreams(dispatch)
+    fetchStreams: (filter) => STREAMS_ACTIONS.fetchStreams(dispatch,filter)
   }
 }
 

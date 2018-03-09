@@ -14,8 +14,8 @@ class LandingContent extends Component {
     this.state = {
       temperature:true,
       humidity:true,
-      pm25:true,
-      pm10:true
+      PM25:true,
+      PM10:true
     };
   }
 
@@ -26,10 +26,10 @@ class LandingContent extends Component {
       filters.push('temperature');
     if(this.state.humidity)
       filters.push('humidity');
-    if(this.state.pm25)
-      filters.push('pm25');
-    if(this.state.pm10)
-      filters.push('pm10');
+    if(this.state.PM25)
+      filters.push('PM25');
+    if(this.state.PM10)
+      filters.push('PM10');
 
     this.props.updateFilter({
       location:null,
@@ -51,12 +51,12 @@ class LandingContent extends Component {
           updatedState.humidity = !this.state.humidity;
           break;
       }
-      case 'pm25':{
-          updatedState.pm25 = !this.state.pm25;
+      case 'PM25':{
+          updatedState.PM25 = !this.state.PM25;
           break;
       }
-      case 'pm10':{
-          updatedState.pm10 = !this.state.pm10;
+      case 'PM10':{
+          updatedState.PM10 = !this.state.PM10;
           break;
       }
     }
@@ -132,29 +132,29 @@ class LandingContent extends Component {
               </div>
               <div style={{flex:"1"}}>
                 <StyledTypeButton zDepth={1}>
-                  <Icon icon="pm25"/>
+                  <Icon icon="PM25"/>
                   <StyledTypeButtonLabel>PM 2.5</StyledTypeButtonLabel>
                   <Checkbox
-                    id="pm25"
-                    value="pm25"
-                    name="pm25"
-                    aria-label="pm25"
+                    id="PM25"
+                    value="PM25"
+                    name="PM25"
+                    aria-label="PM25"
                     style={{display:"inline"}}
                     checked={this.state.pm25}
-                    onChange={() => this.toggleFilterType('pm25')}
+                    onChange={() => this.toggleFilterType('PM25')}
                   />
                 </StyledTypeButton>
                 <StyledTypeButton zDepth={1}>
-                  <Icon icon="pm10"/>
+                  <Icon icon="PM10"/>
                   <StyledTypeButtonLabel>PM 10</StyledTypeButtonLabel>
                   <Checkbox
-                    id="pm10"
-                    value="pm10"
-                    name="pm10"
-                    aria-label="pm10"
+                    id="PM10"
+                    value="PM10"
+                    name="PM10"
+                    aria-label="PM10"
                     style={{display:"inline"}}
                     checked={this.state.pm10}
-                    onChange={() => this.toggleFilterType('pm10')}
+                    onChange={() => this.toggleFilterType('PM10')}
                   />
                 </StyledTypeButton>
               </div>

@@ -21,9 +21,17 @@ export const STREAMS_ACTIONS = {
       value: true
     });
 
+    let filterUrlQuery = "";
+    if(filter.types && filter.types.length === 1)
+      filterUrlQuery = `type=${filter.types[0]}`;
+    else
+      filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
+
+    console.log(filterUrlQuery);
+
     const authenticatedAxiosClient = axios(null,true);
     const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list`
+      `/streamregistry/list?${filterUrlQuery}`
     );
 
     const parsedResponse = {};
@@ -32,7 +40,7 @@ export const STREAMS_ACTIONS = {
         id:item._id,
         key:item.key,
         name:item.name,
-        type:item.type.toLowerCase(),
+        type:item.type,
         price:item.price,
         stake:item.stake,
         example:item.example,
@@ -56,7 +64,7 @@ export const STREAMS_ACTIONS = {
       id:responseStream._id,
       key:responseStream.key,
       name:responseStream.name,
-      type:responseStream.type.toLowerCase(),
+      type:responseStream.type,
       price:responseStream.price,
       stake:responseStream.stake,
       example:responseStream.example,
@@ -80,12 +88,12 @@ export const STREAMS_ACTIONS = {
           id:'humidity',
           name:'Humidity'
         },
-        pm10: {
-          id:'pm10',
+        PM10: {
+          id:'PM10',
           name:'PM10'
         },
-        pm25: {
-          id:'pm25',
+        PM25: {
+          id:'PM25',
           name:'PM2.5'
         },
         pressure: {

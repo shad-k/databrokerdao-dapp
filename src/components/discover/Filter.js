@@ -11,6 +11,7 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 class Filter extends Component {
   componentDidMount() {
     this.props.fetchAvailableStreamTypes();
+    this.props.fetchStreams(this.props.filter);
   }
 
   constructor(props){
@@ -28,6 +29,7 @@ class Filter extends Component {
     if(_.indexOf(newFilter.types, newType) === -1){
       newFilter.types = _.concat(newFilter.types, newType);
       this.props.updateFilter(newFilter);
+      this.props.fetchStreams(newFilter);
     }
   }
 
@@ -35,6 +37,7 @@ class Filter extends Component {
     const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
     newFilter.types = _.pull(newFilter.types, id);
     this.props.updateFilter(newFilter);
+    this.props.fetchStreams(newFilter);
   }
 
   renderTypeListItems(){
@@ -119,6 +122,7 @@ class Filter extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchStreams: (filter) => STREAMS_ACTIONS.fetchStreams(dispatch,filter),
     fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch),
     updateFilter: (filter) => STREAMS_ACTIONS.updateFilter(dispatch, filter)
   }
