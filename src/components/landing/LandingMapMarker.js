@@ -13,19 +13,10 @@ export default class LandingMapMarker extends Component {
       align-items:center;
     `;
 
-    //TODO deprecated
-    const StyledLabel = styled.span`
-      color:white;
-      font-weight:700;
-      font-size:16px;
-      padding-left:9px;
-      width:50px;
-    `;
-
     return (
       <MapMarker position={this.props.position}>
         <StyledContentContainer>
-          <Icon icon="temperature" style={{width:"20px", height:"20px", fill:"white"}}/>
+          <Icon icon={this.props.stream.type} style={{width:"20px", height:"20px", fill:"white"}}/>
         </StyledContentContainer>
       </MapMarker>
     );

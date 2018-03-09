@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
+import _ from 'lodash';
+import { connect } from 'react-redux';
 
 import LandingMapMarker from './LandingMapMarker';
+import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
-export default withScriptjs(withGoogleMap(class LandingMap extends Component {
+class LandingMap extends Component {
+  componentDidMount() {
+    //Get streams from API
+    this.props.fetchStreams();
+  }
+
+  renderMapMarkers(streams){
+    if(this.props.fetchingStreams)
+      return;
+
+    return _.map(streams, stream => {
+      console.log(stream);
+      return <LandingMapMarker key={stream.id} stream={stream} position={{ lat: stream.geo.lat, lng: stream.geo.lng }}/>;
+    });
+  }
+
   render() {
     const MapOptions = {
       clickableIcons: false,
@@ -16,8 +34,21 @@ export default withScriptjs(withGoogleMap(class LandingMap extends Component {
         defaultCenter={{ lat: 50.889244, lng: 4.700518 }}
         options={MapOptions}
       >
-        <LandingMapMarker position={{ lat: 50.878421, lng: 4.699932 }}/>
+        {this.renderMapMarkers(this.props.streams)}
       </GoogleMap>
     );
   }
-}))
+}
+
+const mapStateToProps = state => ({
+  streams: state.streams.streams,
+  fetchingStreams: state.streams.fetchingStreams
+})
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchStreams: () => STREAMS_ACTIONS.fetchStreams(dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withScriptjs(withGoogleMap(LandingMap)))
