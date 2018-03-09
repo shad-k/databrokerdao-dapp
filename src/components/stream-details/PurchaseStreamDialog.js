@@ -45,13 +45,13 @@ class PurchaseStreamDialog extends Component {
         visible={this.props.visible}
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
-        dialogStyle={{width:"500px"}}
+        dialogStyle={{width:"500px",position:"relative",top:"33%"}}
         aria-labelledby="Purchae stream"
       >
         <div style={{display:(this.state.step == STEP_INTRO)?'block':'none'}}>
-          <h1>How to purchase access</h1>
+          <h1>Purchase access</h1>
           <p>
-            Some explainer about DTX and other great things about how Databroker works.
+            This is how it works: you pay DTX tokens and then we give you the stream data. Deal?
           </p>
           <p>
             Maybe a cool visual or something could be cool too.
@@ -68,18 +68,18 @@ class PurchaseStreamDialog extends Component {
           />
         </div>
         <div style={{display:(this.state.step == STEP_WELCOME)?'block':'none'}}>
-          <h1>Welcome new user!</h1>
+          <h1>Welcome to DataBroker DAO</h1>
           <p>
-            So happy to see you amigo.
+            To get you started, we have provided you with 100 free DTX tokens.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step == STEP_CONFIG)?'block':'none'}}>
-          <h1>Choose duration and delivery method</h1>
+          <h1>Stream access configuration</h1>
           <p>
-            Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
+            In this step, you will soon be able to choose for how long you want to purchase stream data and where the stream data will be delivered.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
@@ -88,16 +88,13 @@ class PurchaseStreamDialog extends Component {
         <div style={{display:(this.state.step == STEP_SAVING)?'block':'none'}}>
           <h1>Saving to the blockchain</h1>
           <p>
-            Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
+            It takes a while to save to the blockchain. Don''t go away!
           </p>
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
-          </div>
         </div>
         <div style={{display:(this.state.step == STEP_SUCCESS)?'block':'none'}}>
-          <h1>Great success!</h1>
+          <h1>Purchase successful</h1>
           <p>
-            Choose how long you want to get the stream data and also where our delivery guy has to put the stream data.
+            Congratulations! The readings of this sensor will be delivered to your Google Spreadsheet.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>

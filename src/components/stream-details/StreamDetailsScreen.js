@@ -98,20 +98,20 @@ class StreamDetailsScreen extends Component {
             <StyledContentCell>
               <StyledSensorAttribute>
                 <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                <StyledAttributeLabel>{availableStreamTypes[stream.type].name}</StyledAttributeLabel>
+                <StyledAttributeLabel>Type: {availableStreamTypes[stream.type].name}</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <FontIcon>update</FontIcon>
-                <StyledAttributeLabel>Updated every two months</StyledAttributeLabel>
+                <StyledAttributeLabel>Frequency: daily</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                <StyledAttributeLabel>{stream.price} DTX per hour</StyledAttributeLabel>
+                <StyledAttributeLabel>Price: {stream.price} DTX per reading</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                 <StyledAttributeLabel>
-                  {stream.stake} DTX staked by owner (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
+                  Owner stake: {stream.stake} DTX (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
                 </StyledAttributeLabel>
               </StyledSensorAttribute>
             </StyledContentCell>

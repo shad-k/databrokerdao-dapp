@@ -52,15 +52,15 @@ export default class MapMarker extends Component {
     `;
 
     const StyledStatusIndicator = styled.div`
-      width:9px;
-      height:9px;
+      width:11px;
+      height:11px;
       border-radius:6px;
       position:absolute;
-      right:1px;
-      top:1px;
+      right:0px;
+      top:0px;
       background-color:#ee274c;
       animation: ${PulseAnimation} 2s infinite;
-      border: 1px solid #00CE06;
+      border: 2px solid #18B81D;
     `;
 
     return(

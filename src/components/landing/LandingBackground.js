@@ -12,9 +12,11 @@ export default class LandingBackground extends Component {
       left: "0"
     };
 
+    const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";
+
     return (
       <LandingMap
-        googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp"
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${APIKey}`}
         loadingElement={<div style={mapElementsStyle} />}
         containerElement={<div style={{zIndex:"-1", ...mapElementsStyle}} />}
         mapElement={<div style={mapElementsStyle} />}

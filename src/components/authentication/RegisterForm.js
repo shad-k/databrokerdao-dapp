@@ -43,12 +43,12 @@ const PureRegisterForm = ({
           id="registration-in-progress"
         />
       )}
-      {!isSubmitting && (
+      {/*!isSubmitting && (
         <span className="register-prompt">
           Have an account?<br />
           <Link to="/account/login">Login here.</Link>
         </span>
-      )}
+      )*/}
       {!isSubmitting && (
         <Button
           type="submit"
