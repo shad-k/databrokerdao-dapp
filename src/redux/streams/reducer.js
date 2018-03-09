@@ -23,7 +23,7 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.FETCH_STREAM:{
       const newStreams = Immutable.asMutable(state, {deep:true}).streams;
-      newStreams[action.stream.id] = action.stream;
+      newStreams[action.stream.key] = action.stream;
       return Immutable.merge(state, {streams: newStreams});
     }
     case STREAMS_TYPES.FETCH_AVAILABLE_STREAM_TYPES:{

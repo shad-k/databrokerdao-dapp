@@ -3654,3 +3654,6 @@ span.clickable {
   padding-top: 7px;
   padding-bottom: 9px;
   border-radius: 5px; }
+
+pre {
+  margin: 0; }

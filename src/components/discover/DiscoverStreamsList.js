@@ -9,7 +9,7 @@ import Icon from '../generic/Icon';
 
 class DiscoverStreamsList extends Component {
   onStreamListItemClick(stream) {
-    this.props.history.push(`/stream-details/${stream.id}`);
+    this.props.history.push(`/stream-details/${stream.key}`);
   }
 
   renderStreamsListItems(streams){

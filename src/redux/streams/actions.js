@@ -1,6 +1,9 @@
 //Import axios
 import _ from 'lodash';
 
+import axios from '../../utils/axios';
+
+//TODO remove when API call works
 import EXAMPLE_STREAMS_API_RESPONSE from '../../example-api-responses/streams';
 
 export const STREAMS_TYPES = {
@@ -11,14 +14,35 @@ export const STREAMS_TYPES = {
   UPDATED_FILTER: 'UPDATED_FILTER'
 };
 
+async function fetchStreamsFromAPI(){
+  const anonymousJWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldGhlcmV1bSI6IjA0OWI3MWExMDgzMDExZmIwZmU4ZGIwYzE2NDcyNGQzZGFkOWZiYjliNGE0NDBiZGM5NDkyNzg0YTQ5NzZlODgyMTJkYWUyMDFlMjIwODc5ZjcwZmQ5YTgyOWQwMWQxOTk2MjUyZmFhMWE5Y2NmY2UwYmYxNTMyMzAyMzlmZmRiNWUwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDJkYjFhOTI1NmMxZDM5M2RkOTNhYWU3MzIzYWU2NWFhY2Y3MDZmNThjNWQwZTAxZTg5YzM5OTYwMDZhYTFhMzlhNjQ3NDk5NjliMTViNmQwMzNiOThhOTZkOWM0NjhlNmRiM2M0OTBmMGE4ODJmN2MzZWFmNTgyYTNjZjU1OTY5IiwiaWF0IjoxNTE5MTE2NTA1fQ.flVIw-ChcFNLRj1_-Bz4He3jBL126xGgIVUOoBSAhnc";
+  const authenticatedAxiosClient = localStorage.getItem('jwtToken')?axios(localStorage.getItem('jwtToken')):axios(anonymousJWTToken);
+  const response = await authenticatedAxiosClient.get(
+    `/streamregistry/list`
+  );
+  console.log("Streams gekregen:");
+  console.log(response);
+
+  //TODO store in Redux state
+}
+
 export const STREAMS_ACTIONS = {
-  fetchStreams: (dispatch, filter = {}) => {
-    const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
+  fetchStreams: async (dispatch, filter = {}) => {
+    dispatch({
+      type: STREAMS_TYPES.FETCHING_STREAMS,
+      value: true
+    });
+
+    const authenticatedAxiosClient = axios(null,true);
+    const response = await authenticatedAxiosClient.get(
+      `/streamregistry/list`
+    );
 
     const parsedResponse = {};
-    _.each(response.items, (item) => {
-      parsedResponse[item._id] = {
+    _.each(response.data.items, (item) => {
+      parsedResponse[item.key] = {
         id:item._id,
+        key:item.key,
         name:item.name,
         type:item.type,
         price:item.price,
@@ -28,20 +52,10 @@ export const STREAMS_ACTIONS = {
       };
     });
 
-    //This is where we will do api call to get new streams
     dispatch({
-      type: STREAMS_TYPES.FETCHING_STREAMS,
-      value: true
+      type: STREAMS_TYPES.FETCH_STREAMS,
+      streams: parsedResponse
     });
-
-    //TODO: replace timeout with api call
-    setTimeout(() => {
-      dispatch({
-        type: STREAMS_TYPES.FETCH_STREAMS,
-        streams: parsedResponse
-      });
-    },500);
-
   },
   fetchStream: (dispatch, streamID) => {
     setTimeout(() => {
@@ -49,6 +63,7 @@ export const STREAMS_ACTIONS = {
         type: STREAMS_TYPES.FETCH_STREAM,
         stream: {
           id:'63452',
+          key: 'h282h2h9jn000',
           name:'De Rector party level',
           type:'temperature',
           geo: {

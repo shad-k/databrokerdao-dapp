@@ -100,6 +100,11 @@ class Filter extends Component {
       border:1px solid rgba(0,0,0,0.2);
       border-radius:8px;
       margin-bottom:20px;
+      -moz-appearance:none;
+      &:-moz-focusring {
+        color: transparent;
+        text-shadow: 0 0 0 #000;
+      }
     `;
 
     return (
@@ -110,37 +115,10 @@ class Filter extends Component {
           <option value="newyorkcity" disabled>New York City</option>
           <option value="singapore" disabled>Singapore</option>
         </StyledSelect>
-        {/*}<Autocomplete
-          id="sensor-type-filter"
-          label="Location"
-          data={["Antwerp","Brussels","Leuven","Hasselt","Kortrijk","Ghent"]}
-          filter={Autocomplete.caseInsensitiveFilter}
-          defaultValue="Leuven, Belgium"
-          disabled
-        />*/}
         <h2>Type</h2>
         <StyledSelect value={this.state.selectedType} onChange={(event) => this.addTypeToFilter(event)}>
           {this.renderTypeListItems()}
         </StyledSelect>
-        {/*}<StyledDropdownMenu
-          id="textfield-dropdown-menu"
-          menuItems={this.renderTypeListItems()}
-          toggleQuery=".md-text-field-container"
-          anchor={{
-            x: DropdownMenu.HorizontalAnchors.CENTER,
-            y: DropdownMenu.VerticalAnchors.OVERLAP,
-          }}
-          position={DropdownMenu.Positions.BELOW}
-          style={{cursor:"pointer"}}
-        >
-          <TextField
-            id="dropdown-menu-textfield"
-            label="Add sensor type"
-            disabled
-            inlineIndicator={<FontIcon>arrow_drop_down</FontIcon>}
-          />
-        </StyledDropdownMenu>*/}
-
         {this.renderTypeChips()}
       </div>
     );

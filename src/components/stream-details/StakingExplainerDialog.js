@@ -19,6 +19,7 @@ export default class StakingExplainerDialog extends Component {
         actions={actions}
         focusOnMount={false}
         dialogStyle={{width:"500px"}}
+        aria-labelledby="About staking"
       >
         <h1>About staking</h1>
         <p>

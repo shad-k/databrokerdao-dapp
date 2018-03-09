@@ -46,6 +46,7 @@ class PurchaseStreamDialog extends Component {
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
         dialogStyle={{width:"500px"}}
+        aria-labelledby="Purchae stream"
       >
         <div style={{display:(this.state.step == STEP_INTRO)?'block':'none'}}>
           <h1>How to purchase access</h1>

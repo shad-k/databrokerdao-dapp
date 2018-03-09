@@ -7,7 +7,7 @@ import Icon from '../generic/Icon';
 
 export default withRouter(class ClosedDiscoverMapMarker extends Component {
   onPurchaseButtonClicked() {
-    this.props.history.push(`/stream-details/${this.props.stream.id}`);
+    this.props.history.push(`/stream-details/${this.props.stream.key}`);
   }
 
   render() {
@@ -26,6 +26,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       width: 100%;
       margin-left: 9px;
       margin-bottom: 3px;
+      cursor: pointer;
     `;
 
     const StyledSensorDetails = styled.div`
@@ -45,7 +46,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
             <StyledContentContainer>
               <Icon icon={this.props.stream.type} style={{color:"white", width:"24px", height:"24px"}}/>
               <div style={{width:"196px"}}>
-                <StyledSensorName>{this.props.stream.name}</StyledSensorName>
+                <StyledSensorName onClick={event => this.onPurchaseButtonClicked()}>{this.props.stream.name}</StyledSensorName>
                 <StyledSensorDetails>Updated every hour</StyledSensorDetails>
               </div>
             </StyledContentContainer>

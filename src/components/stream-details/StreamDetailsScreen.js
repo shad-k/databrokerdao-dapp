@@ -80,6 +80,8 @@ class StreamDetailsScreen extends Component {
         </div>
       );
 
+      const example = JSON.stringify(JSON.parse(stream.example.replace(/'/g, '"')), null, '  ');
+
     return (
       <div>
         <Toolbar showTabs={true} />
@@ -88,7 +90,7 @@ class StreamDetailsScreen extends Component {
           <CardContent noMarginBottom>
             <StyledSensorNameCardContent>
               <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'loading'}</h1>
-              <Button flat secondary swapTheming onClick={event => this.togglePurchaseStream()}>Purchase access</Button>
+              <Button flat secondary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"6px"}}>Purchase access</Button>
             </StyledSensorNameCardContent>
           </CardContent>
           <StyledContentContainer>
@@ -121,7 +123,7 @@ class StreamDetailsScreen extends Component {
           <CardContent>
             <h1>Example reading(s)</h1>
             <div style={{backgroundColor:"rgba(0,0,0,0.1)", borderRadius:"12px", padding:"15px"}}>
-              <code>{stream.example}</code>
+              <pre>{example}</pre>
             </div>
           </CardContent>
         </CenteredCard>
@@ -134,13 +136,13 @@ class StreamDetailsScreen extends Component {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchStream: () => STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.id)
+    fetchStream: () => STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.key)
   }
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    stream: state.streams.streams[ownProps.match.params.id],
+    stream: state.streams.streams[ownProps.match.params.key],
     availableStreamTypes: state.streams.availableStreamTypes
   };
 }
