@@ -14,7 +14,7 @@ export default class PurchasesScreen extends Component {
         <CenteredCard >
           <CardContent>
             <h1>Purchased streams</h1>
-            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+            <p>When you purchase access to a stream, it will be listed here.</p>
           </CardContent>
         </CenteredCard>
       </div>

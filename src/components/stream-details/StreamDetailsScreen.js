@@ -104,6 +104,8 @@ class StreamDetailsScreen extends Component {
                 <FontIcon>update</FontIcon>
                 <StyledAttributeLabel>Frequency: daily</StyledAttributeLabel>
               </StyledSensorAttribute>
+            </StyledContentCell>
+            <StyledContentCell>
               <StyledSensorAttribute>
                 <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                 <StyledAttributeLabel>Price: {stream.price} DTX per reading</StyledAttributeLabel>
@@ -114,9 +116,6 @@ class StreamDetailsScreen extends Component {
                   Owner stake: {stream.stake} DTX (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
                 </StyledAttributeLabel>
               </StyledSensorAttribute>
-            </StyledContentCell>
-            <StyledContentCell style={{backgroundColor:"#5DBCD7"}}>
-
             </StyledContentCell>
           </StyledContentContainer>
         </CenteredCard>
