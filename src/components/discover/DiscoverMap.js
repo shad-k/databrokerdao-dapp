@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
+import {default as MarkerClusterer} from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { connect } from 'react-redux'
 import _ from 'lodash';
 
