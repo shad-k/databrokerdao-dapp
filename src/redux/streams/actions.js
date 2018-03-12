@@ -95,10 +95,6 @@ export const STREAMS_ACTIONS = {
         PM25: {
           id:'PM25',
           name:'PM2.5'
-        },
-        pressure: {
-          id:'pressure',
-          name:'Atmospheric Pressure'
         }
       }
     });

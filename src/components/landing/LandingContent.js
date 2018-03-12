@@ -140,7 +140,7 @@ class LandingContent extends Component {
                     name="PM25"
                     aria-label="PM25"
                     style={{display:"inline"}}
-                    checked={this.state.pm25}
+                    checked={this.state.PM25}
                     onChange={() => this.toggleFilterType('PM25')}
                   />
                 </StyledTypeButton>
@@ -153,7 +153,7 @@ class LandingContent extends Component {
                     name="PM10"
                     aria-label="PM10"
                     style={{display:"inline"}}
-                    checked={this.state.pm10}
+                    checked={this.state.PM10}
                     onChange={() => this.toggleFilterType('PM10')}
                   />
                 </StyledTypeButton>
