@@ -41,13 +41,16 @@ export default class MapMarker extends Component {
       80% {
         background-color:white;
       }
-      84%{
+      81%{
         background-color:#34E855;
       }
       100%{
         background-color:#34E855;
       }
     `;
+
+    const AnimationDelay = Math.floor(Math.random() * 10);
+    console.log(`Delay: ${AnimationDelay}`);
 
     const StyledStatusIndicator = styled.div`
       width:11px;
@@ -57,8 +60,9 @@ export default class MapMarker extends Component {
       right:0px;
       top:0px;
       background-color:#ee274c;
-      animation: ${PulseAnimation} 1.5s infinite;
+      animation: ${PulseAnimation} 10s infinite;
       border: 2px solid #18B81D;
+      animation-delay: ${-AnimationDelay}s
     `;
 
 
