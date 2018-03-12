@@ -175,4 +175,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(LandingContent))
+export default connect(null, mapDispatchToProps)(withRouter(LandingContent));

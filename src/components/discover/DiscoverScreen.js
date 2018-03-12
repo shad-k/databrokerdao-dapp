@@ -65,4 +65,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(DiscoverScreen)
+export default connect(null, mapDispatchToProps)(DiscoverScreen);

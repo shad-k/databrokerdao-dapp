@@ -133,4 +133,4 @@ const mapStateToProps = state => ({
   filter: state.streams.filter
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter)
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
