@@ -27,14 +27,16 @@ class PurchaseStreamDialog extends Component {
         if(!this.props.token)
           this.setState({step:STEP_REGISTRATION});
         else
-          this.setState({step:STEP_CONFIG});
+          this.setState({step:STEP_WELCOME});
     }
     else if(step === STEP_REGISTRATION){
       Mixpanel.track("Finish registration for purchase");
       this.setState({step:STEP_WELCOME});
     }
-    else if(step === STEP_WELCOME)
-      this.setState({step:STEP_CONFIG});
+    else if(step === STEP_WELCOME){
+      this.props.hideEventHandler();
+      //this.setState({step:STEP_CONFIG});
+    }
     else if(step === STEP_CONFIG)
       this.setState({step:STEP_SAVING});
     else if(step === STEP_SAVING)
@@ -77,7 +79,10 @@ class PurchaseStreamDialog extends Component {
         <div style={{display:(this.state.step === STEP_WELCOME)?'block':'none'}}>
           <h1>Welcome to DataBroker DAO</h1>
           <p>
-            To get you started, we have provided you with 1000 demo DTX tokens to purchase access to this stream.
+            To get you started, we will provide you with free demo DTX tokens.
+          </p>
+          <p>
+            Purchasing stream access is not yet unavailable in this public beta. We will let you know when it is!
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
