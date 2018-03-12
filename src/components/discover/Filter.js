@@ -78,6 +78,8 @@ class Filter extends Component {
           label={availableTypes[type].name}
           avatar={<Avatar><Icon icon={type} style={{fill:"white", width:"15px", height:"15px"}} /></Avatar>}
           onClick={() => this.removeTypeFromFilter(type)}
+          children={<Icon icon="remove" style={{fill:"rgba(0,0,0,0.45)", width:"18px", height:"18px"}} />}
+          rotateIcon={false}
           removable
         />
       )

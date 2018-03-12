@@ -50,8 +50,6 @@ export default class MapMarker extends Component {
     `;
 
     const AnimationDelay = Math.floor(Math.random() * 10);
-    console.log(`Delay: ${AnimationDelay}`);
-
     const StyledStatusIndicator = styled.div`
       width:11px;
       height:11px;
