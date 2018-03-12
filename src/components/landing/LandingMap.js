@@ -17,7 +17,6 @@ class LandingMap extends Component {
       return;
 
     return _.map(streams, stream => {
-      console.log(stream);
       return <LandingMapMarker key={stream.id} stream={stream} position={{ lat: stream.geo.lat, lng: stream.geo.lng }}/>;
     });
   }

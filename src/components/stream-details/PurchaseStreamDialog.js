@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, DialogContainer } from 'react-md';
 import { connect } from 'react-redux';
+import Mixpanel from 'mixpanel-browser';
 
 import RegisterForm from '../authentication/RegisterForm';
 import { register } from '../../redux/authentication/reducer';
@@ -28,16 +29,20 @@ class PurchaseStreamDialog extends Component {
         else
           this.setState({step:STEP_CONFIG});
     }
-    else if(step === STEP_REGISTRATION)
+    else if(step === STEP_REGISTRATION){
+      Mixpanel.track("Finish registration for purchase");
       this.setState({step:STEP_WELCOME});
+    }
     else if(step === STEP_WELCOME)
       this.setState({step:STEP_CONFIG});
     else if(step === STEP_CONFIG)
       this.setState({step:STEP_SAVING});
     else if(step === STEP_SAVING)
       this.setState({step:STEP_SUCCESS});
-    else if(step === STEP_SUCCESS)
+    else if(step === STEP_SUCCESS){
+      Mixpanel.track("Finished purchase stream");
       this.props.hideEventHandler();
+    }
   }
 
   render(){
@@ -92,6 +97,9 @@ class PurchaseStreamDialog extends Component {
           <p>
             It takes a while to save to the blockchain. Don''t go away!
           </p>
+          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
+            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
+          </div>
         </div>
         <div style={{display:(this.state.step === STEP_SUCCESS)?'block':'none'}}>
           <h1>Purchase successful</h1>

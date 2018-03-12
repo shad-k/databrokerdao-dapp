@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
+import Mixpanel from 'mixpanel-browser';
 
 import Toolbar from '../generic/Toolbar';
 import Filter from './Filter';
@@ -10,8 +11,7 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class DiscoverScreen extends Component {
   componentDidMount() {
-    //Get streams from API
-    //this.props.fetchStreams();
+    Mixpanel.track("View discover screen");
   }
 
   render() {

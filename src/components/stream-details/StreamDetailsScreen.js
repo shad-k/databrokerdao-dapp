@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, FontIcon } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
+import Mixpanel from 'mixpanel-browser';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
@@ -26,6 +27,7 @@ class StreamDetailsScreen extends Component {
     //In case this stream was not in state yet, load it (in case it was: refresh to get latest version)
     this.props.fetchStream();
     this.props.fetchAvailableStreamTypes();
+    Mixpanel.track("View stream details screen");
   }
 
   toggleStakingExplainer(){
@@ -33,6 +35,8 @@ class StreamDetailsScreen extends Component {
   }
 
   togglePurchaseStream(){
+    if(!this.state.PurchaseStreamVisible)
+      Mixpanel.track("View purchase stream dialog");
     this.setState({PurchaseStreamVisible: !this.state.PurchaseStreamVisible});
   }
 

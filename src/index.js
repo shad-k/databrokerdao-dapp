@@ -14,6 +14,7 @@ import PurchasesScreen from './components/purchases/PurchasesScreen';
 import AddSensorScreen from './components/add-sensor/AddSensorScreen';
 import WalletScreen from './components/wallet/WalletScreen';
 import StreamDetailsScreen from './components/stream-details/StreamDetailsScreen';
+import Mixpanel from 'mixpanel-browser';
 
 import './styles/index.css';
 import WebFontLoader from 'webfontloader';
@@ -28,6 +29,8 @@ WebFontLoader.load({
     families: ['Open Sans:300,400,500,700', 'Titillium Web:300,400,600,700,900', 'Material Icons']
   }
 });
+
+Mixpanel.init("544eb1c36a2ccbf02c7661d8b7525d81");
 
 // ========================================================
 // Store Instantiation
