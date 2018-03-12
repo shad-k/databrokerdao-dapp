@@ -8,7 +8,6 @@ export default class MapMarker extends Component {
       /*background:rgba(0,0,0,0.85);*/
       background-color:#ee274c;
       border-radius:17px;
-      z-index:3;
     `;
 
     const StyledPin = styled.div`
@@ -20,7 +19,6 @@ export default class MapMarker extends Component {
       position: relative;
       left: 50%;
       transform: translate(-50%,0);
-      z-index:3;
     `;
 
     const StyledShadow = styled.div`
@@ -63,12 +61,19 @@ export default class MapMarker extends Component {
       border: 2px solid #18B81D;
     `;
 
+
+    const zIndex = 90000 - this.props.position.lat*1000 + 10;
+    const StyledContainer = styled.div`
+      transform:translate(-50%, -100%);
+      z-index: ${zIndex};
+    `;
+
     return(
       <OverlayView
         position={{ lat: this.props.position.lat, lng: this.props.position.lng }}
         mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
       >
-        <div style={{transform: "translate(-50%, -100%)"}}>
+        <StyledContainer>
           <StyledContent>
             {this.props.children}
           </StyledContent>
@@ -78,7 +83,7 @@ export default class MapMarker extends Component {
           </StyledShadow>
           <StyledStatusIndicator>
           </StyledStatusIndicator>
-        </div>
+        </StyledContainer>
       </OverlayView>
     );
   }

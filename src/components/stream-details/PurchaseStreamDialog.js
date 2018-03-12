@@ -27,24 +27,27 @@ class PurchaseStreamDialog extends Component {
         if(!this.props.token)
           this.setState({step:STEP_REGISTRATION});
         else
-          this.setState({step:STEP_WELCOME});
+          this.setState({step:STEP_CONFIG});
     }
     else if(step === STEP_REGISTRATION){
       Mixpanel.track("Finish registration for purchase");
       this.setState({step:STEP_WELCOME});
     }
     else if(step === STEP_WELCOME){
+      this.setState({step:STEP_CONFIG});
+    }
+    else if(step === STEP_CONFIG){
       this.props.hideEventHandler();
       //this.setState({step:STEP_CONFIG});
     }
-    else if(step === STEP_CONFIG)
-      this.setState({step:STEP_SAVING});
-    else if(step === STEP_SAVING)
-      this.setState({step:STEP_SUCCESS});
-    else if(step === STEP_SUCCESS){
-      Mixpanel.track("Finished purchase stream");
-      this.props.hideEventHandler();
-    }
+    // else if(step === STEP_CONFIG)
+    //   this.setState({step:STEP_SAVING});
+    // else if(step === STEP_SAVING)
+    //   this.setState({step:STEP_SUCCESS});
+    // else if(step === STEP_SUCCESS){
+    //   Mixpanel.track("Finished purchase stream");
+    //   this.props.hideEventHandler();
+    // }
   }
 
   render(){
