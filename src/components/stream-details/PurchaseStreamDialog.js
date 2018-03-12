@@ -56,12 +56,12 @@ class PurchaseStreamDialog extends Component {
         aria-labelledby="Purchae stream"
       >
         <div style={{display:(this.state.step === STEP_INTRO)?'block':'none'}}>
-          <h1>Purchase access</h1>
+          <h1>Purchase access to {this.props.stream.name}</h1>
           <p>
-            This is how it works: you pay DTX tokens and then we give you the stream data. Deal?
+            Purchases are made using DTX tokens. As DataBroker DAO is currently in beta, we will provide you with free demo tokens.
           </p>
           <p>
-            Maybe a cool visual or something could be cool too.
+            After your purchase, the readings of this stream will be delivered to an endpoint of your choice, such as a Google Sheet.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
@@ -77,17 +77,21 @@ class PurchaseStreamDialog extends Component {
         <div style={{display:(this.state.step === STEP_WELCOME)?'block':'none'}}>
           <h1>Welcome to DataBroker DAO</h1>
           <p>
-            To get you started, we have provided you with 100 free DTX tokens.
+            To get you started, we have provided you with 1000 demo DTX tokens to purchase access to this stream.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step === STEP_CONFIG)?'block':'none'}}>
-          <h1>Stream access configuration</h1>
+          <h1>Purchase details</h1>
           <p>
-            In this step, you will soon be able to choose for how long you want to purchase stream data and where the stream data will be delivered.
+            In an upcoming update of DataBroker DAO, you will be able to:
           </p>
+          <ul>
+            <li>Choose the timeframe of your access to this stream</li>
+            <li>Set up a delivery endpoint, such as a Google Spreadsheet</li>
+          </ul>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
           </div>
@@ -95,7 +99,7 @@ class PurchaseStreamDialog extends Component {
         <div style={{display:(this.state.step === STEP_SAVING)?'block':'none'}}>
           <h1>Saving to the blockchain</h1>
           <p>
-            It takes a while to save to the blockchain. Don''t go away!
+            It takes a while to save your purchase to the blockchain as your transactions needs to be confirmed by different nodes mining.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
@@ -104,7 +108,7 @@ class PurchaseStreamDialog extends Component {
         <div style={{display:(this.state.step === STEP_SUCCESS)?'block':'none'}}>
           <h1>Purchase successful</h1>
           <p>
-            Congratulations! The readings of this sensor will be delivered to your Google Spreadsheet.
+            Congratulations! You will soon be able to receive readings of this stream.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>

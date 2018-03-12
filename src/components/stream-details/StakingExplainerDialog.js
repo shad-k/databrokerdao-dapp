@@ -16,7 +16,7 @@ export default class StakingExplainerDialog extends Component {
         onHide={this.props.hideEventHandler}
         actions={actions}
         focusOnMount={false}
-        dialogStyle={{width:"500px",position:"relative",top:"33%"}}
+        dialogStyle={{width:"500px",position:"relative",top:"40%"}}
         aria-labelledby="About staking"
       >
         <h1>About staking</h1>
