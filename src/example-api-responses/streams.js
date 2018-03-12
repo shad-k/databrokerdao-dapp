@@ -76,7 +76,7 @@ const exampleResponse = `{
              "lat":50.883464,
              "lng":4.716273
           },
-          "type":"pm25",
+          "type":"PM25",
           "example":"\{'value':900,'unit':'ton'\}",
           "updateinterval":60000,
          "stake":"10",

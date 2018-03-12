@@ -1,6 +1,4 @@
-//Import axios
 import _ from 'lodash';
-
 import axios from '../../utils/axios';
 
 //TODO remove when API call works
@@ -31,7 +29,7 @@ export const STREAMS_ACTIONS = {
 
     const authenticatedAxiosClient = axios(null,true);
     const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list?${filterUrlQuery}`
+      `/streamregistry/list?limit=500&${filterUrlQuery}`
     );
 
     const parsedResponse = {};
@@ -92,9 +90,9 @@ export const STREAMS_ACTIONS = {
           id:'PM10',
           name:'PM10'
         },
-        PM25: {
+        'PM25': {
           id:'PM25',
-          name:'PM2.5'
+          name:'PM25'
         }
       }
     });

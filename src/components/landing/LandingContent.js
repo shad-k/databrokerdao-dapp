@@ -52,7 +52,7 @@ class LandingContent extends Component {
           break;
       }
       case 'PM25':{
-          updatedState.PM25 = !this.state.PM25;
+          updatedState['PM25'] = !this.state['PM25'];
           break;
       }
       case 'PM10':{
