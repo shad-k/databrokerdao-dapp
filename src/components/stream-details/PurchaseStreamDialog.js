@@ -66,7 +66,7 @@ class PurchaseStreamDialog extends Component {
             Purchases are made using DTX tokens. As DataBroker DAO is currently in beta, we will provide you with free demo tokens.
           </p>
           <p>
-            After your purchase, the readings of this stream will be delivered to an endpoint of your choice, such as a Google Sheet.
+            After your purchase, the readings of this stream will be delivered to your email address.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
@@ -98,7 +98,7 @@ class PurchaseStreamDialog extends Component {
           </p>
           <ul>
             <li>Choose the timeframe of your access to this stream</li>
-            <li>Set up a delivery endpoint, such as a Google Spreadsheet</li>
+            <li>Set up a delivery endpoint</li>
           </ul>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>

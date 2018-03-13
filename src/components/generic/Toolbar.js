@@ -74,7 +74,9 @@ class Toolbar extends Component {
       <div>
         <StyledToolbar >
           <StyledLogoContainer>
-            <StyledLogo src={Logo} alt="SettleMint"/>
+            <Link to="/discover">
+              <StyledLogo src={Logo} alt="SettleMint"/>
+            </Link>
           </StyledLogoContainer>
           {this.props.showTabs &&
             <Tabs />

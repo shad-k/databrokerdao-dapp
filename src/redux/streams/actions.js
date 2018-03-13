@@ -29,7 +29,7 @@ export const STREAMS_ACTIONS = {
 
     const authenticatedAxiosClient = axios(null,true);
     const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list?limit=500&${filterUrlQuery}`
+      `/streamregistry/list?limit=8000&${filterUrlQuery}`
     );
 
     const parsedResponse = {};
