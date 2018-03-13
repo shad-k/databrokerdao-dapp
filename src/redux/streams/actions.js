@@ -46,7 +46,9 @@ export const STREAMS_ACTIONS = {
           example:item.example,
           geo:item.geo
         };
-        console.log("Removed German sensors!");
+      }
+      else{
+        console.log("Ignoring this German sensor");
       }
     });
 
