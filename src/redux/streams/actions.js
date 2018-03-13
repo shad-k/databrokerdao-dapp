@@ -47,9 +47,6 @@ export const STREAMS_ACTIONS = {
           geo:item.geo
         };
       }
-      else{
-        console.log("Ignoring this German sensor");
-      }
     });
 
     dispatch({
