@@ -34,16 +34,19 @@ export const STREAMS_ACTIONS = {
 
     const parsedResponse = {};
     _.each(response.data.items, (item) => {
-      parsedResponse[item.key] = {
-        id:item._id,
-        key:item.key,
-        name:item.name,
-        type:item.type,
-        price:item.price,
-        stake:item.stake,
-        example:item.example,
-        geo:item.geo
-      };
+      //Only if not in Germany (TODO: remove)
+      if(item.geo.lng <= 5.8){
+        parsedResponse[item.key] = {
+          id:item._id,
+          key:item.key,
+          name:item.name,
+          type:item.type,
+          price:item.price,
+          stake:item.stake,
+          example:item.example,
+          geo:item.geo
+        };
+      }
     });
 
     dispatch({
