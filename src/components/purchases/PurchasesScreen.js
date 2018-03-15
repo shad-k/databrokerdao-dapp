@@ -4,6 +4,7 @@ import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
 import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
+import PurchasesTable from './PurchasesTable';
 
 export default class PurchasesScreen extends Component {
   render() {
@@ -14,7 +15,7 @@ export default class PurchasesScreen extends Component {
         <CenteredCard >
           <CardContent>
             <h1>Purchased streams</h1>
-            <p>When you purchase access to a stream, it will be listed here.</p>
+            <PurchasesTable />
           </CardContent>
         </CenteredCard>
       </div>

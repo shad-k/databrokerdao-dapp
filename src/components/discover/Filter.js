@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Chip, Avatar } from 'react-md';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import Immutable from 'seamless-immutable';
 
