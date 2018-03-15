@@ -27,7 +27,7 @@ export const STREAMS_ACTIONS = {
 
     const authenticatedAxiosClient = axios(null,true);
     const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list?limit=50&${filterUrlQuery}`
+      `/streamregistry/list?limit=5000&${filterUrlQuery}`
     );
 
     //50.860,4.647
@@ -45,7 +45,7 @@ export const STREAMS_ACTIONS = {
           price:item.price,
           stake:item.stake,
           example:item.example,
-          geo:item.geo
+          geometry:item.geo
         };
     });
 
@@ -69,7 +69,7 @@ export const STREAMS_ACTIONS = {
       price:responseStream.price,
       stake:responseStream.stake,
       example:responseStream.example,
-      geo:responseStream.geo
+      geometry:responseStream.geo
     };
 
     dispatch({

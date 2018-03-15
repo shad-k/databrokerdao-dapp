@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import { connect } from 'react-redux'
 import _ from 'lodash';
+import supercluster from 'supercluster';
 
 import DiscoverMapMarker from './DiscoverMapMarker';
+import Cluster from './Cluster';
 
 class DiscoverMap extends Component {
   constructor(props){
     super(props);
 
-    this.state = {openedMapMarker:null};
+    this.state = {
+      clusteredMarkers:null,
+      openedMapMarker:null,
+      mapRef:null
+    };
   }
 
   openMapMarker(streamKey){
@@ -19,22 +25,54 @@ class DiscoverMap extends Component {
       this.setState({openedMapMarker:streamKey});
   }
 
-  renderMapMarkers(streams){
-    if(this.props.fetchingStreams)
+  onMapMounted(ref){
+    if(!this.state.mapRef && ref){
+      this.setState({mapRef:ref});
+    }
+  }
+
+  zoomChanged(param){
+    this.forceUpdate();
+  }
+
+  clusterMarkers(streams){
+    if(this.props.fetchingStreams || !this.state.mapRef)
       return;
 
-    return _.map(streams, stream => {
-      return <DiscoverMapMarker
-          key={stream.id}
-          stream={stream}
-          position={{ lng: stream.geo.coordinates[0], lat: stream.geo.coordinates[1] }}
-          openedMapMarker={this.state.openedMapMarker}
-          onClick={(streamKey) => this.openMapMarker(streamKey)}
-        />;
+    const clusterIndex = supercluster({
+        radius: 90, //Cluster radius in pixels
+        maxZoom: 16 //Maximum zoom level at which clusters are generated
     });
+    clusterIndex.load(_.values(streams));
+    const clusters = clusterIndex.getClusters([-180, -85, 180, 85], this.state.mapRef.getZoom()); //[westLng, southLat, eastLng, northLat], zoom
+
+    const clusteredMarkers = _.map(clusters, cluster => {
+      console.log(cluster);
+
+      if(cluster.properties && cluster.properties.cluster === true){
+        return <Cluster
+                  key={cluster.properties.cluster_id}
+                  position={{ lng: cluster.geometry.coordinates[0], lat: cluster.geometry.coordinates[1] }}
+                  label={cluster.properties.point_count}
+                />
+      }
+      else{
+        return <DiscoverMapMarker
+            key={cluster.key}
+            stream={cluster}
+            position={{ lng: cluster.geometry.coordinates[0], lat: cluster.geometry.coordinates[1] }}
+            openedMapMarker={this.state.openedMapMarker}
+            onClick={(streamKey) => this.openMapMarker(streamKey)}
+          />;
+      }
+    });
+
+    return clusteredMarkers;
   }
 
   render() {
+    const clusteredMarkers = this.clusterMarkers(this.props.streams);
+
     const MapOptions = {
       clickableIcons: false,
       minZoom: 6,
@@ -46,8 +84,10 @@ class DiscoverMap extends Component {
        defaultZoom={15}
        defaultCenter={{ lat: 50.879844, lng: 4.700518 }}
        options={MapOptions}
+       onZoomChanged={(param) => this.zoomChanged(param)}
+       ref={(ref) => this.onMapMounted(ref)}
       >
-        {this.renderMapMarkers(this.props.streams)}
+        {clusteredMarkers}
       </GoogleMap>
     );
   }
