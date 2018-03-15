@@ -6,12 +6,31 @@ import _ from 'lodash';
 import DiscoverMapMarker from './DiscoverMapMarker';
 
 class DiscoverMap extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {openedMapMarker:null};
+  }
+
+  openMapMarker(streamKey){
+    if(streamKey === this.state.openedMapMarker)
+      this.setState({openedMapMarker:null});
+    else
+      this.setState({openedMapMarker:streamKey});
+  }
+
   renderMapMarkers(streams){
     if(this.props.fetchingStreams)
       return;
 
     return _.map(streams, stream => {
-      return <DiscoverMapMarker key={stream.id} stream={stream} position={{ lng: stream.geo.coordinates[0], lat: stream.geo.coordinates[1] }}/>;
+      return <DiscoverMapMarker
+          key={stream.id}
+          stream={stream}
+          position={{ lng: stream.geo.coordinates[0], lat: stream.geo.coordinates[1] }}
+          openedMapMarker={this.state.openedMapMarker}
+          onClick={(streamKey) => this.openMapMarker(streamKey)}
+        />;
     });
   }
 
