@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
-import {default as MarkerClusterer} from 'react-google-maps/lib/components/addons/MarkerClusterer';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import { connect } from 'react-redux'
 import _ from 'lodash';
 
@@ -12,7 +11,7 @@ class DiscoverMap extends Component {
       return;
 
     return _.map(streams, stream => {
-      return <DiscoverMapMarker key={stream.id} stream={stream} position={{ lat: stream.geo.lat, lng: stream.geo.lng }}/>;
+      return <DiscoverMapMarker key={stream.id} stream={stream} position={{ lng: stream.geo.coordinates[0], lat: stream.geo.coordinates[1] }}/>;
     });
   }
 

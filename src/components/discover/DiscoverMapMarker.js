@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Marker } from "react-google-maps"
 
 import MapMarker from '../generic/MapMarker';
 import ClosedDiscoverMapMarker from './ClosedDiscoverMapMarker';
@@ -16,6 +17,8 @@ export default class DiscoverMapMarker extends Component {
   }
 
   render() {
+    console.log(this.props.position);
+
     return (
       <MapMarker position={this.props.position}>
           <div style={{cursor:"pointer"}} onClick={event => this.toggleExpanded()}>

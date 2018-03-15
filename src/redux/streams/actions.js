@@ -25,17 +25,18 @@ export const STREAMS_ACTIONS = {
     else
       filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
 
-    console.log(filterUrlQuery);
-
     const authenticatedAxiosClient = axios(null,true);
     const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list?limit=8000&${filterUrlQuery}`
+      `/streamregistry/list?limit=50&${filterUrlQuery}`
     );
+
+    //50.860,4.647
+    // const response = await authenticatedAxiosClient.get(
+    //   `/streamregistry/list?near=50.87,4.70,100`
+    // );
 
     const parsedResponse = {};
     _.each(response.data.items, (item) => {
-      //Only if not in Germany (TODO: remove)
-      if(item.geo.lng <= 5.8){
         parsedResponse[item.key] = {
           id:item._id,
           key:item.key,
@@ -46,7 +47,6 @@ export const STREAMS_ACTIONS = {
           example:item.example,
           geo:item.geo
         };
-      }
     });
 
     dispatch({
