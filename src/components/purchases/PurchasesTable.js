@@ -26,8 +26,8 @@ class PurchasesTable extends Component {
       padding-left:0 !important;
     `;
 
-    console.log("Purchases:");
-    console.log(this.props.purchases);
+    // console.log("Purchases:");
+    // console.log(this.props.purchases);
 
     if(this.props.purchases.length === 0)
       return(
@@ -35,7 +35,7 @@ class PurchasesTable extends Component {
       );
     else
       return(
-        <DataTable plain>
+        <DataTable baseId="purchases-table" plain>
           <TableHeader>
             <TableRow>
               <LeftTableColumn grow>Name</LeftTableColumn>
@@ -52,7 +52,7 @@ class PurchasesTable extends Component {
               </TableRow>
             ))}
           </TableBody>
-          <TablePagination rows={this.props.purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination} />
+          <TablePagination rows={this.props.purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination}/>
         </DataTable>
       );
   }

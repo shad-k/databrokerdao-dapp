@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export default class Cluster extends Component {
   render() {
-    const zIndex = 90000 - this.props.position.lat*1000 + 10;
+    const zIndex = Math.floor(90000 - this.props.position.lat*1000 + 10);
     const StyledContainer = styled.div`
       transform:translate(-50%, -100%);
       z-index: ${zIndex};

@@ -39,15 +39,17 @@ class DiscoverMap extends Component {
     if(this.props.fetchingStreams || !this.state.mapRef)
       return;
 
+    console.log("Let's cluster markers");
+
     const clusterIndex = supercluster({
-        radius: 90, //Cluster radius in pixels
+        radius: 110, //Cluster radius in pixels
         maxZoom: 16 //Maximum zoom level at which clusters are generated
     });
     clusterIndex.load(_.values(streams));
     const clusters = clusterIndex.getClusters([-180, -85, 180, 85], this.state.mapRef.getZoom()); //[westLng, southLat, eastLng, northLat], zoom
 
     const clusteredMarkers = _.map(clusters, cluster => {
-      console.log(cluster);
+      //console.log(cluster);
 
       if(cluster.properties && cluster.properties.cluster === true){
         return <Cluster

@@ -26,9 +26,11 @@ export const STREAMS_ACTIONS = {
       filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
 
     const authenticatedAxiosClient = axios(null,true);
-    const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list?limit=5000&${filterUrlQuery}`
-    );
+    // const response = await authenticatedAxiosClient.get(
+    //   `/streamregistry/list?limit=5000&${filterUrlQuery}`
+    // );
+
+    const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
 
     //50.860,4.647
     // const response = await authenticatedAxiosClient.get(
@@ -36,7 +38,7 @@ export const STREAMS_ACTIONS = {
     // );
 
     const parsedResponse = {};
-    _.each(response.data.items, (item) => {
+    _.each(response.items, (item) => {
         parsedResponse[item.key] = {
           id:item._id,
           key:item.key,
@@ -45,7 +47,10 @@ export const STREAMS_ACTIONS = {
           price:item.price,
           stake:item.stake,
           example:item.example,
-          geometry:item.geo
+          geometry:{
+            "type": "Point",
+            "coordinates": [item.geo.lng, item.geo.lat]
+          }
         };
     });
 

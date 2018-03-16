@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Button, DialogContainer, DatePicker } from 'react-md';
+import { Button, DialogContainer, DatePicker, Checkbox } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
+import moment from 'moment';
 
 import RegisterForm from '../authentication/RegisterForm';
 import { register } from '../../redux/authentication/reducer';
@@ -17,8 +18,12 @@ class PurchaseStreamDialog extends Component {
   constructor(props){
     super(props);
 
+    const defaultPurchaseEndTime = moment().add(7,'d').format('MM/DD/YYYY');
+
     this.state = {
-      step: STEP_INTRO
+      step: STEP_INTRO,
+      purchaseEndTime: defaultPurchaseEndTime,//Today + 7 days
+      receiveEmail: true
     };
   }
 
@@ -50,6 +55,14 @@ class PurchaseStreamDialog extends Component {
       Mixpanel.track("Finished purchase stream");
       this.props.hideEventHandler();
     }
+  }
+
+  handleReceiveEmailChange(value){
+    this.setState({receiveEmail:value});
+  }
+
+  handlePurchaseEndTimeChange(value){
+    this.setState({purchaseEndTime:value});
   }
 
   render(){
@@ -94,21 +107,26 @@ class PurchaseStreamDialog extends Component {
           </div>
         </div>
         <div style={{display:(this.state.step === STEP_CONFIG)?'block':'none'}}>
-          <h1>Purchase details</h1>
-          <p>
-            In an upcoming update of DataBroker DAO, you will be able to:
-          </p>
-          <ul>
-            <li>Choose the timeframe of your access to this stream</li>
-            <li>Set up a delivery endpoint</li>
-          </ul>
+          <h1>Stream readings delivery</h1>
+          <Checkbox
+            id="purchase-reading-emails"
+            name="receive-email-checkbox[]"
+            label="Receive stream readings via email"
+            value="receive-email"
+            checked={this.state.receiveEmail}
+            style={{position:"relative",left:"-10px"}}
+            onChange={(value) => this.handleReceiveEmailChange(value)}
+          />
           <DatePicker
-            label="Receive stream data until"
+            id="purchase-end-time"
+            label="Receive readings until"
             portal
             lastChild
             renderNode={null}
             disableScrollLocking
-            value="12/10/2018"
+            value={this.state.purchaseEndTime}
+            style={{marginBottom:"20px"}}
+            onChange={(value) => this.handlePurchaseEndTimeChange(value)}
           />
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat primary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
@@ -119,14 +137,11 @@ class PurchaseStreamDialog extends Component {
           <p>
             It takes a while to save your purchase to the blockchain as your transactions needs to be confirmed by different nodes mining.
           </p>
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
-          </div>
         </div>
         <div style={{display:(this.state.step === STEP_SUCCESS)?'block':'none'}}>
           <h1>Purchase successful</h1>
           <p>
-            Congratulations! You will soon be able to receive readings of this stream.
+            Congratulations! You will start to receive readings of this stream.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
