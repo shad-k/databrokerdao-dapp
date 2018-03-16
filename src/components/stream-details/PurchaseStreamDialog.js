@@ -45,7 +45,7 @@ class PurchaseStreamDialog extends Component {
     }
     else if(step === STEP_CONFIG){
       if(purchasingEnabled)
-        this.setState({step:STEP_SAVING});
+        this.setState({step:STEP_SUCCESS}); //TODO should be saving step
       else
         this.props.hideEventHandler();
     }
@@ -140,9 +140,16 @@ class PurchaseStreamDialog extends Component {
         </div>
         <div style={{display:(this.state.step === STEP_SUCCESS)?'block':'none'}}>
           <h1>Purchase successful</h1>
-          <p>
-            Congratulations! You will start to receive readings of this stream.
-          </p>
+          {this.state.receiveEmail &&
+            <p>
+              Congratulations! You will start to receive readings of this stream in your inbox.
+            </p>
+          }
+          {!this.state.receiveEmail &&
+            <p>
+              Congratulations! You successfully purchased access to this stream.
+            </p>
+          }
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
           </div>
