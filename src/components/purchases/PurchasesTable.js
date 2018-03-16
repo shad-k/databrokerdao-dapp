@@ -8,8 +8,15 @@ import {
   TablePagination,
 } from 'react-md';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
-export default class PurchasesTable extends Component {
+import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
+
+class PurchasesTable extends Component {
+  componentDidMount(){
+    this.props.fetchPurchases();
+  }
+
   handlePagination(start, rowsPerPage) {
       console.log("Handle pagination");
   }
@@ -19,9 +26,10 @@ export default class PurchasesTable extends Component {
       padding-left:0 !important;
     `;
 
-    const purchases = [{name:'test'}];//TODO test data weghalen
+    console.log("Purchases:");
+    console.log(this.props.purchases);
 
-    if(purchases.length === 0)
+    if(this.props.purchases.length === 0)
       return(
         <p>When you purchase access to a stream, it will be listed here.</p>
       );
@@ -36,14 +44,29 @@ export default class PurchasesTable extends Component {
             </TableRow>
           </TableHeader>
           <TableBody>
-              <TableRow>
-                <LeftTableColumn>Bar Vista Temp 2882</LeftTableColumn>
-                <TableColumn>Temperature</TableColumn>
+            {this.props.purchases.map((purchase) => (
+              <TableRow key={purchase.key}>
+                <LeftTableColumn>{purchase.name}</LeftTableColumn>
+                <TableColumn>{purchase.type}</TableColumn>
                 <TableColumn>Daily</TableColumn>
               </TableRow>
+            ))}
           </TableBody>
-          <TablePagination rows={purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination} />
+          <TablePagination rows={this.props.purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination} />
         </DataTable>
       );
   }
 }
+
+const mapStateToProps = state => ({
+  purchases:state.purchases.purchases,
+  fetchingPurchases:state.purchases.fetchingPurchases
+})
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchPurchases: () => PURCHASES_ACTIONS.fetchPurchases(dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PurchasesTable);

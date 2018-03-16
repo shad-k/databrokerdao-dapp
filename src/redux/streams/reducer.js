@@ -31,7 +31,7 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     case STREAMS_TYPES.UPDATED_FILTER:{
       return Immutable.merge(state, {filter: action.filter});
     }
+    default:
+      return state;
   }
-
-  return state;
 }
