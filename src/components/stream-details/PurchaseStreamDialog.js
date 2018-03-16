@@ -23,7 +23,8 @@ class PurchaseStreamDialog extends Component {
     this.state = {
       step: STEP_INTRO,
       purchaseEndTime: defaultPurchaseEndTime,//Today + 7 days
-      receiveEmail: true
+      receiveEmail: true,
+      modal: false
     };
   }
 
@@ -44,8 +45,9 @@ class PurchaseStreamDialog extends Component {
       this.setState({step:STEP_CONFIG});
     }
     else if(step === STEP_CONFIG){
-      if(purchasingEnabled)
-        this.setState({step:STEP_SUCCESS}); //TODO should be saving step
+      if(purchasingEnabled){
+        this.setState({step:STEP_SAVING,modal:true});//TODO should be saving step
+      }
       else
         this.props.hideEventHandler();
     }
@@ -74,6 +76,7 @@ class PurchaseStreamDialog extends Component {
         focusOnMount={false}
         dialogStyle={{width:"500px",position:"relative",top:"33%"}}
         aria-labelledby="Purchae stream"
+        modal={this.state.modal}
       >
         <div style={{display:(this.state.step === STEP_INTRO)?'block':'none'}}>
           <h1>Purchase access to {this.props.stream.name}</h1>

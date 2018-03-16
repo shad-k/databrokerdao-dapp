@@ -5,6 +5,7 @@ import { PURCHASES_TYPES } from './actions.js';
 export const DEFAULT_STATE = {
   purchases: [],
   fetchingPurchases: false,
+  purchasingAccess: false
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
