@@ -1,4 +1,4 @@
-const exampleResponse = `{
+const exampleResponse = `{"data":{
   "base":{
       "_id":"5a98260e8c41497f871cb19c",
       "originContractName":"StreamRegistry",
@@ -22,10 +22,10 @@ const exampleResponse = `{
          "challenges":"0",
          "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
          "name":"Temperature outside Bar Berlin",
-         "geo":{
-            "lat":50.880722,
-            "lng":4.692725
-         },
+         "geo":[
+            50.880722,
+            4.692725
+         ],
          "type":"temperature",
          "example":"\{'value':11,'unit':'celsius'\}",
          "updateinterval":60000,
@@ -47,10 +47,10 @@ const exampleResponse = `{
          "challenges":"0",
           "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
         "name":"Humidity in Bar Vista",
-        "geo":{
-           "lat":50.869721,
-           "lng":4.699932
-        },
+        "geo":[
+           50.869721,
+           4.699932
+        ],
         "type":"humidity",
         "example":"\{'value':80,'unit':'percent'\}",
         "updateinterval":60000,
@@ -72,10 +72,10 @@ const exampleResponse = `{
          "challenges":"0",
          "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
           "name":"PM 2.5 fine dust Leuven Station NMBS",
-          "geo":{
-             "lat":50.883464,
-             "lng":4.716273
-          },
+          "geo":[
+             50.883464,
+             4.716273
+          ],
           "type":"PM25",
           "example":"\{'value':900,'unit':'ton'\}",
           "updateinterval":60000,
@@ -97,10 +97,10 @@ const exampleResponse = `{
          "challenges":"0",
          "metadata":"QmbtwxUSc4TMbZLWkLfPHw6QT5ZTgD9JztiGTSdk9Zkry1",
           "name":"PM10 fine dust Sint-Donatuspark",
-          "geo":{
-             "lat":50.876874,
-             "lng":4.705446
-          },
+          "geo":[
+             50.876874,
+             4.705446
+          ],
           "type":"pm10",
           "example":"\{'value':134,'unit':'ton'\}",
           "updateinterval":60000,
@@ -114,6 +114,6 @@ const exampleResponse = `{
          "subContractName":"Stream"
       }
    ]
-}`;
+}}`;
 
 export default exampleResponse;

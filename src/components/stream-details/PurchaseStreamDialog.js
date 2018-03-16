@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, DialogContainer } from 'react-md';
+import { Button, DialogContainer, DatePicker } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
 
@@ -23,6 +23,8 @@ class PurchaseStreamDialog extends Component {
   }
 
   finishStep(step){
+    const purchasingEnabled = true; //Temp var for development
+
     if(step === STEP_INTRO){
         if(!this.props.token)
           this.setState({step:STEP_REGISTRATION});
@@ -37,17 +39,17 @@ class PurchaseStreamDialog extends Component {
       this.setState({step:STEP_CONFIG});
     }
     else if(step === STEP_CONFIG){
-      this.props.hideEventHandler();
-      //this.setState({step:STEP_CONFIG});
+      if(purchasingEnabled)
+        this.setState({step:STEP_SAVING});
+      else
+        this.props.hideEventHandler();
     }
-    // else if(step === STEP_CONFIG)
-    //   this.setState({step:STEP_SAVING});
-    // else if(step === STEP_SAVING)
-    //   this.setState({step:STEP_SUCCESS});
-    // else if(step === STEP_SUCCESS){
-    //   Mixpanel.track("Finished purchase stream");
-    //   this.props.hideEventHandler();
-    // }
+    else if(step === STEP_SAVING)
+      this.setState({step:STEP_SUCCESS});
+    else if(step === STEP_SUCCESS){
+      Mixpanel.track("Finished purchase stream");
+      this.props.hideEventHandler();
+    }
   }
 
   render(){
@@ -69,7 +71,7 @@ class PurchaseStreamDialog extends Component {
             After your purchase, the readings of this stream will be delivered to your email address.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
+            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step === STEP_REGISTRATION)?'block':'none'}}>
@@ -88,7 +90,7 @@ class PurchaseStreamDialog extends Component {
             Purchasing stream access is not yet unavailable in this public beta. We will let you know when it is!
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
+            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step === STEP_CONFIG)?'block':'none'}}>
@@ -100,8 +102,16 @@ class PurchaseStreamDialog extends Component {
             <li>Choose the timeframe of your access to this stream</li>
             <li>Set up a delivery endpoint</li>
           </ul>
+          <DatePicker
+            label="Receive stream data until"
+            portal
+            lastChild
+            renderNode={null}
+            disableScrollLocking
+            value="12/10/2018"
+          />
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
+            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step === STEP_SAVING)?'block':'none'}}>
@@ -110,7 +120,7 @@ class PurchaseStreamDialog extends Component {
             It takes a while to save your purchase to the blockchain as your transactions needs to be confirmed by different nodes mining.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
+            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SAVING)}>Continue</Button>
           </div>
         </div>
         <div style={{display:(this.state.step === STEP_SUCCESS)?'block':'none'}}>
@@ -119,7 +129,7 @@ class PurchaseStreamDialog extends Component {
             Congratulations! You will soon be able to receive readings of this stream.
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat secondary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
+            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
           </div>
         </div>
       </DialogContainer>

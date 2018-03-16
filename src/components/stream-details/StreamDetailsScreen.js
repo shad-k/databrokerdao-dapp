@@ -95,7 +95,7 @@ class StreamDetailsScreen extends Component {
           <CardContent noMarginBottom>
             <StyledSensorNameCardContent>
               <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'loading'}</h1>
-              <Button flat secondary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"6px"}}>Purchase access</Button>
+              <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"6px"}}>Purchase access</Button>
             </StyledSensorNameCardContent>
           </CardContent>
           <StyledContentContainer>

@@ -5,10 +5,14 @@ import {
   TableBody,
   TableRow,
   TableColumn,
+  TablePagination,
 } from 'react-md';
 import styled from 'styled-components';
 
 export default class PurchasesTable extends Component {
+  handlePagination(start, rowsPerPage) {
+      console.log("Handle pagination");
+  }
 
   render(){
     const LeftTableColumn = styled(TableColumn)`
@@ -38,6 +42,7 @@ export default class PurchasesTable extends Component {
                 <TableColumn>Daily</TableColumn>
               </TableRow>
           </TableBody>
+          <TablePagination rows={purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination} />
         </DataTable>
       );
   }
