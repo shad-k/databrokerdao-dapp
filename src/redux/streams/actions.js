@@ -31,8 +31,6 @@ export const STREAMS_ACTIONS = {
       `/streamregistry/list?limit=5000&${filterUrlQuery}`
     );
 
-    console.log(response);
-
     //const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
 
     //50.860,4.647

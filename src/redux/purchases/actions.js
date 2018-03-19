@@ -23,9 +23,9 @@ export const PURCHASES_ACTIONS = {
           type:"Temperture"
         },
         {
-          key:"lololbrol9090",
-          name:"Het Archief geluidsensor",
-          type:"Temperture"
+          key:"0xdf01178749c1a28b8411fb8040e9bd5a7afb1966",
+          name:"Luftdaten PM2.5 9631",
+          type:"PM25"
         }
       ];
 

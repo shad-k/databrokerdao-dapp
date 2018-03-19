@@ -9,6 +9,7 @@ import {
 } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 
@@ -21,9 +22,17 @@ class PurchasesTable extends Component {
       console.log("Handle pagination");
   }
 
+  onViewPurchaseDetails(key) {
+    this.props.history.push(`/stream-details/${key}`);
+  }
+
   render(){
     const LeftTableColumn = styled(TableColumn)`
       padding-left:0 !important;
+    `;
+
+    const StyledTableRow = styled(TableRow)`
+      cursor: pointer;
     `;
 
     // console.log("Purchases:");
@@ -45,11 +54,11 @@ class PurchasesTable extends Component {
           </TableHeader>
           <TableBody>
             {this.props.purchases.map((purchase) => (
-              <TableRow key={purchase.key}>
+              <StyledTableRow key={purchase.key} onClick={() => this.onViewPurchaseDetails(purchase.key)}>
                 <LeftTableColumn>{purchase.name}</LeftTableColumn>
                 <TableColumn>{purchase.type}</TableColumn>
                 <TableColumn>Daily</TableColumn>
-              </TableRow>
+              </StyledTableRow>
             ))}
           </TableBody>
           <TablePagination rows={this.props.purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination}/>
@@ -69,4 +78,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PurchasesTable);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PurchasesTable));
