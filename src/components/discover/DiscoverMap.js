@@ -6,6 +6,25 @@ import supercluster from 'supercluster';
 
 import DiscoverMapMarker from './DiscoverMapMarker';
 import Cluster from './Cluster';
+import { STREAMS_ACTIONS } from '../../redux/streams/actions';
+
+const zoomToDistance = {
+  1:"300000",
+  2:"300000",
+  3:"300000",
+  4:"300000",
+  5:"300000",
+  6:"300000",
+  7:"300000",
+  8:"300000",
+  9:"300000",
+  10:"300000",
+  11:"120000",
+  12:"40000",
+  13:"20000",
+  14:"15000",
+  15:"10000"
+}
 
 class DiscoverMap extends Component {
   constructor(props){
@@ -31,8 +50,18 @@ class DiscoverMap extends Component {
     }
   }
 
-  zoomChanged(param){
-    this.forceUpdate();
+  zoomChanged(){
+    const zoom = this.state.mapRef.getZoom();
+    const lat = this.state.mapRef.getCenter().lat();
+    const lng = this.state.mapRef.getCenter().lng();
+    this.props.fetchStreams(lat,lng,zoomToDistance[zoom]);
+  }
+
+  dragEnded(){
+    const zoom = this.state.mapRef.getZoom();
+    const lat = this.state.mapRef.getCenter().lat();
+    const lng = this.state.mapRef.getCenter().lng();
+    this.props.fetchStreams(lat,lng,zoomToDistance[zoom]);
   }
 
   clusterMarkers(streams){
@@ -84,7 +113,8 @@ class DiscoverMap extends Component {
        defaultZoom={15}
        defaultCenter={{ lat: 50.879844, lng: 4.700518 }}
        options={MapOptions}
-       onZoomChanged={(param) => this.zoomChanged(param)}
+       onZoomChanged={() => this.zoomChanged()}
+       onDragEnd={() => this.dragEnded()}
        ref={(ref) => this.onMapMounted(ref)}
       >
         {clusteredMarkers}
@@ -98,4 +128,10 @@ const mapStateToProps = state => ({
   fetchingStreams: state.streams.fetchingStreams
 })
 
-export default connect(mapStateToProps, null)(withScriptjs(withGoogleMap(DiscoverMap)))
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchStreams: (lng,lat,distance) => dispatch(STREAMS_ACTIONS.fetchStreams(null,lng,lat,distance))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withScriptjs(withGoogleMap(DiscoverMap)))

@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import axios from '../../utils/axios';
 
-import store from '../create-store';
-
 //TODO remove when API call works
 import EXAMPLE_STREAMS_API_RESPONSE from '../../example-api-responses/streams';
 
@@ -16,68 +14,69 @@ export const STREAMS_TYPES = {
 };
 
 export const STREAMS_ACTIONS = {
-  fetchStreams: async (dispatch, filter = {}, lng, lat, distance) => {
-    dispatch({
-      type: STREAMS_TYPES.FETCHING_STREAMS,
-      value: true
-    });
+  fetchStreams: (_filter, lng, lat, distance) => {
+    return (dispatch, getState) => {
+      const state = getState();
 
-    let filterUrlQuery = "";
-    //Filter on type
-    if(filter.types && filter.types.length === 1)
-      filterUrlQuery = `type=${filter.types[0]}`;
-    else
-      filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
+      dispatch({
+        type: STREAMS_TYPES.FETCHING_STREAMS,
+        value: true
+      });
 
-    //Only get streams near certain point
-    if(lng && lat && distance){
-        filterUrlQuery += `&near=${lng},${lat},${distance}`;
+      let filterUrlQuery = "";
+      //Filter on type
+      const filter = (_filter)?_filter:state.streams.filter;
+      if(filter.types && filter.types.length === 1)
+        filterUrlQuery = `type=${filter.types[0]}`;
+      else
+        filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
+
+      //Only get streams near certain point
+      console.log(lng);
+      if(lng && lat && distance){
+          filterUrlQuery += `&near=${lng},${lat},${distance}`;
+      }
+      else{
+          filterUrlQuery += `&near=50.860,4.647,20000`;
+      }
+
+      const limit = 5000;
+
+      const authenticatedAxiosClient = axios(null,true);
+      //const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
+
+      //50.860,4.647
+
+      console.log(state.streams.map.zoom);
+
+      authenticatedAxiosClient.get(
+        `/streamregistry/list?limit=${limit}&${filterUrlQuery}`
+      ).then(response => {
+        const parsedResponse = {};
+        _.each(response.data.items, (item) => {
+            parsedResponse[item.key] = {
+              id:item._id,
+              key:item.key,
+              name:item.name,
+              type:item.type,
+              price:item.price,
+              stake:item.stake,
+              example:item.example,
+              geometry:{
+                "type": "Point",
+                "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
+              }
+            };
+        });
+        dispatch({
+          type: STREAMS_TYPES.FETCH_STREAMS,
+          streams: parsedResponse
+        });
+
+      }).catch(function(error){
+        console.log(error);
+      });
     }
-
-    const limit = 5000;
-
-    const authenticatedAxiosClient = axios(null,true);
-    const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list?limit=${limit}&${filterUrlQuery}`
-    );
-
-    console.log(JSON.stringify(store));
-
-    //const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
-
-    //50.860,4.647
-    // const response = await authenticatedAxiosClient.get(
-    //   `/streamregistry/list?near=50.87,4.70,100`
-    // );
-
-    const parsedResponse = {};
-    _.each(response.data.items, (item) => {
-        parsedResponse[item.key] = {
-          id:item._id,
-          key:item.key,
-          name:item.name,
-          type:item.type,
-          price:item.price,
-          stake:item.stake,
-          example:item.example,
-          geometry:{
-            "type": "Point",
-            "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
-          }
-        };
-    });
-
-    dispatch({
-      type: STREAMS_TYPES.UPDATED_FILTER,
-      filter //ES6 syntax sugar
-    });
-
-    //TODO dispatch for updates map status (zoom and position)
-
-    dispatch({
-      type: STREAMS_TYPES.FETCH_STREAMS,
-      streams: parsedResponse
-    });
   },
   fetchStream: async (dispatch, streamKey) => {
     const authenticatedAxiosClient = axios(null,true);

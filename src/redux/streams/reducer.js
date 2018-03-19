@@ -7,6 +7,9 @@ export const DEFAULT_STATE = {
     location:null,
     types:['temperature','humidity','PM25','PM10'] //Types in current filter
   },
+  map: {
+    zoom: 13
+  },
   streams: {},
   landingStreams: {},
   fetchingStreams: false,
