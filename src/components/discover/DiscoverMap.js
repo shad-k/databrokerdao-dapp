@@ -8,7 +8,7 @@ import DiscoverMapMarker from './DiscoverMapMarker';
 import Cluster from './Cluster';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
-const zoomToDistance = {
+const zoomToDistance = {//TODO temporary
   1:"300000",
   2:"300000",
   3:"300000",

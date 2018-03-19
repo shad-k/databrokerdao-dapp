@@ -100,7 +100,7 @@ class LandingContent extends Component {
       <div>
         <StyledCard className='md-block-centered'>
           <CardText>
-            <StyledH1>Buy sensor data on the global market for local data (hoi)</StyledH1>
+            <StyledH1>Buy sensor data on the global market for local data</StyledH1>
             <div style={{padding:"0 80px 20px 80px", display:"flex"}}>
               <div style={{flex:"1"}}>
                 <StyledTypeButton zDepth={1}>
@@ -171,7 +171,7 @@ class LandingContent extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateFilter: (filter) => STREAMS_ACTIONS.updateFilter(dispatch, filter)
+    updateFilter: (filter) => dispatch(STREAMS_ACTIONS.updateFilter(filter))
   }
 }
 

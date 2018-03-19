@@ -125,8 +125,8 @@ class Filter extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     fetchStreams: (filter) => dispatch(STREAMS_ACTIONS.fetchStreams(filter)),
-    fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch),
-    updateFilter: (filter) => STREAMS_ACTIONS.updateFilter(dispatch, filter)
+    fetchAvailableStreamTypes: () => dispatch(STREAMS_ACTIONS.fetchAvailableStreamTypes()),
+    updateFilter: (filter) => dispatch(STREAMS_ACTIONS.updateFilter(filter))
   }
 }
 

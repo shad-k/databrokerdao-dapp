@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchPurchases: () => PURCHASES_ACTIONS.fetchPurchases(dispatch)
+    fetchPurchases: () => dispatch(PURCHASES_ACTIONS.fetchPurchases())
   }
 }
 

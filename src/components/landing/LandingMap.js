@@ -42,7 +42,7 @@ const mapStateToProps = state => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchLandingStreams: () => STREAMS_ACTIONS.fetchLandingStreams(dispatch)
+    fetchLandingStreams: () => dispatch(STREAMS_ACTIONS.fetchLandingStreams())
   }
 }
 
