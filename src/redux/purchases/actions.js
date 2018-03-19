@@ -25,8 +25,8 @@ export const PURCHASES_ACTIONS = {
           type:"Temperture"
         },
         {
-          key:"0xdf01178749c1a28b8411fb8040e9bd5a7afb1966",
-          name:"Luftdaten PM2.5 9631",
+          key:"0x94c3eebfc04828cf75475108a627de78bbf1d8e6",
+          name:"Luftdaten Hum 9566",
           type:"PM25"
         }
       ];

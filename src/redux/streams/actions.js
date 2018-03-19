@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import axios from '../../utils/axios';
 
+import store from '../create-store';
+
 //TODO remove when API call works
 import EXAMPLE_STREAMS_API_RESPONSE from '../../example-api-responses/streams';
 
@@ -14,22 +16,32 @@ export const STREAMS_TYPES = {
 };
 
 export const STREAMS_ACTIONS = {
-  fetchStreams: async (dispatch, filter = {}) => {
+  fetchStreams: async (dispatch, filter = {}, lng, lat, distance) => {
     dispatch({
       type: STREAMS_TYPES.FETCHING_STREAMS,
       value: true
     });
 
     let filterUrlQuery = "";
+    //Filter on type
     if(filter.types && filter.types.length === 1)
       filterUrlQuery = `type=${filter.types[0]}`;
     else
       filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
 
+    //Only get streams near certain point
+    if(lng && lat && distance){
+        filterUrlQuery += `&near=${lng},${lat},${distance}`;
+    }
+
+    const limit = 5000;
+
     const authenticatedAxiosClient = axios(null,true);
     const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list?limit=5000&${filterUrlQuery}`
+      `/streamregistry/list?limit=${limit}&${filterUrlQuery}`
     );
+
+    console.log(JSON.stringify(store));
 
     //const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
 
@@ -50,10 +62,17 @@ export const STREAMS_ACTIONS = {
           example:item.example,
           geometry:{
             "type": "Point",
-            "coordinates": [item.geo.coordinates[0], item.geo.coordinates[1]]
+            "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
           }
         };
     });
+
+    dispatch({
+      type: STREAMS_TYPES.UPDATED_FILTER,
+      filter //ES6 syntax sugar
+    });
+
+    //TODO dispatch for updates map status (zoom and position)
 
     dispatch({
       type: STREAMS_TYPES.FETCH_STREAMS,
@@ -67,19 +86,26 @@ export const STREAMS_ACTIONS = {
     );
 
     const responseStream = response.data;
-    const parsedResponse = {
-      id:responseStream._id,
-      key:responseStream.key,
-      name:responseStream.name,
-      type:responseStream.type,
-      price:responseStream.price,
-      stake:responseStream.stake,
-      example:responseStream.example,
-      geometry:{
-        "type": "Point",
-        "coordinates": [responseStream.geo.coordinates[0], responseStream.geo.coordinates[1]]
-      }
-    };
+
+    let parsedResponse = null;
+    if(responseStream._id){
+       parsedResponse= {
+        id:responseStream._id,
+        key:responseStream.key,
+        name:responseStream.name,
+        type:responseStream.type,
+        price:responseStream.price,
+        stake:responseStream.stake,
+        example:responseStream.example,
+        geometry:{
+          "type": "Point",
+          "coordinates": [responseStream.geo.coordinates[1], responseStream.geo.coordinates[0]]
+        }
+      };
+    }
+    else {
+      parsedResponse = {};
+    }
 
     dispatch({
       type: STREAMS_TYPES.FETCH_STREAM,
@@ -104,7 +130,7 @@ export const STREAMS_ACTIONS = {
           example:item.example,
           geometry:{
             "type": "Point",
-            "coordinates": [item.geo.coordinates[0], item.geo.coordinates[1]]
+            "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
           }
         };
     });
