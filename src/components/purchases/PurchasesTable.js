@@ -15,7 +15,8 @@ import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 
 class PurchasesTable extends Component {
   componentDidMount(){
-    this.props.fetchPurchases();
+    if(this.props.token)
+      this.props.fetchPurchases();
   }
 
   handlePagination(start, rowsPerPage) {
@@ -69,7 +70,8 @@ class PurchasesTable extends Component {
 
 const mapStateToProps = state => ({
   purchases:state.purchases.purchases,
-  fetchingPurchases:state.purchases.fetchingPurchases
+  fetchingPurchases:state.purchases.fetchingPurchases,
+  token: state.auth.token //Used to verify if a user is signed in, if not we don't have to get purchases from API
 })
 
 function mapDispatchToProps(dispatch) {

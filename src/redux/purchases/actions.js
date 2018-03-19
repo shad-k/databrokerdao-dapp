@@ -15,6 +15,8 @@ export const PURCHASES_ACTIONS = {
       value: true
     });
 
+    // TODO make call to API
+
     //TODO hear from Silke in what format purchases are supplied
     const parsedResponse = [
         {
