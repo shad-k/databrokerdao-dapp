@@ -140,8 +140,8 @@ class StreamDetailsScreen extends Component {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchStream: () => STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.key),
-    fetchAvailableStreamTypes: () => STREAMS_ACTIONS.fetchAvailableStreamTypes(dispatch)
+    fetchStream: () => dispatch(STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.key)),
+    fetchAvailableStreamTypes: () => dispatch(STREAMS_ACTIONS.fetchAvailableStreamTypes())
   }
 }
 
