@@ -7,7 +7,6 @@ import { Switch, Route, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import createStore from './redux/create-store';
 import AuthContainer from './components/authentication/AuthContainer';
-import SearchContainer from './components/search/SearchContainer';
 import LandingScreen from './components/landing/LandingScreen';
 import DiscoverScreen from './components/discover/DiscoverScreen';
 import PurchasesScreen from './components/purchases/PurchasesScreen';

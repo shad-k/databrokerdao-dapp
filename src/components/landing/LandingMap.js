@@ -9,15 +9,12 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 class LandingMap extends Component {
   componentDidMount() {
     //Get streams from API
-    this.props.fetchStreams();
+    this.props.fetchLandingStreams();
   }
 
   renderMapMarkers(streams){
-    if(this.props.fetchingStreams)
-      return;
-
     return _.map(streams, stream => {
-      return <LandingMapMarker key={stream.id} stream={stream} position={{ lat: stream.geo.lat, lng: stream.geo.lng }}/>;
+      return <LandingMapMarker key={stream.id} stream={stream} position={{ lng: stream.geometry.coordinates[0], lat: stream.geometry.coordinates[1] }}/>;
     });
   }
 
@@ -40,13 +37,12 @@ class LandingMap extends Component {
 }
 
 const mapStateToProps = state => ({
-  streams: state.streams.streams,
-  fetchingStreams: state.streams.fetchingStreams
+  streams: state.streams.landingStreams
 })
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStreams: () => STREAMS_ACTIONS.fetchStreams(dispatch)
+    fetchLandingStreams: () => STREAMS_ACTIONS.fetchLandingStreams(dispatch)
   }
 }
 

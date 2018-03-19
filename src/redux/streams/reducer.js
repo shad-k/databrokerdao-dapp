@@ -8,6 +8,7 @@ export const DEFAULT_STATE = {
     types:['temperature','humidity','PM25','PM10'] //Types in current filter
   },
   streams: {},
+  landingStreams: {},
   fetchingStreams: false,
   availableStreamTypes: [] //All possible types the user could filter on
 };
@@ -19,6 +20,9 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.FETCH_STREAMS:{
       return Immutable.merge(state, {streams: action.streams, fetchingStreams: false});
+    }
+    case STREAMS_TYPES.FETCH_LANDING_STREAMS:{
+      return Immutable.merge(state, {landingStreams: action.streams});
     }
     case STREAMS_TYPES.FETCH_STREAM:{
       const newStreams = Immutable.asMutable(state, {deep:true}).streams;

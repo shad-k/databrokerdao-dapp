@@ -8,6 +8,7 @@ export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',
   FETCHING_STREAMS: 'FETCHING_STREAMS',
   FETCH_STREAM: 'FETCH_STREAM',
+  FETCH_LANDING_STREAMS: 'FETCH_LANDING_STREAMS',
   FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES',
   UPDATED_FILTER: 'UPDATED_FILTER'
 };
@@ -26,11 +27,13 @@ export const STREAMS_ACTIONS = {
       filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
 
     const authenticatedAxiosClient = axios(null,true);
-    // const response = await authenticatedAxiosClient.get(
-    //   `/streamregistry/list?limit=5000&${filterUrlQuery}`
-    // );
+    const response = await authenticatedAxiosClient.get(
+      `/streamregistry/list?limit=5000&${filterUrlQuery}`
+    );
 
-    const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
+    console.log(response);
+
+    //const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
 
     //50.860,4.647
     // const response = await authenticatedAxiosClient.get(
@@ -38,7 +41,7 @@ export const STREAMS_ACTIONS = {
     // );
 
     const parsedResponse = {};
-    _.each(response.items, (item) => {
+    _.each(response.data.items, (item) => {
         parsedResponse[item.key] = {
           id:item._id,
           key:item.key,
@@ -49,7 +52,7 @@ export const STREAMS_ACTIONS = {
           example:item.example,
           geometry:{
             "type": "Point",
-            "coordinates": [item.geo.lng, item.geo.lat]
+            "coordinates": [item.geo.coordinates[0], item.geo.coordinates[1]]
           }
         };
     });
@@ -74,12 +77,43 @@ export const STREAMS_ACTIONS = {
       price:responseStream.price,
       stake:responseStream.stake,
       example:responseStream.example,
-      geometry:responseStream.geo
+      geometry:{
+        "type": "Point",
+        "coordinates": [responseStream.geo.coordinates[0], responseStream.geo.coordinates[1]]
+      }
     };
 
     dispatch({
       type: STREAMS_TYPES.FETCH_STREAM,
       stream: parsedResponse
+    });
+  },
+  fetchLandingStreams: async (dispatch) => {
+    const authenticatedAxiosClient = axios(null,true);
+    const response = await authenticatedAxiosClient.get(
+      `/streamregistry/list?limit=20` //TODO add near parameter
+    );
+
+    const parsedResponse = {};
+    _.each(response.data.items, (item) => {
+        parsedResponse[item.key] = {
+          id:item._id,
+          key:item.key,
+          name:item.name,
+          type:item.type,
+          price:item.price,
+          stake:item.stake,
+          example:item.example,
+          geometry:{
+            "type": "Point",
+            "coordinates": [item.geo.coordinates[0], item.geo.coordinates[1]]
+          }
+        };
+    });
+
+    dispatch({
+      type: STREAMS_TYPES.FETCH_LANDING_STREAMS,
+      streams: parsedResponse
     });
   },
   fetchAvailableStreamTypes: (dispatch) => {
