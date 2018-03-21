@@ -50,6 +50,12 @@ export const STREAMS_ACTIONS = {
       ).then(response => {
         const parsedResponse = {};
         _.each(response.data.items, (item) => {
+          //Temporary filter out streams at same coordinates (should be supported in UI in future)
+          const itemAtSameCoordinates = _.find(parsedResponse, parsedItem => {
+            return parsedItem.geometry.coordinates[0] === item.geo.coordinates[1] && parsedItem.geometry.coordinates[1] === item.geo.coordinates[0];
+          });
+
+          if(!itemAtSameCoordinates){
             parsedResponse[item.key] = {
               id:item._id,
               key:item.key,
@@ -63,6 +69,7 @@ export const STREAMS_ACTIONS = {
                 "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
               }
             };
+          }
         });
         dispatch({
           type: STREAMS_TYPES.FETCH_STREAMS,
