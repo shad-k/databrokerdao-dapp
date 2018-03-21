@@ -8,7 +8,9 @@ export const DEFAULT_STATE = {
     types:['temperature','humidity','PM25','PM10'] //Types in current filter
   },
   map: {
-    zoom: 13
+    distance: 20000,
+    lat: 50.879844,
+    lng: 4.700518
   },
   streams: {},
   landingStreams: {},
@@ -37,6 +39,9 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.UPDATED_FILTER:{
       return Immutable.merge(state, {filter: action.filter});
+    }
+    case STREAMS_TYPES.UPDATED_MAP:{
+      return Immutable.merge(state, {map:action.map});
     }
     default:
       return state;

@@ -10,11 +10,12 @@ export const STREAMS_TYPES = {
   FETCH_STREAM: 'FETCH_STREAM',
   FETCH_LANDING_STREAMS: 'FETCH_LANDING_STREAMS',
   FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES',
-  UPDATED_FILTER: 'UPDATED_FILTER'
+  UPDATED_FILTER: 'UPDATED_FILTER',
+  UPDATED_MAP: 'UPDATED_MAP'
 };
 
 export const STREAMS_ACTIONS = {
-  fetchStreams: (_filter, _lng, _lat, _distance) => {
+  fetchStreams: (_filter, _lat, _lng, _distance) => {
     return (dispatch, getState) => {
       const state = getState();
 
@@ -32,12 +33,31 @@ export const STREAMS_ACTIONS = {
       else
         filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
 
-      //Only get streams near certain point
-      if(_lng && _lat && _distance){
-          filterUrlQuery += `&near=${_lng},${_lat},${_distance}`;
+      if(_filter){
+        dispatch({
+          type: STREAMS_TYPES.UPDATED_FILTER,
+          filter //ES6 syntax sugar
+        });
       }
-      else{
-          filterUrlQuery += `&near=50.860,4.647,20000`;
+
+      //Only get streams near certain point
+      if(_lat && _lng && _distance){
+        filterUrlQuery += `&near=${_lat},${_lng},${_distance}`;
+        dispatch({
+          type: STREAMS_TYPES.UPDATED_MAP,
+          map:{
+            distance:_distance,
+            lat:_lat,
+            lng:_lng
+          }
+        });
+      }
+      else{ // Get from Redux state
+        const distance = state.streams.map.distance;
+        const lat = state.streams.map.lat;
+        const lng = state.streams.map.lng;
+
+        filterUrlQuery += `&near=${lat},${lng},${distance}`;
       }
 
       const limit = 5000;
@@ -173,7 +193,7 @@ export const STREAMS_ACTIONS = {
       });
     }
   },
-  updateFilter: (filter) => {
+  updateFilter: (filter) => { //Used by landing page
     return (dispatch, getState) => {
       dispatch({
         type: STREAMS_TYPES.UPDATED_FILTER,

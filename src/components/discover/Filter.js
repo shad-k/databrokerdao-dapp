@@ -28,7 +28,6 @@ class Filter extends Component {
 
     if(_.indexOf(newFilter.types, newType) === -1){
       newFilter.types = _.concat(newFilter.types, newType);
-      //this.props.updateFilter(newFilter);
       this.props.fetchStreams(newFilter);
     }
   }
@@ -36,7 +35,6 @@ class Filter extends Component {
   removeTypeFromFilter(id){
     const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
     newFilter.types = _.pull(newFilter.types, id);
-    //this.props.updateFilter(newFilter);
     this.props.fetchStreams(newFilter);
   }
 
@@ -125,8 +123,7 @@ class Filter extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     fetchStreams: (filter) => dispatch(STREAMS_ACTIONS.fetchStreams(filter)),
-    fetchAvailableStreamTypes: () => dispatch(STREAMS_ACTIONS.fetchAvailableStreamTypes()),
-    updateFilter: (filter) => dispatch(STREAMS_ACTIONS.updateFilter(filter))
+    fetchAvailableStreamTypes: () => dispatch(STREAMS_ACTIONS.fetchAvailableStreamTypes())
   }
 }
 
