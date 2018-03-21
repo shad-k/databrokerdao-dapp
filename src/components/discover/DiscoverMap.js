@@ -8,24 +8,6 @@ import DiscoverMapMarker from './DiscoverMapMarker';
 import Cluster from './Cluster';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
-const zoomToDistance = {//TODO temporary
-  1:"300000",
-  2:"300000",
-  3:"300000",
-  4:"300000",
-  5:"300000",
-  6:"300000",
-  7:"300000",
-  8:"300000",
-  9:"300000",
-  10:"300000",
-  11:"120000",
-  12:"40000",
-  13:"20000",
-  14:"15000",
-  15:"10000"
-}
-
 class DiscoverMap extends Component {
   constructor(props){
     super(props);
