@@ -10,9 +10,7 @@ export const DEFAULT_STATE = {
 export default function(state = Immutable(DEFAULT_STATE), action) {
   switch(action.type){
     case WALLET_TYPES.FETCH_WALLET:{
-      console.log("Wallet had been fetched");
       return Immutable.merge(state,{wallet:action.wallet, fetchingWallet:false});
-      //return Immutable.set(state,"fetchingWallet",false);
     }
     case WALLET_TYPES.FETCHING_WALLET:{
       return Immutable.set(state,"fetchingWallet",action.value);

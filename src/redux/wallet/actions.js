@@ -20,9 +20,6 @@ export const WALLET_ACTIONS = {
       ).then(response => {
         const wallet = response.data.DTX;
 
-        console.log("Wallet in action:");
-        console.log(wallet);
-
         dispatch({
           type: WALLET_TYPES.FETCH_WALLET,
           wallet

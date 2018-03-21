@@ -140,10 +140,15 @@ export const STREAMS_ACTIONS = {
     return (dispatch, getState) => {
       const authenticatedAxiosClient = axios(null,true);
       authenticatedAxiosClient.get(
-        `/streamregistry/list?limit=20` //TODO add near parameter
+        `/streamregistry/list?limit=100&near=50.879844,4.700518,4000` //TODO add near parameter
       ).then(response => {
         const parsedResponse = {};
         _.each(response.data.items, (item) => {
+          const itemAtSameCoordinates = _.find(parsedResponse, parsedItem => {
+            return parsedItem.geometry.coordinates[0] === item.geo.coordinates[1] && parsedItem.geometry.coordinates[1] === item.geo.coordinates[0];
+          });
+
+          if(!itemAtSameCoordinates){
             parsedResponse[item.key] = {
               id:item._id,
               key:item.key,
@@ -157,6 +162,7 @@ export const STREAMS_ACTIONS = {
                 "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
               }
             };
+          }
         });
 
         dispatch({
