@@ -13,6 +13,7 @@ import PurchasesScreen from './components/purchases/PurchasesScreen';
 import AddSensorScreen from './components/add-sensor/AddSensorScreen';
 import WalletScreen from './components/wallet/WalletScreen';
 import StreamDetailsScreen from './components/stream-details/StreamDetailsScreen';
+import UnsubscribedScreen from './components/unsubscribed/UnsubscribedScreen';
 import Mixpanel from 'mixpanel-browser';
 
 import './styles/index.css';
@@ -54,6 +55,7 @@ const render = () => {
           <Route path="/add-sensor" component={withRouter(AddSensorScreen)} />
           <Route path="/wallet" component={withRouter(userIsAuthenticatedRedir(WalletScreen))} />
           <Route path="/stream-details/:key" component={withRouter(StreamDetailsScreen)} />
+          <Route path="/unsubscribed" component={withRouter(UnsubscribedScreen)} />
           <Route path="/" component={LandingScreen} />
         </Switch>
       </ConnectedRouter>
