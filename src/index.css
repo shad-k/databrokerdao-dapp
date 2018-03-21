@@ -166,7 +166,7 @@ caption, .md-caption {
   font-weight: 700; }
 
 .md-transition--sharp {
-  transition-timing-function: cubix-bezier(0.4, 0, 0.6, 1); }
+  transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
 
 .md-transition--standard {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }

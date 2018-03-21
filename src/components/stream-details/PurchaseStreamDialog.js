@@ -80,7 +80,7 @@ class PurchaseStreamDialog extends Component {
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
         dialogStyle={{width:"500px",position:"relative",top:"33%"}}
-        aria-labelledby="Purchae stream"
+        aria-labelledby="Purchase stream"
         modal={this.state.modal}
       >
         <div style={{display:(this.state.step === STEP_INTRO)?'block':'none'}}>
@@ -135,6 +135,7 @@ class PurchaseStreamDialog extends Component {
             value={this.state.purchaseEndTime}
             style={{marginBottom:"20px"}}
             onChange={(value) => this.handlePurchaseEndTimeChange(value)}
+            formatOptions={{timeZone: 'UTC'}}
           />
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat primary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
