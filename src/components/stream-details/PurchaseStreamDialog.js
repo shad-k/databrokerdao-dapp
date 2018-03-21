@@ -6,13 +6,15 @@ import moment from 'moment';
 
 import RegisterForm from '../authentication/RegisterForm';
 import { register } from '../../redux/authentication/reducer';
+import { WALLET_ACTIONS } from '../../redux/wallet/actions';
 
 const STEP_INTRO = 1,
   STEP_REGISTRATION = 2,
   STEP_WELCOME = 3,
   STEP_CONFIG = 4,
-  STEP_SAVING = 5,
-  STEP_SUCCESS = 6;
+  STEP_MINTING = 5,
+  STEP_SAVING = 6,
+  STEP_SUCCESS = 7;
 
 class PurchaseStreamDialog extends Component {
   constructor(props){
@@ -46,7 +48,10 @@ class PurchaseStreamDialog extends Component {
     }
     else if(step === STEP_CONFIG){
       if(purchasingEnabled){
-        this.setState({step:STEP_SAVING,modal:true});//TODO should be saving step
+        const days = Math.abs(moment().diff(moment(this.state.purchaseEndTime),'days')) + 1;
+        const amount = this.props.stream.price * days;
+        this.props.mintTokens(amount);
+        this.setState({step:STEP_MINTING,modal:true});
       }
       else
         this.props.hideEventHandler();
@@ -93,7 +98,7 @@ class PurchaseStreamDialog extends Component {
         <div style={{display:(this.state.step === STEP_REGISTRATION)?'block':'none'}}>
           <h1>Registration</h1>
           <RegisterForm
-            register={(values, settings) => this.props.dispatch(register(values, settings))}
+            register={(values, settings) => this.props.register(values, settings)}
             callBack={() => {this.finishStep(STEP_REGISTRATION)}}
           />
         </div>
@@ -135,6 +140,13 @@ class PurchaseStreamDialog extends Component {
             <Button flat primary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
           </div>
         </div>
+        <div style={{display:(this.state.step === STEP_MINTING)?'block':'none'}}>
+          <h1>Getting you some DTX</h1>
+          <p>Some random text with more info about this stuff that is going on.</p>
+          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
+            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SAVING)} disabled={this.props.mintingTokens} className={this.props.mintingTokens?'disabled-button':''} >Continue</Button>
+          </div>
+        </div>
         <div style={{display:(this.state.step === STEP_SAVING)?'block':'none'}}>
           <h1>Saving to the blockchain</h1>
           <p>
@@ -163,12 +175,14 @@ class PurchaseStreamDialog extends Component {
 }
 
 const mapStateToProps = state => ({
-  token: state.auth.token
+  token: state.auth.token,
+  mintingTokens: state.wallet.mintingTokens
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    register: (values, settings) => dispatch(register(values, settings)),
+    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount))
   };
 }
 

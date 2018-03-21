@@ -3661,3 +3661,8 @@ span.clickable {
 
 pre {
   margin: 0; }
+
+.disabled-button {
+  background-color: gray !important; }
+  .disabled-button:hover {
+    background-color: gray !important; }

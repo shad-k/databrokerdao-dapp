@@ -191,7 +191,7 @@ export const STREAMS_ACTIONS = {
             id:'PM10',
             name:'PM10'
           },
-          'PM25': {
+          PM25: {
             id:'PM25',
             name:'PM25'
           }

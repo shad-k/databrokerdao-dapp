@@ -17,9 +17,6 @@ class WalletScreen extends Component {
   render() {
     const address = localStorage.getItem('address');
 
-    console.log("Render wallet screen");
-    console.log(this.props.fetchingWallet);
-
     return (
       <div>
         <Toolbar showTabs={true} />

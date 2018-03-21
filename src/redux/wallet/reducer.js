@@ -4,7 +4,8 @@ import { WALLET_TYPES } from './actions.js';
 
 export const DEFAULT_STATE = {
   wallet: {},
-  fetchingWallet: false
+  fetchingWallet: false,
+  mintingTokens: false
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
@@ -14,6 +15,9 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case WALLET_TYPES.FETCHING_WALLET:{
       return Immutable.set(state,"fetchingWallet",action.value);
+    }
+    case WALLET_TYPES.MINTING_TOKENS:{
+      return Immutable.set(state,"mintingTokens",action.value);
     }
     default:
       return state;
