@@ -46,6 +46,8 @@ class DiscoverMap extends Component {
     const bounds = this.state.mapRef.getBounds();
     const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f);
 
+    console.log(`Distance: ${distance}`);
+
     this.props.fetchStreams(lat,lng,distance);
   }
 

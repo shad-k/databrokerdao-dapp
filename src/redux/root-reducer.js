@@ -5,6 +5,7 @@ import { routerReducer } from 'react-router-redux';
 import { reducer as auth } from './authentication/reducer';
 import StreamsReducer from './streams/reducer';
 import PurchasesReducer from './purchases/reducer';
+import WalletReducer from './wallet/reducer';
 
 /**
  * This is the global reducer to which all reducers which are loaded at runtime are added.
@@ -25,6 +26,7 @@ const rootReducer = (asyncReducers, initialState) => {
     auth,
     streams: StreamsReducer,
     purchases: PurchasesReducer,
+    wallet: WalletReducer,
     // TODO: add reducers
     ...asyncReducers,
     ...missingReducers
