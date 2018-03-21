@@ -50,18 +50,21 @@ class DiscoverMap extends Component {
     }
   }
 
-  zoomChanged(){
-    const zoom = this.state.mapRef.getZoom();
-    const lat = this.state.mapRef.getCenter().lat();
-    const lng = this.state.mapRef.getCenter().lng();
-    this.props.fetchStreams(lat,lng,zoomToDistance[zoom]);
+  distanceInMeter(lat1, lon1, lat2, lon2) {
+    const p = 0.017453292519943295;    // Math.PI / 180
+    const c = Math.cos;
+    const a = 0.5 - c((lat2 - lat1) * p)/2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p))/2;
+
+    return Math.ceil(1000 * 12742 * Math.asin(Math.sqrt(a))); // 2 * R; R = 6371 km
   }
 
-  dragEnded(){
-    const zoom = this.state.mapRef.getZoom();
+  mapChanged(){
     const lat = this.state.mapRef.getCenter().lat();
     const lng = this.state.mapRef.getCenter().lng();
-    this.props.fetchStreams(lat,lng,zoomToDistance[zoom]);
+    const bounds = this.state.mapRef.getBounds();
+    const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f);
+
+    this.props.fetchStreams(lat,lng,distance);
   }
 
   clusterMarkers(streams){
@@ -113,8 +116,8 @@ class DiscoverMap extends Component {
        defaultZoom={15}
        defaultCenter={{ lat: 50.879844, lng: 4.700518 }}
        options={MapOptions}
-       onZoomChanged={() => this.zoomChanged()}
-       onDragEnd={() => this.dragEnded()}
+       onZoomChanged={() => this.mapChanged()}
+       onDragEnd={() => this.mapChanged()}
        ref={(ref) => this.onMapMounted(ref)}
       >
         {clusteredMarkers}
