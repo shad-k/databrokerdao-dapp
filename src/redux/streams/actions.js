@@ -42,7 +42,7 @@ export const STREAMS_ACTIONS = {
 
       //Only get streams near certain point
       if(_lat && _lng && _distance){
-        filterUrlQuery += `&near=${_lat},${_lng},${_distance}`;
+        filterUrlQuery += `&near=${_lng},${_lat},${_distance}`;
         dispatch({
           type: STREAMS_TYPES.UPDATED_MAP,
           map:{
@@ -57,7 +57,7 @@ export const STREAMS_ACTIONS = {
         const lat = state.streams.map.lat;
         const lng = state.streams.map.lng;
 
-        filterUrlQuery += `&near=${lat},${lng},${distance}`;
+        filterUrlQuery += `&near=${lng},${lat},${distance}`;
       }
 
       const limit = 5000;
@@ -140,7 +140,7 @@ export const STREAMS_ACTIONS = {
     return (dispatch, getState) => {
       const authenticatedAxiosClient = axios(null,true);
       authenticatedAxiosClient.get(
-        `/streamregistry/list?limit=100&near=50.879844,4.700518,4000` //TODO add near parameter
+        `/streamregistry/list?limit=100&near=4.700518,50.879844,4000` //TODO add near parameter
       ).then(response => {
         const parsedResponse = {};
         _.each(response.data.items, (item) => {
