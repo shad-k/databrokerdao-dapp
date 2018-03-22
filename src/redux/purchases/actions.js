@@ -45,7 +45,7 @@ export const PURCHASES_ACTIONS = {
       }
 
       //TODO test code to test making a purchase
-      
+
       Bluebird.all([getDtxTokenRegistry(),getPurchaseRegistry()])
         .then((responses) => {
           const deployedTokenContractAddress = responses[0].data.items[0].contractaddress;
@@ -63,6 +63,15 @@ export const PURCHASES_ACTIONS = {
             console.log(error);
           });
         })
+
+
+      //Test code to test getting purchases
+      authenticatedAxiosClient.get(`/purchaseregistry/list?purchaser=0x31401412f6902e0cd41822eeced276c80134e916`).then(response => {
+        console.log("purchases:");
+        console.log(response);
+      }).catch(error => {
+        console.log(error);
+      });
 
 
       //TODO hear from Silke in what format purchases are supplied

@@ -51,7 +51,7 @@ class DiscoverMap extends Component {
     const distanceTopLeftToPreviousCenter = this.distanceInMeter(bounds.f.f,bounds.b.b,this.props.map.lat,this.props.map.lng);
     const distanceBottomRightToPreviousCenter = this.distanceInMeter(bounds.f.b,bounds.b.f,this.props.map.lat,this.props.map.lng);
     if(distanceTopLeftToPreviousCenter > this.props.map.distance || distanceBottomRightToPreviousCenter > this.props.map.distance){
-      this.props.fetchStreams(lat,lng,distance*2); //Times two so we don't have to fetch new streams for small movement or zoom change of map
+      this.props.fetchStreams(lat,lng,distance*1.5); //Times two so we don't have to fetch new streams for small movement or zoom change of map
       this.setState({distance,center:{lat,lng}});//TODO causes double re-renders (1. new zoom in state, 2. new streams in state), but no big problem atm
     }
   }
