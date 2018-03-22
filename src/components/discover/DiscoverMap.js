@@ -46,8 +46,6 @@ class DiscoverMap extends Component {
     const bounds = this.state.mapRef.getBounds();
     const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f);
 
-    console.log(`Distance: ${distance}`);
-
     this.props.fetchStreams(lat,lng,distance);
   }
 
@@ -68,7 +66,7 @@ class DiscoverMap extends Component {
       if(cluster.properties && cluster.properties.cluster === true){
         return <Cluster
                   key={cluster.properties.cluster_id}
-                  position={{ lng: cluster.geometry.coordinates[0], lat: cluster.geometry.coordinates[1] }}
+                  position={{ lng: cluster.geometry.coordinates[1], lat: cluster.geometry.coordinates[0] }}
                   label={cluster.properties.point_count}
                 />
       }
@@ -76,7 +74,7 @@ class DiscoverMap extends Component {
         return <DiscoverMapMarker
             key={cluster.key}
             stream={cluster}
-            position={{ lng: cluster.geometry.coordinates[0], lat: cluster.geometry.coordinates[1] }}
+            position={{ lng: cluster.geometry.coordinates[1], lat: cluster.geometry.coordinates[0] }}
             openedMapMarker={this.state.openedMapMarker}
             onClick={(streamKey) => this.openMapMarker(streamKey)}
           />;

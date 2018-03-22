@@ -39,10 +39,16 @@ class PurchasesTable extends Component {
     // console.log("Purchases:");
     // console.log(this.props.purchases);
 
-    if(this.props.purchases.length === 0)
+    if(this.props.fetchingPurchases){
+      return(
+        <p>Loading...</p>
+      );
+    }
+    else if(this.props.purchases.length === 0){
       return(
         <p>When you purchase access to a stream, it will be listed here.</p>
       );
+    }
     else
       return(
         <DataTable baseId="purchases-table" plain>

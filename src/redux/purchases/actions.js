@@ -16,7 +16,19 @@ export const PURCHASES_ACTIONS = {
         value: true
       });
 
-      // TODO make call to API
+      // const authenticatedAxiosClient = axios(null,true);
+      // authenticatedAxiosClient.get(
+      //   "/my-wallet"
+      // ).then(response => {
+      //   const wallet = response.data.DTX;
+      //
+      //   dispatch({
+      //     type: WALLET_TYPES.FETCH_WALLET,
+      //     wallet
+      //   });
+      // }).catch(error => {
+      //   console.log(error);
+      // });
 
       //TODO hear from Silke in what format purchases are supplied
       const parsedResponse = [
