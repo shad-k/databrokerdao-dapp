@@ -54,6 +54,9 @@ class DiscoverMap extends Component {
       this.props.fetchStreams(lat,lng,distance*1.5); //Times two so we don't have to fetch new streams for small movement or zoom change of map
       this.setState({distance,center:{lat,lng}});//TODO causes double re-renders (1. new zoom in state, 2. new streams in state), but no big problem atm
     }
+    else{
+      this.forceUpdate();
+    }
   }
 
   clusterMarkers(streams){
@@ -92,6 +95,7 @@ class DiscoverMap extends Component {
   }
 
   render() {
+    console.log("Rendering map");
     const clusteredMarkers = this.clusterMarkers(this.props.streams);
 
     const MapOptions = {
