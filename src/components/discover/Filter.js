@@ -11,7 +11,7 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 class Filter extends Component {
   componentDidMount() {
     this.props.fetchAvailableStreamTypes();
-    this.props.fetchStreams(this.props.filter);
+    //this.props.fetchStreams(this.props.filter);
   }
 
   constructor(props){

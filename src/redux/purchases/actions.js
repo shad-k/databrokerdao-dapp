@@ -16,19 +16,37 @@ export const PURCHASES_ACTIONS = {
         value: true
       });
 
-      // const authenticatedAxiosClient = axios(null,true);
-      // authenticatedAxiosClient.get(
-      //   "/my-wallet"
-      // ).then(response => {
-      //   const wallet = response.data.DTX;
-      //
-      //   dispatch({
-      //     type: WALLET_TYPES.FETCH_WALLET,
-      //     wallet
-      //   });
-      // }).catch(error => {
-      //   console.log(error);
-      // });
+      const authenticatedAxiosClient = axios(null,true);
+      authenticatedAxiosClient.get(
+        "/purchaseregistry/list" //?purchaser=0x31401412f6902e0cd41822eeced276c80134e916
+      ).then(response => {
+        console.log("All purchases:");
+        console.log(response);
+
+        // dispatch({
+        //   type: WALLET_TYPES.FETCH_WALLET,
+        //   wallet
+        // });
+      }).catch(error => {
+        console.log(error);
+      });
+
+
+
+      authenticatedAxiosClient.post("/purchaseregistry/purchaseaccess",{
+        stream:"0xe24e233958cc7286d214a241c56697699c495188",
+        endtime:"1534755600",
+        metadata:"blablahash"
+      }).then(response => {
+        console.log(response.debug.base.key);
+
+        // dispatch({
+        //   type: WALLET_TYPES.FETCH_WALLET,
+        //   wallet
+        // });
+      }).catch(error => {
+        console.log(error);
+      });
 
       //TODO hear from Silke in what format purchases are supplied
       const parsedResponse = [

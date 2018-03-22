@@ -44,9 +44,16 @@ class DiscoverMap extends Component {
     const lat = this.state.mapRef.getCenter().lat();
     const lng = this.state.mapRef.getCenter().lng();
     const bounds = this.state.mapRef.getBounds();
+    const zoom = this.state.mapRef.getZoom();
     const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f);
 
-    this.props.fetchStreams(lat,lng,distance);
+    //Only get new streams if new map bounds are further away than distance from center of last time we got streams from server
+    const distanceTopLeftToPreviousCenter = this.distanceInMeter(bounds.f.f,bounds.b.b,this.props.map.lat,this.props.map.lng);
+    const distanceBottomRightToPreviousCenter = this.distanceInMeter(bounds.f.b,bounds.b.f,this.props.map.lat,this.props.map.lng);
+    if(distanceTopLeftToPreviousCenter > this.props.map.distance || distanceBottomRightToPreviousCenter > this.props.map.distance){
+      this.props.fetchStreams(lat,lng,distance*2); //Times two so we don't have to fetch new streams for small movement or zoom change of map
+      this.setState({distance,center:{lat,lng}});//TODO causes double re-renders (1. new zoom in state, 2. new streams in state), but no big problem atm
+    }
   }
 
   clusterMarkers(streams){
@@ -96,11 +103,12 @@ class DiscoverMap extends Component {
     return (
       <GoogleMap
        defaultZoom={15}
-       defaultCenter={{ lat: 50.879844, lng: 4.700518 }}
+       defaultCenter={{ lat: this.props.map.lat, lng: this.props.map.lng }}
        options={MapOptions}
        onZoomChanged={() => this.mapChanged()}
        onDragEnd={() => this.mapChanged()}
        ref={(ref) => this.onMapMounted(ref)}
+       onBoundsChanged={() => this.mapChanged()}
       >
         {clusteredMarkers}
       </GoogleMap>
@@ -110,7 +118,8 @@ class DiscoverMap extends Component {
 
 const mapStateToProps = state => ({
   streams: state.streams.streams,
-  fetchingStreams: state.streams.fetchingStreams
+  fetchingStreams: state.streams.fetchingStreams,
+  map: state.streams.map
 })
 
 function mapDispatchToProps(dispatch) {

@@ -8,7 +8,7 @@ export const DEFAULT_STATE = {
     types:['temperature','humidity','PM25','PM10'] //Types in current filter
   },
   map: {
-    distance: 20000,
+    distance: 0,
     lat: 50.879844,
     lng: 4.700518
   },
