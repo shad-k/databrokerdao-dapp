@@ -14,7 +14,7 @@ class LandingMap extends Component {
 
   renderMapMarkers(streams){
     return _.map(streams, stream => {
-      return <LandingMapMarker key={stream.id} stream={stream} position={{ lng: stream.geometry.coordinates[0], lat: stream.geometry.coordinates[1] }}/>;
+      return <LandingMapMarker key={stream.id} stream={stream} position={{ lng: stream.geometry.coordinates[1], lat: stream.geometry.coordinates[0] }}/>;
     });
   }
 
