@@ -59,6 +59,11 @@ class DiscoverMap extends Component {
     }
   }
 
+  boundsChanged(){
+    if(this.props.map.distance === 0)
+      this.mapChanged();
+  }
+
   clusterMarkers(streams){
     if(this.props.fetchingStreams || !this.state.mapRef)
       return;
@@ -95,7 +100,6 @@ class DiscoverMap extends Component {
   }
 
   render() {
-    console.log("Rendering map");
     const clusteredMarkers = this.clusterMarkers(this.props.streams);
 
     const MapOptions = {
@@ -112,7 +116,7 @@ class DiscoverMap extends Component {
        onZoomChanged={() => this.mapChanged()}
        onDragEnd={() => this.mapChanged()}
        ref={(ref) => this.onMapMounted(ref)}
-       onBoundsChanged={() => this.mapChanged()}
+       onBoundsChanged={() => this.boundsChanged()}
       >
         {clusteredMarkers}
       </GoogleMap>
