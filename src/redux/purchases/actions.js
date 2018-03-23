@@ -22,38 +22,45 @@ export const PURCHASES_ACTIONS = {
 
       const authenticatedAxiosClient = axios(null,true);
 
+      function getStreamDetails(streamKey) {
+        return authenticatedAxiosClient.get(`/streamregistry/list/${streamKey}`);
+      }
+
       //Test code to test getting purchases
-      authenticatedAxiosClient.get(`/purchaseregistry/list`).then(response => {
-        console.log("purchases:");
-        console.log(response);
+      const email = localStorage.getItem('email');
+      authenticatedAxiosClient.get(`/purchaseregistry/list?email=${email}`).then(response => {
+        const purchases = response.data.items;
+
+        const streamDetailCalls = [];
+        _.each(response.data.items, (purchase) => {
+          streamDetailCalls.push(getStreamDetails(purchase.stream));
+        });
+
+        Bluebird.all(streamDetailCalls)
+          .then((streamDetails) => {
+            const parsedResponse = [];
+
+            for(let i = 0; i < purchases.length; i++){
+              parsedResponse.push({
+                key: purchases[i].stream,
+                name: streamDetails[i].data.name,
+                type: streamDetails[i].data.type,
+                endTime: purchases[i].endtime
+              });
+            }
+
+            dispatch({
+              type: PURCHASES_TYPES.FETCH_PURCHASES,
+              purchases: parsedResponse
+            });
+          });
       }).catch(error => {
         console.log(error);
-      });
-
-
-      //TODO hear from Silke in what format purchases are supplied
-      const parsedResponse = [
-          {
-            key:"brolol123",
-            name:"Barvista Toilet sensor",
-            type:"Temperture"
-          },
-          {
-            key:"0x94c3eebfc04828cf75475108a627de78bbf1d8e6",
-            name:"Luftdaten Hum 9566",
-            type:"PM25"
-          }
-        ];
-
-      dispatch({
-        type: PURCHASES_TYPES.FETCH_PURCHASES,
-        purchases: parsedResponse
       });
     }
   },
   purchaseAccess: (stream,endTime) => {
     return (dispatch, getState) => {
-      console.log("Purchase access");
       dispatch({
         type: PURCHASES_TYPES.PURCHASING_ACCESS,
         value: true
@@ -91,16 +98,12 @@ export const PURCHASES_ACTIONS = {
             spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
             value: purchasePrice.toString()
           }).then(response => {
-            console.log(response);
-
             //Tokens have been allocated - now we can make the purchase!
             authenticatedAxiosClient.post(`/purchaseregistry/purchaseaccess`,{
               stream:stream.key,
               endtime:moment(endTime).unix().toString(),
               metadata:metadataHash
             }).then(response => {
-              console.log("Purchase successful");
-              console.log(response);
               dispatch({
                 type: PURCHASES_TYPES.PURCHASING_ACCESS,
                 value: false
