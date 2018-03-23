@@ -95,8 +95,8 @@ export const PURCHASES_ACTIONS = {
 
             //Tokens have been allocated - now we can make the purchase!
             authenticatedAxiosClient.post(`/purchaseregistry/purchaseaccess`,{
-              stream:"0xfa27d79843e9f1536061f1d22385239872781551",
-              endtime:"1521882000",
+              stream:stream.key,
+              endtime:moment(endTime).unix().toString(),
               metadata:metadataHash
             }).then(response => {
               console.log("Purchase successful");
