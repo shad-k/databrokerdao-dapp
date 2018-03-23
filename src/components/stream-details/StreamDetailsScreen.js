@@ -3,6 +3,7 @@ import { Button, FontIcon } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
 import Mixpanel from 'mixpanel-browser';
+import {BigNumber} from 'bignumber.js';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
@@ -38,6 +39,10 @@ class StreamDetailsScreen extends Component {
     if(!this.state.PurchaseStreamVisible)
       Mixpanel.track("View purchase stream dialog");
     this.setState({PurchaseStreamVisible: !this.state.PurchaseStreamVisible});
+  }
+
+  convertWeiToDtx(dtxValue){
+    return BigNumber(dtxValue).div(BigNumber(10).pow(18)).toString();
   }
 
   render() {
@@ -87,6 +92,9 @@ class StreamDetailsScreen extends Component {
 
       const example = JSON.stringify(JSON.parse(stream.example.replace(/'/g, '"')), null, '  ');
 
+      const price = this.convertWeiToDtx(stream.price * stream.updateinterval / 1000);
+      const stake = this.convertWeiToDtx(stream.stake);
+
     return (
       <div>
         <Toolbar showTabs={true} />
@@ -112,12 +120,12 @@ class StreamDetailsScreen extends Component {
             <StyledContentCell>
               <StyledSensorAttribute>
                 <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                <StyledAttributeLabel>Price: {stream.price} DTX per reading</StyledAttributeLabel>
+                <StyledAttributeLabel>Price: {price} DTX per reading</StyledAttributeLabel>
               </StyledSensorAttribute>
               <StyledSensorAttribute>
                 <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                 <StyledAttributeLabel>
-                  Owner stake: {stream.stake} DTX (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
+                  Owner stake: {stake} DTX (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
                 </StyledAttributeLabel>
               </StyledSensorAttribute>
             </StyledContentCell>

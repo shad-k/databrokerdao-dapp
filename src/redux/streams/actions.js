@@ -82,6 +82,7 @@ export const STREAMS_ACTIONS = {
               name:item.name,
               type:item.type,
               price:item.price,
+              updateinterval:item.updateinterval,
               stake:item.stake,
               example:item.example,
               geometry:{
@@ -115,6 +116,7 @@ export const STREAMS_ACTIONS = {
             name:response.data.name,
             type:response.data.type,
             price:response.data.price,
+            updateinterval:response.data.updateinterval,
             stake:response.data.stake,
             example:response.data.example,
             geometry:{
