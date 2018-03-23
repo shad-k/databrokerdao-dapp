@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from '../../utils/axios';
 import Bluebird from 'bluebird';
+import moment from 'moment';
 
 export const PURCHASES_TYPES = {
   FETCH_PURCHASES: 'FETCH_PURCHASES',
@@ -20,53 +21,9 @@ export const PURCHASES_ACTIONS = {
       });
 
       const authenticatedAxiosClient = axios(null,true);
-      // authenticatedAxiosClient.get(
-      //   "/purchaseregistry/list" //?purchaser=0x31401412f6902e0cd41822eeced276c80134e916
-      // ).then(response => {
-      //   console.log("All purchases:");
-      //   console.log(response);
-      //
-      //   // dispatch({
-      //   //   type: WALLET_TYPES.FETCH_WALLET,
-      //   //   wallet
-      //   // });
-      // }).catch(error => {
-      //   console.log(error);
-      // });
-
-      function getDtxTokenRegistry() {
-        console.log("1");
-        return authenticatedAxiosClient.get("/dtxtokenregistry/list");
-      }
-
-      function getPurchaseRegistry() {
-        console.log("2");
-        return authenticatedAxiosClient.get("/purchaseregistry/list");
-      }
-
-      //TODO test code to test making a purchase
-
-      Bluebird.all([getDtxTokenRegistry(),getPurchaseRegistry()])
-        .then((responses) => {
-          const deployedTokenContractAddress = responses[0].data.items[0].contractaddress;
-          const spenderAddress = responses[1].data.base.key;
-
-          // Now approve the tokens
-          authenticatedAxiosClient.post(`/dtxtoken/${deployedTokenContractAddress}/approve`,{
-            spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
-            value: "100" //TODO
-          }).then(response => {
-            console.log(response);
-            //Tokens have been allocated - now we can make the purchase!
-
-          }).catch(error => {
-            console.log(error);
-          });
-        })
-
 
       //Test code to test getting purchases
-      authenticatedAxiosClient.get(`/purchaseregistry/list?purchaser=0x31401412f6902e0cd41822eeced276c80134e916`).then(response => {
+      authenticatedAxiosClient.get(`/purchaseregistry/list`).then(response => {
         console.log("purchases:");
         console.log(response);
       }).catch(error => {
@@ -94,17 +51,66 @@ export const PURCHASES_ACTIONS = {
       });
     }
   },
-  purchaseAccess: () => {
+  purchaseAccess: (stream,endTime) => {
     return (dispatch, getState) => {
-      //Set redux state purchasingaccess to true
+      console.log("Purchase access");
+      dispatch({
+        type: PURCHASES_TYPES.PURCHASING_ACCESS,
+        value: true
+      });
 
-      //API call to get address of purchase contract (TODO: not always the same? cannot be hardcoded?)
+      const authenticatedAxiosClient = axios(null,true);
 
-      //API call to give permission to spend tokens
+      const duration = moment.duration(moment(endTime).diff(moment()));
+      const purchasePrice = stream.price * duration;
 
-      //API call to make purchase
+      function getDtxTokenRegistry() {
+        return authenticatedAxiosClient.get("/dtxtokenregistry/list");
+      }
 
-      //Dispatch to reducer to add new purchase to purchases list
+      function getPurchaseRegistry() {
+        return authenticatedAxiosClient.get("/purchaseregistry/list");
+      }
+
+      function getMetadataHash() {
+        return authenticatedAxiosClient.post("/ipfs/add/json",{
+          data:{
+            email: localStorage.getItem('email')
+          }
+        });
+      }
+
+      Bluebird.all([getDtxTokenRegistry(),getPurchaseRegistry(),getMetadataHash()])
+        .then((responses) => {
+          const deployedTokenContractAddress = responses[0].data.items[0].contractaddress;
+          const spenderAddress = responses[1].data.base.key;
+          const metadataHash = responses[2].data[0].hash;
+
+          // Time to approve the tokens
+          authenticatedAxiosClient.post(`/dtxtoken/${deployedTokenContractAddress}/approve`,{
+            spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
+            value: purchasePrice.toString()
+          }).then(response => {
+            console.log(response);
+
+            //Tokens have been allocated - now we can make the purchase!
+            authenticatedAxiosClient.post(`/purchaseregistry/purchaseaccess`,{
+              stream:"0xfa27d79843e9f1536061f1d22385239872781551",
+              endtime:"1521882000",
+              metadata:metadataHash
+            }).then(response => {
+              console.log("Purchase successful");
+              console.log(response);
+              dispatch({
+                type: PURCHASES_TYPES.PURCHASING_ACCESS,
+                value: false
+              });
+            });
+
+          }).catch(error => {
+            console.log(error);
+          });
+        })
     }
   }
 };

@@ -7,13 +7,14 @@ import moment from 'moment';
 import RegisterForm from '../authentication/RegisterForm';
 import { register } from '../../redux/authentication/reducer';
 import { WALLET_ACTIONS } from '../../redux/wallet/actions';
+import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 
 const STEP_INTRO = 1,
   STEP_REGISTRATION = 2,
   STEP_WELCOME = 3,
   STEP_CONFIG = 4,
   STEP_MINTING = 5,
-  STEP_SAVING = 6,
+  STEP_PURCHASING = 6,
   STEP_SUCCESS = 7;
 
 class PurchaseStreamDialog extends Component {
@@ -31,8 +32,6 @@ class PurchaseStreamDialog extends Component {
   }
 
   finishStep(step){
-    const purchasingEnabled = true; //Temp var for development
-
     if(step === STEP_INTRO){
         if(!this.props.token)
           this.setState({step:STEP_REGISTRATION});
@@ -47,16 +46,16 @@ class PurchaseStreamDialog extends Component {
       this.setState({step:STEP_CONFIG});
     }
     else if(step === STEP_CONFIG){
-      if(purchasingEnabled){
-        const days = Math.abs(moment().diff(moment(this.state.purchaseEndTime),'days')) + 1;
-        const amount = this.props.stream.price * days;
-        this.props.mintTokens(amount);
-        this.setState({step:STEP_MINTING,modal:true});
-      }
-      else
-        this.props.hideEventHandler();
+      const days = Math.abs(moment().diff(moment(this.state.purchaseEndTime),'days')) + 1;
+      const amount = this.props.stream.price * days * 86400; //1 wei per second
+      this.props.mintTokens(amount);
+      this.setState({step:STEP_MINTING,modal:true});
     }
-    else if(step === STEP_SAVING)
+    else if (step === STEP_MINTING){
+      this.props.purchaseAccess(this.props.stream,this.state.purchaseEndTime);
+      this.setState({step:STEP_PURCHASING});
+    }
+    else if(step === STEP_PURCHASING)
       this.setState({step:STEP_SUCCESS});
     else if(step === STEP_SUCCESS){
       Mixpanel.track("Finished purchase stream");
@@ -142,17 +141,20 @@ class PurchaseStreamDialog extends Component {
           </div>
         </div>
         <div style={{display:(this.state.step === STEP_MINTING)?'block':'none'}}>
-          <h1>Getting you some DTX</h1>
-          <p>Some random text with more info about this stuff that is going on.</p>
+          <h1>Minting free DTX tokens for you</h1>
+          <p>During the beta of DataBroker DAO DTX tokens are free.</p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SAVING)} disabled={this.props.mintingTokens} className={this.props.mintingTokens?'disabled-button':''} >Continue</Button>
+            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_MINTING)} disabled={this.props.mintingTokens} className={this.props.mintingTokens?'disabled-button':''} >Continue</Button>
           </div>
         </div>
-        <div style={{display:(this.state.step === STEP_SAVING)?'block':'none'}}>
-          <h1>Saving to the blockchain</h1>
+        <div style={{display:(this.state.step === STEP_PURCHASING)?'block':'none'}}>
+          <h1>Saving purchase to the blockchain</h1>
           <p>
-            It takes a while to save your purchase to the blockchain as your transactions needs to be confirmed by different nodes mining.
+            It takes a while to save your purchase to the blockchain due to blocks that have to be mined before your transaction can be confirmed.
           </p>
+          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
+            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_PURCHASING)} disabled={this.props.purchasingAccess} className={this.props.purchasingAccess?'disabled-button':''} >Continue</Button>
+          </div>
         </div>
         <div style={{display:(this.state.step === STEP_SUCCESS)?'block':'none'}}>
           <h1>Purchase successful</h1>
@@ -177,13 +179,15 @@ class PurchaseStreamDialog extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  mintingTokens: state.wallet.mintingTokens
+  mintingTokens: state.wallet.mintingTokens,
+  purchasingAccess: state.purchases.purchasingAccess
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     register: (values, settings) => dispatch(register(values, settings)),
-    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount))
+    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount)),
+    purchaseAccess: (stream,endTime) => dispatch(PURCHASES_ACTIONS.purchaseAccess(stream,endTime))
   };
 }
 

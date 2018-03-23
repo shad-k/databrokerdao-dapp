@@ -97,6 +97,8 @@ export function register(values, { props, setSubmitting, setErrors }) {
       const token = await getJWTToken(axiosClient, encryptedPrivateKey);
       console.log(token);
 
+      localStorage.setItem('email',values.email);
+
       dispatch({
         type: TOKEN_RECEIVED,
         payload: { token, address }
@@ -153,6 +155,8 @@ export function login(values, { props, setSubmitting, setErrors }) {
         type: TOKEN_RECEIVED,
         payload: { token, address }
       });
+      localStorage.setItem('email',values.email);
+
       // GET THE ROLES OF THE USER
       const authenticatedAxiosClient = axios(token);
       const roleResponse = await authenticatedAxiosClient.get(
@@ -184,6 +188,7 @@ export function logout() {
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('roles');
       localStorage.removeItem('address');
+      localStorage.removeItem('email');
 
       // Remove all data from redux.
       dispatch({

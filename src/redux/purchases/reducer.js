@@ -16,6 +16,9 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     case PURCHASES_TYPES.FETCH_PURCHASES:{
       return Immutable.merge(state, {purchases: action.purchases, fetchingPurchases: false});
     }
+    case PURCHASES_TYPES.PURCHASING_ACCESS:{
+      return Immutable.set(state, "purchasingAccess", action.value);
+    }
     default:
         return state;
   }
