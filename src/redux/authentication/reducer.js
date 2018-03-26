@@ -93,9 +93,7 @@ export function register(values, { props, setSubmitting, setErrors }) {
       //   done: true
       // });
       // GET THE JWT TOKEN
-      console.log('GET THE JWT TOKEN');
       const token = await getJWTToken(axiosClient, encryptedPrivateKey);
-      console.log(token);
 
       localStorage.setItem('email',values.email);
 

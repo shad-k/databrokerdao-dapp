@@ -3658,6 +3658,8 @@ span.clickable {
   padding-top: 7px;
   padding-bottom: 9px;
   border-radius: 5px; }
+  .md-btn[role=checkbox] {
+    padding-top: 9px; }
 
 pre {
   margin: 0; }

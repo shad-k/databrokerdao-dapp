@@ -54,6 +54,10 @@ span.clickable{
   padding-top: 7px;
   padding-bottom: 9px;
   border-radius: 5px;
+
+  &[role=checkbox]{
+    padding-top:9px;
+  }
 }
 
 pre{
