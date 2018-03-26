@@ -36,9 +36,6 @@ class PurchasesTable extends Component {
       cursor: pointer;
     `;
 
-    // console.log("Purchases:");
-    // console.log(this.props.purchases);
-
     if(this.props.fetchingPurchases){
       return(
         <p>Loading...</p>

@@ -69,7 +69,7 @@ class DiscoverMap extends Component {
       return;
 
     const clusterIndex = supercluster({
-        radius: 150, //Cluster radius in pixels
+        radius: 160, //Cluster radius in pixels
         maxZoom: 16 //Maximum zoom level at which clusters are generated
     });
     clusterIndex.load(_.values(streams));

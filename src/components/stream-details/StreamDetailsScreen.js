@@ -3,13 +3,15 @@ import { Button, FontIcon } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
 import Mixpanel from 'mixpanel-browser';
-import {BigNumber} from 'bignumber.js';
+import { BigNumber } from 'bignumber.js';
+import _ from 'lodash';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
 import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
+import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 import Icon from '../generic/Icon';
 import StakingExplainerDialog from './StakingExplainerDialog';
 import PurchaseStreamDialog from './PurchaseStreamDialog';
@@ -28,6 +30,8 @@ class StreamDetailsScreen extends Component {
     //In case this stream was not in state yet, load it (in case it was: refresh to get latest version)
     this.props.fetchStream();
     this.props.fetchAvailableStreamTypes();
+    if(this.props.token)
+      this.props.fetchPurchases();
     Mixpanel.track("View stream details screen");
   }
 
@@ -73,9 +77,15 @@ class StreamDetailsScreen extends Component {
       margin-left: 12px;
     `;
 
-    const { stream, availableStreamTypes } = this.props;
+    const StyledExampleContainer = styled.div`
+      background-color:rgba(0,0,0,0.1);
+      border-radius:12px;
+      padding:15px;
+    `;
 
-    if(!stream || !availableStreamTypes)
+    const { stream, availableStreamTypes, fetchingPurchases } = this.props;
+
+    if(!stream || !availableStreamTypes || fetchingPurchases)
       return(
         <div>
           <Toolbar showTabs={true} />
@@ -83,7 +93,7 @@ class StreamDetailsScreen extends Component {
           <CenteredCard>
             <CardContent>
               <StyledSensorNameCardContent>
-                <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'Loading...'}</h1>
+                <h1 style={{display:"inline-block"}}>Loading...</h1>
               </StyledSensorNameCardContent>
             </CardContent>
           </CenteredCard>
@@ -95,6 +105,8 @@ class StreamDetailsScreen extends Component {
       const price = this.convertWeiToDtx(stream.price * stream.updateinterval / 1000);
       const stake = this.convertWeiToDtx(stream.stake);
 
+      const purchased = _.findIndex(this.props.purchases, purchase => {return purchase.key === this.props.stream.key;}) !== -1;
+
     return (
       <div>
         <Toolbar showTabs={true} />
@@ -102,8 +114,10 @@ class StreamDetailsScreen extends Component {
         <CenteredCard>
           <CardContent noMarginBottom>
             <StyledSensorNameCardContent>
-              <h1 style={{display:"inline-block"}}>{(stream)?stream.name:'loading'}</h1>
-              <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"6px"}}>Purchase access</Button>
+              <h1 style={{display:"inline-block"}}>{stream.name}</h1>
+              {!purchased &&
+                <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"6px"}}>Purchase access</Button>
+              }
             </StyledSensorNameCardContent>
           </CardContent>
           <StyledContentContainer>
@@ -134,9 +148,9 @@ class StreamDetailsScreen extends Component {
         <CenteredCard>
           <CardContent>
             <h1>Example reading(s)</h1>
-            <div style={{backgroundColor:"rgba(0,0,0,0.1)", borderRadius:"12px", padding:"15px"}}>
+            <StyledExampleContainer>
               <pre>{example}</pre>
-            </div>
+            </StyledExampleContainer>
           </CardContent>
         </CenteredCard>
         <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
@@ -149,14 +163,18 @@ class StreamDetailsScreen extends Component {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     fetchStream: () => dispatch(STREAMS_ACTIONS.fetchStream(dispatch, ownProps.match.params.key)),
-    fetchAvailableStreamTypes: () => dispatch(STREAMS_ACTIONS.fetchAvailableStreamTypes())
+    fetchAvailableStreamTypes: () => dispatch(STREAMS_ACTIONS.fetchAvailableStreamTypes()),
+    fetchPurchases: () => dispatch(PURCHASES_ACTIONS.fetchPurchases())
   }
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     stream: state.streams.streams[ownProps.match.params.key],
-    availableStreamTypes: state.streams.availableStreamTypes
+    availableStreamTypes: state.streams.availableStreamTypes,
+    purchases:state.purchases.purchases,
+    fetchingPurchases:state.purchases.fetchingPurchases,
+    token: state.auth.token //Used to verify if a user is signed in, if not we don't have to get purchases from API
   };
 }
 
