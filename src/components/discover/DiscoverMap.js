@@ -15,7 +15,8 @@ class DiscoverMap extends Component {
     this.state = {
       clusteredMarkers:null,
       openedMapMarker:null,
-      mapRef:null
+      mapRef:null,
+      mapBounds:null
     };
   }
 
@@ -45,17 +46,18 @@ class DiscoverMap extends Component {
     const lng = this.state.mapRef.getCenter().lng();
     const bounds = this.state.mapRef.getBounds();
     const zoom = this.state.mapRef.getZoom();
-    const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f);
+    const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f)*1.25;//* 1.25 so we don't have to fetch new streams for small movement or zoom change of map
 
     //Only get new streams if new map bounds are further away than distance from center of last time we got streams from server
     const distanceTopLeftToPreviousCenter = this.distanceInMeter(bounds.f.f,bounds.b.b,this.props.map.lat,this.props.map.lng);
     const distanceBottomRightToPreviousCenter = this.distanceInMeter(bounds.f.b,bounds.b.f,this.props.map.lat,this.props.map.lng);
     if(distanceTopLeftToPreviousCenter > this.props.map.distance || distanceBottomRightToPreviousCenter > this.props.map.distance){
-      this.props.fetchStreams(lat,lng,distance*1.25); //Times two so we don't have to fetch new streams for small movement or zoom change of map
-      this.setState({distance,center:{lat,lng}});//TODO causes double re-renders (1. new zoom in state, 2. new streams in state), but no big problem atm
+      this.props.fetchStreams(lat,lng,distance);
+      this.setState({distance,center:{lat,lng},mapBounds:bounds});//TODO causes double re-renders (1. new zoom in state, 2. new streams in state), but no big problem atm
     }
     else{
-      this.forceUpdate();
+      //this.forceUpdate();
+      this.setState({mapBounds:bounds});
     }
   }
 
@@ -75,8 +77,23 @@ class DiscoverMap extends Component {
     clusterIndex.load(_.values(streams));
     const clusters = clusterIndex.getClusters([-180, -85, 180, 85], this.state.mapRef.getZoom()); //[westLng, southLat, eastLng, northLat], zoom
 
+    //Only render markers and clusters within 1.25 times diagonal of screen
+    //So if you zoom in you don't render too many!
+    //distanceInMeter(lat1, lon1, lat2, lon2) {
+    const nearbyClusters = _.filter(clusters, cluster => {
+      if(this.state.mapBounds){
+        const distance = this.distanceInMeter(this.state.mapBounds.f.f,this.state.mapBounds.b.b,this.state.mapBounds.f.b,this.state.mapBounds.b.f) * 1.25;
+        const mapCenter = this.state.mapRef.getCenter();
+        const clusterDistance = this.distanceInMeter(cluster.geometry.coordinates[0],cluster.geometry.coordinates[1],mapCenter.lat(),mapCenter.lng());
+        return  clusterDistance <= distance;
+      }
+      else{
+        return true;
+      }
+    });
+
     //Sort on lat to prevent (some) z-index issues
-    const sortedClusters = _.sortBy(clusters, cluster => { return (cluster.properties && cluster.properties.cluster === true)? -cluster.geometry.coordinates[0]*2:-cluster.geometry.coordinates[0]; });
+    const sortedClusters = _.sortBy(nearbyClusters, cluster => { return (cluster.properties && cluster.properties.cluster === true)? -cluster.geometry.coordinates[0]*2:-cluster.geometry.coordinates[0]; });
 
     const clusteredMarkers = _.map(sortedClusters, cluster => {
       if(cluster.properties && cluster.properties.cluster === true){
