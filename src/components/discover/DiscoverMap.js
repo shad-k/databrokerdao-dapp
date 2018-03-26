@@ -76,7 +76,7 @@ class DiscoverMap extends Component {
     const clusters = clusterIndex.getClusters([-180, -85, 180, 85], this.state.mapRef.getZoom()); //[westLng, southLat, eastLng, northLat], zoom
 
     //Sort on lat to prevent (some) z-index issues
-    const sortedClusters = _.sortBy(clusters, cluster => { return -cluster.geometry.coordinates[0]; });
+    const sortedClusters = _.sortBy(clusters, cluster => { return (cluster.properties && cluster.properties.cluster === true)? -cluster.geometry.coordinates[0]*2:-cluster.geometry.coordinates[0]; });
 
     const clusteredMarkers = _.map(sortedClusters, cluster => {
       if(cluster.properties && cluster.properties.cluster === true){
