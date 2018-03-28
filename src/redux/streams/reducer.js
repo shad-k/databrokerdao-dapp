@@ -15,7 +15,8 @@ export const DEFAULT_STATE = {
   streams: {},
   landingStreams: {},
   fetchingStreams: false,
-  availableStreamTypes: [] //All possible types the user could filter on
+  availableStreamTypes: [], //All possible types the user could filter on
+  fetchStreamCounter: 0
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
@@ -42,6 +43,9 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.UPDATED_MAP:{
       return Immutable.merge(state, {map:action.map});
+    }
+    case STREAMS_TYPES.FETCH_STREAM_COUNTER:{
+      return Immutable.set(state, "fetchStreamCounter", action.value);
     }
     default:
       return state;

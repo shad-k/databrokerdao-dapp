@@ -11,7 +11,8 @@ export const STREAMS_TYPES = {
   FETCH_LANDING_STREAMS: 'FETCH_LANDING_STREAMS',
   FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES',
   UPDATED_FILTER: 'UPDATED_FILTER',
-  UPDATED_MAP: 'UPDATED_MAP'
+  UPDATED_MAP: 'UPDATED_MAP',
+  FETCH_STREAM_COUNTER: 'FETCH_STREAM_COUNTER'
 };
 
 export const STREAMS_ACTIONS = {
@@ -64,41 +65,55 @@ export const STREAMS_ACTIONS = {
 
       const authenticatedAxiosClient = axios(null,true);
       //const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
+      const fetchStreamCounter = state.streams.fetchStreamCounter+1;
 
-      authenticatedAxiosClient.get(
-        `/streamregistry/list?limit=${limit}&${filterUrlQuery}`
-      ).then(response => {
-        const parsedResponse = {};
-        _.each(response.data.items, (item) => {
-          //Temporary filter out streams at same coordinates (should be supported in UI in future)
-          const itemAtSameCoordinates = _.find(parsedResponse, parsedItem => {
-            return parsedItem.geometry.coordinates[0] === item.geo.coordinates[1] && parsedItem.geometry.coordinates[1] === item.geo.coordinates[0];
+      //Counter to keep track of calls so when response arrives we can take the latest
+      ((counter) => {
+          console.log(counter);
+          authenticatedAxiosClient.get(
+          `/streamregistry/list?limit=${limit}&${filterUrlQuery}`
+        ).then(response => {
+          if(counter !== getState().streams.fetchStreamCounter){
+            // console.log(counter);
+            // console.log(getState().streams.fetchStreamCounter);
+            return;
+          }
+          const parsedResponse = {};
+          _.each(response.data.items, (item) => {
+            //Temporary filter out streams at same coordinates (should be supported in UI in future)
+            const itemAtSameCoordinates = _.find(parsedResponse, parsedItem => {
+              return parsedItem.geometry.coordinates[0] === item.geo.coordinates[1] && parsedItem.geometry.coordinates[1] === item.geo.coordinates[0];
+            });
+
+            if(!itemAtSameCoordinates){
+              parsedResponse[item.key] = {
+                id:item._id,
+                key:item.key,
+                name:item.name,
+                type:item.type,
+                price:item.price,
+                updateinterval:item.updateinterval,
+                stake:item.stake,
+                example:item.example,
+                geometry:{
+                  "type": "Point",
+                  "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
+                }
+              };
+            }
+          });
+          dispatch({
+            type: STREAMS_TYPES.FETCH_STREAMS,
+            streams: parsedResponse
           });
 
-          if(!itemAtSameCoordinates){
-            parsedResponse[item.key] = {
-              id:item._id,
-              key:item.key,
-              name:item.name,
-              type:item.type,
-              price:item.price,
-              updateinterval:item.updateinterval,
-              stake:item.stake,
-              example:item.example,
-              geometry:{
-                "type": "Point",
-                "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
-              }
-            };
-          }
+        }).catch(error => {
+          console.log(error);
         });
-        dispatch({
-          type: STREAMS_TYPES.FETCH_STREAMS,
-          streams: parsedResponse
-        });
-
-      }).catch(error => {
-        console.log(error);
+      })(fetchStreamCounter);
+      dispatch({
+        type: STREAMS_TYPES.FETCH_STREAM_COUNTER,
+        value: fetchStreamCounter
       });
     }
   },
