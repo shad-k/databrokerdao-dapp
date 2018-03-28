@@ -69,6 +69,8 @@ const render = () => {
 // ========================================================
 
 render();
+
+//TODO unregistered the service worker for testing purposes
 if (process.env.NODE_ENV === 'production') {
   unregister(); // disable during dev/test
 }

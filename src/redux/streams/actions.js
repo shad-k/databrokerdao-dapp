@@ -102,7 +102,7 @@ export const STREAMS_ACTIONS = {
               };
             }
           });
-          console.log("Fetched streams");
+          console.log("Fetched streams v2");
           dispatch({
             type: STREAMS_TYPES.FETCH_STREAMS,
             streams: parsedResponse
