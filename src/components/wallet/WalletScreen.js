@@ -16,6 +16,7 @@ class WalletScreen extends Component {
 
   render() {
     const address = localStorage.getItem('address');
+    const email = localStorage.getItem('email');
 
     return (
       <div>
@@ -25,6 +26,7 @@ class WalletScreen extends Component {
           <CardContent>
             <h1>My wallet</h1>
             <p>Address: {address}</p>
+            <p>Email: {email}</p>
             <p>DTX balance: &Xi; {this.props.fetchingWallet?'(loading)':this.props.wallet.balance}</p>
             <Button flat swapTheming primary onClick={() => this.props.logout()}>Log out</Button>
           </CardContent>
