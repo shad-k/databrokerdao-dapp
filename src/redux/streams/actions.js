@@ -159,7 +159,7 @@ export const STREAMS_ACTIONS = {
     return (dispatch, getState) => {
       const authenticatedAxiosClient = axios(null,true);
       authenticatedAxiosClient.get(
-        `/streamregistry/list?limit=100&near=4.700518,50.879844,4000` //TODO add near parameter
+        `/streamregistry/list?limit=100&type[]=temperature&type[]=humidity&type[]=PM25&type[]=PM10&near=4.700518,50.879844,4000` //TODO add near parameter
       ).then(response => {
         const parsedResponse = {};
         _.each(response.data.items, (item) => {

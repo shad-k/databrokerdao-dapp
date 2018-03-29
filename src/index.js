@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { unregister } from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { Switch, Route, withRouter } from 'react-router';
@@ -69,8 +69,6 @@ const render = () => {
 // ========================================================
 
 render();
-
-//TODO unregistered the service worker for testing purposes
 if (process.env.NODE_ENV === 'production') {
-  unregister(); // disable during dev/test
+  registerServiceWorker(); // disable during dev/test
 }
