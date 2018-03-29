@@ -36,6 +36,8 @@ export default class EnhancedSelectField extends Component {
       itemValue
     } = this.props;
 
+    //console.log(this.props);
+
     return (
       <SelectField
         type={type}
@@ -54,6 +56,7 @@ export default class EnhancedSelectField extends Component {
         simplifiedMenu={false}
         itemLabel={itemLabel}
         itemValue={itemValue}
+        style={this.props.style}
       />
     );
   }

@@ -50,6 +50,7 @@ export default class EnhancedTextArea extends Component {
         error={touched && error && true}
         errorText={error}
         className={className}
+        style={this.props.style}
       />
     );
   }

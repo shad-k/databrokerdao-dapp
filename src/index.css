@@ -3668,3 +3668,7 @@ pre {
   background-color: gray !important; }
   .disabled-button:hover {
     background-color: gray !important; }
+
+/* md-cell margins add margin to input fields which is weird. If I want margin I'll ask it myself. */
+.md-cell {
+  margin: 0 !important; }
