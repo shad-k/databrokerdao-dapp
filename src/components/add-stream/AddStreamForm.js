@@ -106,6 +106,45 @@ export default class AddStreamForm extends Component {
               style={{width:"100%"}}
             />
           </StyledColumn>
+          <StyledColumn>
+            <EnhancedTextField
+              id="updateinterval"
+              fieldname="updateinterval"
+              label="Update interval (seconds)"
+              className="md-cell md-cell--bottom"
+              onChange={setFieldValue}
+              onBlur={setFieldTouched}
+              error={errors.updateinterval}
+              touched={touched.updateinterval}
+              style={{width:"100%"}}
+            />
+          </StyledColumn>
+          <StyledColumn>
+            <EnhancedTextField
+              id="price"
+              fieldname="price"
+              label="Price (DTX)"
+              className="md-cell md-cell--bottom"
+              onChange={setFieldValue}
+              onBlur={setFieldTouched}
+              error={errors.price}
+              touched={touched.price}
+              style={{width:"100%"}}
+            />
+          </StyledColumn>
+          <StyledColumn>
+            <EnhancedTextField
+              id="stake"
+              fieldname="stake"
+              label="Stake (DTX)"
+              className="md-cell md-cell--bottom"
+              onChange={setFieldValue}
+              onBlur={setFieldTouched}
+              error={errors.stake}
+              touched={touched.stake}
+              style={{width:"100%"}}
+            />
+          </StyledColumn>
           <StyledColumn style={{width:"100%"}}>
             <EnhancedTextArea
               id="example"
@@ -133,13 +172,16 @@ export default class AddStreamForm extends Component {
     };
 
     const EnhancedForm = withFormik({
-      mapPropsToValues: () => ({ name: '', lat: '', lng: '', type: '', example: '' }),
+      mapPropsToValues: () => ({ name: '', lat: '', lng: '', type: '', example: '', updateinterval: '', price: '', stake: '' }),
       validationSchema: Yup.object().shape({
         name: Yup.string().required('Stream name is required'),
         type: Yup.string().required('Type is required'),
         lat: Yup.number().typeError('Latitude must be a number').required('Latitude is required'),
         lng: Yup.number().typeError('Longitude must be a number').required('Longitude is required'),
-        example: Yup.string().required('Example is required')
+        example: Yup.string().required('Example is required'),
+        updateinterval: Yup.number().typeError('Update must be a number').required('Update interval is required'),
+        price: Yup.number().typeError('Price must be a number').required('Price is required'),
+        stake: Yup.number().typeError('Stake must be a number').required('Stake is required')
       }),
       handleSubmit: (values, { setSubmitting }) => {
         console.log(values);
