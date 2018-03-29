@@ -40,7 +40,7 @@ export const WALLET_ACTIONS = {
       const authenticatedAxiosClient = axios(null,true);
       authenticatedAxiosClient.post(
         "/dtxminter/mint", {
-          amount: amount.toString() //TODO calculate necessary amount
+          amount: amount
         }
       ).then(response => {
         dispatch({

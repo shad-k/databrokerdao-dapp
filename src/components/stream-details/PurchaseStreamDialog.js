@@ -3,6 +3,7 @@ import { Button, DialogContainer, DatePicker, Checkbox } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
 import moment from 'moment';
+import { BigNumber } from 'bignumber.js';
 
 import RegisterForm from '../authentication/RegisterForm';
 import { register } from '../../redux/authentication/reducer';
@@ -46,8 +47,9 @@ class PurchaseStreamDialog extends Component {
       this.setState({step:STEP_CONFIG});
     }
     else if(step === STEP_CONFIG){
+      //const amount = this.props.stream.price * days * 86400; //1 wei per second
       const days = Math.abs(moment().diff(moment(this.state.purchaseEndTime),'days')) + 1;
-      const amount = this.props.stream.price * days * 86400; //1 wei per second
+      const amount = BigNumber(this.props.stream.price).times(days).times(86400).toString();
       this.props.mintTokens(amount);
       this.setState({step:STEP_MINTING,modal:true});
     }
@@ -105,9 +107,6 @@ class PurchaseStreamDialog extends Component {
           <h1>Welcome to DataBroker DAO</h1>
           <p>
             To get you started, we will provide you with free demo DTX tokens.
-          </p>
-          <p>
-            Purchasing stream access is not yet unavailable in this public beta. We will let you know when it is!
           </p>
           <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
             <Button flat primary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>

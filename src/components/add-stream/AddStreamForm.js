@@ -3,11 +3,27 @@ import { withFormik } from 'formik';
 import Yup from 'yup';
 import styled from 'styled-components';
 import { Button } from 'react-md';
+import Mixpanel from 'mixpanel-browser';
+
 import EnhancedTextField from '../generic/EnhancedTextField';
 import EnhancedTextArea from '../generic/EnhancedTextArea';
 import EnhancedSelectField from '../generic/EnhancedSelectField';
+import AddStreamConfirmationDialog from './AddStreamConfirmationDialog';
 
 export default class AddStreamForm extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      ConfirmationDialogVisible: false
+    };
+  }
+
+  toggleConfirmationDialog(){
+    if(!this.state.ConfirmationDialogVisible)
+      Mixpanel.track("View enlisting confirmation dialog");
+    this.setState({ConfirmationDialogVisible: !this.state.ConfirmationDialogVisible});
+  }
 
   render(){
     const streamTypes = [
@@ -51,123 +67,128 @@ export default class AddStreamForm extends Component {
         isSubmitting
       } = props;
       return (
-        <StyledForm onSubmit={handleSubmit}>
-          <StyledColumn>
-            <EnhancedTextField
-              id="name"
-              fieldname="name"
-              label="Stream name"
-              className="md-cell md-cell--bottom"
-              onChange={setFieldValue}
-              onBlur={setFieldTouched}
-              error={errors.name}
-              touched={touched.name}
-              style={{width:"100%"}}
-            />
-          </StyledColumn>
-          <StyledColumn>
-            <EnhancedSelectField
-              id="type"
-              fieldname="type"
-              label="Stream type"
-              className="md-cell"
-              onChange={setFieldValue}
-              menuItems={streamTypes}
-              simplifiedMenu={true}
-              onBlur={setFieldTouched}
-              style={{width:"100%"}}
-              error={errors.type}
-              touched={touched.type}
-            />
-          </StyledColumn>
-          <StyledColumn>
-            <EnhancedTextField
-              id="lat"
-              fieldname="lat"
-              label="Latitude"
-              className="md-cell md-cell--bottom"
-              onChange={setFieldValue}
-              onBlur={setFieldTouched}
-              error={errors.lat}
-              touched={touched.lat}
-              style={{width:"100%"}}
-            />
-          </StyledColumn>
-          <StyledColumn>
-            <EnhancedTextField
-              id="lng"
-              fieldname="lng"
-              label="Longitude"
-              className="md-cell md-cell--bottom"
-              onChange={setFieldValue}
-              onBlur={setFieldTouched}
-              error={errors.lng}
-              touched={touched.lng}
-              style={{width:"100%"}}
-            />
-          </StyledColumn>
-          <StyledColumn>
-            <EnhancedTextField
-              id="updateinterval"
-              fieldname="updateinterval"
-              label="Update interval (seconds)"
-              className="md-cell md-cell--bottom"
-              onChange={setFieldValue}
-              onBlur={setFieldTouched}
-              error={errors.updateinterval}
-              touched={touched.updateinterval}
-              style={{width:"100%"}}
-            />
-          </StyledColumn>
-          <StyledColumn>
-            <EnhancedTextField
-              id="price"
-              fieldname="price"
-              label="Price (DTX)"
-              className="md-cell md-cell--bottom"
-              onChange={setFieldValue}
-              onBlur={setFieldTouched}
-              error={errors.price}
-              touched={touched.price}
-              style={{width:"100%"}}
-            />
-          </StyledColumn>
-          <StyledColumn>
-            <EnhancedTextField
-              id="stake"
-              fieldname="stake"
-              label="Stake (DTX)"
-              className="md-cell md-cell--bottom"
-              onChange={setFieldValue}
-              onBlur={setFieldTouched}
-              error={errors.stake}
-              touched={touched.stake}
-              style={{width:"100%"}}
-            />
-          </StyledColumn>
-          <StyledColumn style={{width:"100%"}}>
-            <EnhancedTextArea
-              id="example"
-              fieldname="example"
-              label="Example reading(s)"
-              className="md-cell md-cell--bottom"
-              onChange={setFieldValue}
-              onBlur={setFieldTouched}
-              error={errors.example}
-              touched={touched.example}
-              style={{width:"100%"}}
-              rows={4}
-              maxRows={10}
-            />
-          </StyledColumn>
-          <StyledColumn>
-          </StyledColumn>
-          <StyledColumn style={{display:"flex", justifyContent:"flex-end"}}>
-            <Button type="submit" flat swapTheming primary disabled={isSubmitting} style={{marginTop:"20px"}}>
-              Submit
-            </Button>
-          </StyledColumn>
-        </StyledForm>
+        <div>
+          <StyledForm onSubmit={handleSubmit}>
+            <StyledColumn>
+              <EnhancedTextField
+                id="name"
+                fieldname="name"
+                label="Stream name"
+                className="md-cell md-cell--bottom"
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.name}
+                touched={touched.name}
+                style={{width:"100%"}}
+              />
+            </StyledColumn>
+            <StyledColumn>
+              <EnhancedSelectField
+                id="type"
+                fieldname="type"
+                label="Stream type"
+                className="md-cell"
+                onChange={setFieldValue}
+                menuItems={streamTypes}
+                simplifiedMenu={true}
+                onBlur={setFieldTouched}
+                style={{width:"100%"}}
+                error={errors.type}
+                touched={touched.type}
+              />
+            </StyledColumn>
+            <StyledColumn>
+              <EnhancedTextField
+                id="lat"
+                fieldname="lat"
+                label="Latitude"
+                className="md-cell md-cell--bottom"
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.lat}
+                touched={touched.lat}
+                style={{width:"100%"}}
+              />
+            </StyledColumn>
+            <StyledColumn>
+              <EnhancedTextField
+                id="lng"
+                fieldname="lng"
+                label="Longitude"
+                className="md-cell md-cell--bottom"
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.lng}
+                touched={touched.lng}
+                style={{width:"100%"}}
+              />
+            </StyledColumn>
+            <StyledColumn>
+              <EnhancedTextField
+                id="updateinterval"
+                fieldname="updateinterval"
+                label="Update interval (seconds)"
+                className="md-cell md-cell--bottom"
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.updateinterval}
+                touched={touched.updateinterval}
+                style={{width:"100%"}}
+              />
+            </StyledColumn>
+            <StyledColumn>
+              <EnhancedTextField
+                id="price"
+                fieldname="price"
+                label="Price (DTX)"
+                className="md-cell md-cell--bottom"
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.price}
+                touched={touched.price}
+                style={{width:"100%"}}
+              />
+            </StyledColumn>
+            <StyledColumn>
+              <EnhancedTextField
+                id="stake"
+                fieldname="stake"
+                label="Stake (DTX)"
+                className="md-cell md-cell--bottom"
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.stake}
+                touched={touched.stake}
+                style={{width:"100%"}}
+              />
+            </StyledColumn>
+            <StyledColumn style={{width:"100%"}}>
+              <EnhancedTextArea
+                id="example"
+                fieldname="example"
+                label="Example reading(s)"
+                className="md-cell md-cell--bottom"
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.example}
+                touched={touched.example}
+                style={{width:"100%"}}
+                rows={4}
+                maxRows={10}
+              />
+            </StyledColumn>
+            <StyledColumn>
+            </StyledColumn>
+            <StyledColumn style={{display:"flex", justifyContent:"flex-end"}}>
+              <Button type="submit" flat swapTheming primary disabled={isSubmitting} style={{marginTop:"20px"}}>
+                Submit
+              </Button>
+            </StyledColumn>
+          </StyledForm>
+          {this.state.stream &&
+            <AddStreamConfirmationDialog visible={this.state.ConfirmationDialogVisible} stream={this.state.stream} hideEventHandler={() => this.toggleConfirmationDialog()} />
+          }
+        </div>
       );
     };
 
@@ -186,6 +207,18 @@ export default class AddStreamForm extends Component {
       handleSubmit: (values, { setSubmitting }) => {
         console.log(values);
         setSubmitting(false);
+        this.setState({stream:{
+            name:values.name,
+            type:values.type,
+            lat:values.lat,
+            lng:values.lng,
+            example:values.example,
+            updateinterval:values.updateinterval,
+            price:values.price,
+            stake:values.stake
+          }
+        });
+        this.toggleConfirmationDialog();
       },
       displayName: 'AddStreamForm', // helps with React DevTools
     })(InnerForm);
