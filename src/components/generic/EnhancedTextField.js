@@ -44,7 +44,7 @@ export default class EnhancedTextField extends Component {
         onBlur={this.handleBlur}
         value={this.state.value}
         error={touched && error && true}
-        errorText={error}
+        errorText={touched && error}
         className={className}
         style={this.props.style}
       />

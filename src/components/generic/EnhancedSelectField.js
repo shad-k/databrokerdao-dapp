@@ -51,7 +51,7 @@ export default class EnhancedSelectField extends Component {
         onBlur={this.handleBlur}
         value={this.state.value}
         error={touched && error && true}
-        errorText={error}
+        errorText={touched && error}
         className={className}
         simplifiedMenu={false}
         itemLabel={itemLabel}
