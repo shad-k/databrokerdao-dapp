@@ -10,7 +10,7 @@ import AuthContainer from './components/authentication/AuthContainer';
 import LandingScreen from './components/landing/LandingScreen';
 import DiscoverScreen from './components/discover/DiscoverScreen';
 import PurchasesScreen from './components/purchases/PurchasesScreen';
-import AddSensorScreen from './components/add-sensor/AddSensorScreen';
+import AddStreamScreen from './components/add-stream/AddStreamScreen';
 import WalletScreen from './components/wallet/WalletScreen';
 import StreamDetailsScreen from './components/stream-details/StreamDetailsScreen';
 import UnsubscribedScreen from './components/unsubscribed/UnsubscribedScreen';
@@ -52,7 +52,7 @@ const render = () => {
           <Route path="/account" component={withRouter(userIsNotAuthenticatedRedir(AuthContainer))} />
           <Route path="/discover" component={withRouter(DiscoverScreen)} />
           <Route path="/purchases" component={withRouter(PurchasesScreen)} />
-          <Route path="/add-sensor" component={withRouter(AddSensorScreen)} />
+          <Route path="/add-stream" component={withRouter(AddStreamScreen)} />
           <Route path="/wallet" component={withRouter(userIsAuthenticatedRedir(WalletScreen))} />
           <Route path="/stream-details/:key" component={withRouter(StreamDetailsScreen)} />
           <Route path="/unsubscribed" component={withRouter(UnsubscribedScreen)} />

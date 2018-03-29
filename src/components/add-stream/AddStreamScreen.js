@@ -5,7 +5,7 @@ import CenteredCard from '../generic/CenteredCard';
 import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
 
-export default class AddSensorScreen extends Component {
+export default class AddStreamScreen extends Component {
   render() {
     return (
       <div>
@@ -13,8 +13,8 @@ export default class AddSensorScreen extends Component {
         <ToolbarSpacer/>
         <CenteredCard>
           <CardContent>
-            <h1>Sell your sensor data</h1>
-            <p>Soon you will be able to sell your sensor data on DataBroker DAO.</p>
+            <h1>Sell your stream data</h1>
+            <p>Soon you will be able to sell your stream data on DataBroker DAO.</p>
           </CardContent>
         </CenteredCard>
       </div>

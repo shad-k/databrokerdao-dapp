@@ -63,10 +63,10 @@ export default withRouter(class Tabs extends Component {
             Purchased streams
           </StyledTabBarItemContent>
         </StyledTabBarItem>
-        <StyledTabBarItem to="/add-sensor" className={this.props.location.pathname === '/add-sensor'?'active':''}>
-          <StyledTabBarItemIcon src={AddSensorIcon} alt="Add sensor" />
+        <StyledTabBarItem to="/add-stream" className={this.props.location.pathname === '/add-stream'?'active':''}>
+          <StyledTabBarItemIcon src={AddSensorIcon} alt="Add stream" />
           <StyledTabBarItemContent>
-            Add sensor
+            Add stream
           </StyledTabBarItemContent>
         </StyledTabBarItem>
       </StyledTabBarContainer>
