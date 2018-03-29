@@ -5,8 +5,8 @@ $md-font-name: Open Sans;
 $dbdao-pink: #ee274c;
 $dbdao-purple: #2e3192;
 
-$md-primary-color: $dbdao-pink;
-$md-secondary-color: $dbdao-purple;
+$md-primary-color: $dbdao-purple;
+$md-secondary-color: $dbdao-pink;
 
 @include react-md-everything;
 
@@ -54,8 +54,19 @@ span.clickable{
   padding-top: 7px;
   padding-bottom: 9px;
   border-radius: 5px;
+
+  &[role=checkbox]{
+    padding-top:9px;
+  }
 }
 
 pre{
   margin:0;
+}
+
+.disabled-button{
+  background-color: gray !important;
+  &:hover{
+    background-color: gray !important;
+  }
 }

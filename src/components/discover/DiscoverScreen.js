@@ -61,7 +61,7 @@ class DiscoverScreen extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStreams: (filter) => STREAMS_ACTIONS.fetchStreams(dispatch,filter)
+    fetchStreams: (filter) => STREAMS_ACTIONS.fetchStreams(dispatch, filter)
   }
 }
 

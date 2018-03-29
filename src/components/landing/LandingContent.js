@@ -159,7 +159,7 @@ class LandingContent extends Component {
                 </StyledTypeButton>
               </div>
             </div>
-            <StyledDiscoverButton secondary swapTheming flat onClick={this.onDiscoverButtonClicked.bind(this)}>
+            <StyledDiscoverButton primary swapTheming flat onClick={this.onDiscoverButtonClicked.bind(this)}>
               Discover sensors
             </StyledDiscoverButton>
           </CardText>
@@ -171,7 +171,7 @@ class LandingContent extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateFilter: (filter) => STREAMS_ACTIONS.updateFilter(dispatch, filter)
+    updateFilter: (filter) => dispatch(STREAMS_ACTIONS.updateFilter(filter))
   }
 }
 

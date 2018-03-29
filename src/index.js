@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { Switch, Route, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import createStore from './redux/create-store';
 import AuthContainer from './components/authentication/AuthContainer';
-import SearchContainer from './components/search/SearchContainer';
 import LandingScreen from './components/landing/LandingScreen';
 import DiscoverScreen from './components/discover/DiscoverScreen';
 import PurchasesScreen from './components/purchases/PurchasesScreen';
 import AddSensorScreen from './components/add-sensor/AddSensorScreen';
 import WalletScreen from './components/wallet/WalletScreen';
 import StreamDetailsScreen from './components/stream-details/StreamDetailsScreen';
+import UnsubscribedScreen from './components/unsubscribed/UnsubscribedScreen';
 import Mixpanel from 'mixpanel-browser';
 
 import './styles/index.css';
@@ -55,6 +55,7 @@ const render = () => {
           <Route path="/add-sensor" component={withRouter(AddSensorScreen)} />
           <Route path="/wallet" component={withRouter(userIsAuthenticatedRedir(WalletScreen))} />
           <Route path="/stream-details/:key" component={withRouter(StreamDetailsScreen)} />
+          <Route path="/unsubscribed" component={withRouter(UnsubscribedScreen)} />
           <Route path="/" component={LandingScreen} />
         </Switch>
       </ConnectedRouter>
@@ -69,5 +70,5 @@ const render = () => {
 
 render();
 if (process.env.NODE_ENV === 'production') {
-  registerServiceWorker(); // disable during dev/test
+  unregister(); // disable during dev/test
 }

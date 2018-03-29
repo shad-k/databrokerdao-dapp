@@ -1,28 +1,19 @@
 import React, { Component } from 'react';
+import { Marker } from "react-google-maps"
 
 import MapMarker from '../generic/MapMarker';
 import ClosedDiscoverMapMarker from './ClosedDiscoverMapMarker';
 import OpenDiscoverMapMarker from './OpenDiscoverMapMarker';
 
 export default class DiscoverMapMarker extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {expanded:false};
-  }
-
-  toggleExpanded() {
-    this.setState({expanded:!this.state.expanded});
-  }
-
   render() {
     return (
       <MapMarker position={this.props.position}>
-          <div style={{cursor:"pointer"}} onClick={event => this.toggleExpanded()}>
-            {!this.state.expanded &&
+          <div style={{cursor:"pointer"}} onClick={() => this.props.onClick(this.props.stream.key)}>
+            {!(this.props.openedMapMarker === this.props.stream.key) &&
               <ClosedDiscoverMapMarker stream={this.props.stream}/>
             }
-            {this.state.expanded &&
+            {(this.props.openedMapMarker === this.props.stream.key) &&
               <OpenDiscoverMapMarker stream={this.props.stream}/>
             }
           </div>

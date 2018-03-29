@@ -25,8 +25,12 @@ class DiscoverStreamsList extends Component {
       }
 
       &.disabled{
-        cursor:default;
         color: rgba(0,0,0,0.5);
+      }
+
+      &.disabled:hover{
+        cursor:default;
+        background-color: white;
       }
     `;
 

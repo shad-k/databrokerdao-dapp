@@ -8,104 +8,224 @@ export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',
   FETCHING_STREAMS: 'FETCHING_STREAMS',
   FETCH_STREAM: 'FETCH_STREAM',
+  FETCH_LANDING_STREAMS: 'FETCH_LANDING_STREAMS',
   FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES',
-  UPDATED_FILTER: 'UPDATED_FILTER'
+  UPDATED_FILTER: 'UPDATED_FILTER',
+  UPDATED_MAP: 'UPDATED_MAP',
+  FETCH_STREAM_COUNTER: 'FETCH_STREAM_COUNTER'
 };
 
 export const STREAMS_ACTIONS = {
-  fetchStreams: async (dispatch, filter = {}) => {
-    dispatch({
-      type: STREAMS_TYPES.FETCHING_STREAMS,
-      value: true
-    });
+  fetchStreams: (_filter, _lat, _lng, _distance) => {
+    return (dispatch, getState) => {
+      const state = getState();
 
-    let filterUrlQuery = "";
-    if(filter.types && filter.types.length === 1)
-      filterUrlQuery = `type=${filter.types[0]}`;
-    else
-      filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
+      dispatch({
+        type: STREAMS_TYPES.FETCHING_STREAMS,
+        value: true
+      });
 
-    console.log(filterUrlQuery);
+      let filterUrlQuery = "";
 
-    const authenticatedAxiosClient = axios(null,true);
-    const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list?limit=8000&${filterUrlQuery}`
-    );
+      //Filter on type
+      const filter = (_filter)?_filter:state.streams.filter;
+      if(filter.types && filter.types.length === 1)
+        filterUrlQuery = `type=${filter.types[0]}`;
+      else
+        filterUrlQuery = _.map(filter.types,(type) => {return `type[]=${type}`}).join("&");
 
-    const parsedResponse = {};
-    _.each(response.data.items, (item) => {
-      //Only if not in Germany (TODO: remove)
-      if(item.geo.lng <= 5.8){
-        parsedResponse[item.key] = {
-          id:item._id,
-          key:item.key,
-          name:item.name,
-          type:item.type,
-          price:item.price,
-          stake:item.stake,
-          example:item.example,
-          geo:item.geo
-        };
+      if(_filter){
+        dispatch({
+          type: STREAMS_TYPES.UPDATED_FILTER,
+          filter //ES6 syntax sugar
+        });
       }
-    });
 
-    dispatch({
-      type: STREAMS_TYPES.FETCH_STREAMS,
-      streams: parsedResponse
-    });
+      //Only get streams near certain point
+      if(_lat && _lng && _distance){
+        filterUrlQuery += `&near=${_lng},${_lat},${_distance}`;
+        dispatch({
+          type: STREAMS_TYPES.UPDATED_MAP,
+          map:{
+            distance:_distance,
+            lat:_lat,
+            lng:_lng
+          }
+        });
+      }
+      else{ // Get from Redux state
+        const distance = state.streams.map.distance;
+        const lat = state.streams.map.lat;
+        const lng = state.streams.map.lng;
+
+        filterUrlQuery += `&near=${lng},${lat},${distance}`;
+      }
+
+      const limit = 5000;
+
+      const authenticatedAxiosClient = axios(null,true);
+      //const response = JSON.parse(EXAMPLE_STREAMS_API_RESPONSE);
+      const fetchStreamCounter = state.streams.fetchStreamCounter+1;
+
+      //Counter to keep track of calls so when response arrives we can take the latest
+      ((counter) => {
+          console.log(counter);
+          authenticatedAxiosClient.get(
+          `/streamregistry/list?limit=${limit}&${filterUrlQuery}`
+        ).then(response => {
+          if(counter !== getState().streams.fetchStreamCounter){
+            // console.log(counter);
+            // console.log(getState().streams.fetchStreamCounter);
+            return;
+          }
+          const parsedResponse = {};
+          _.each(response.data.items, (item) => {
+            //Temporary filter out streams at same coordinates (should be supported in UI in future)
+            const itemAtSameCoordinates = _.find(parsedResponse, parsedItem => {
+              return parsedItem.geometry.coordinates[0] === item.geo.coordinates[1] && parsedItem.geometry.coordinates[1] === item.geo.coordinates[0];
+            });
+
+            if(!itemAtSameCoordinates){
+              parsedResponse[item.key] = {
+                id:item._id,
+                key:item.key,
+                name:item.name,
+                type:item.type,
+                price:item.price,
+                updateinterval:item.updateinterval,
+                stake:item.stake,
+                example:item.example,
+                geometry:{
+                  "type": "Point",
+                  "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
+                }
+              };
+            }
+          });
+          if(1 == 1)
+            console.log("Fetched streams v2");
+          dispatch({
+            type: STREAMS_TYPES.FETCH_STREAMS,
+            streams: parsedResponse
+          });
+
+        }).catch(error => {
+          console.log(error);
+        });
+      })(fetchStreamCounter);
+      dispatch({
+        type: STREAMS_TYPES.FETCH_STREAM_COUNTER,
+        value: fetchStreamCounter
+      });
+    }
   },
-  fetchStream: async (dispatch, streamKey) => {
-    const authenticatedAxiosClient = axios(null,true);
-    const response = await authenticatedAxiosClient.get(
-      `/streamregistry/list/${streamKey}`
-    );
-
-    const responseStream = response.data;
-    const parsedResponse = {
-      id:responseStream._id,
-      key:responseStream.key,
-      name:responseStream.name,
-      type:responseStream.type,
-      price:responseStream.price,
-      stake:responseStream.stake,
-      example:responseStream.example,
-      geo:responseStream.geo
-    };
-
-    dispatch({
-      type: STREAMS_TYPES.FETCH_STREAM,
-      stream: parsedResponse
-    });
-  },
-  fetchAvailableStreamTypes: (dispatch) => {
-    dispatch({
-      type: STREAMS_TYPES.FETCH_AVAILABLE_STREAM_TYPES,
-      availableStreamTypes: {
-        temperature: {
-          id:'temperature',
-          name:'Temperature'
-        },
-        humidity: {
-          id:'humidity',
-          name:'Humidity'
-        },
-        PM10: {
-          id:'PM10',
-          name:'PM10'
-        },
-        'PM25': {
-          id:'PM25',
-          name:'PM25'
+  fetchStream: (dispatch, streamKey) => {
+    return (dispatch, getState) => {
+      const authenticatedAxiosClient = axios(null,true);
+      authenticatedAxiosClient.get(
+        `/streamregistry/list/${streamKey}`
+      ).then(response => {
+        let parsedResponse = null;
+        if(response.data._id){
+           parsedResponse= {
+            id:response.data._id,
+            key:response.data.key,
+            name:response.data.name,
+            type:response.data.type,
+            price:response.data.price,
+            updateinterval:response.data.updateinterval,
+            stake:response.data.stake,
+            example:response.data.example,
+            geometry:{
+              "type": "Point",
+              "coordinates": [response.data.geo.coordinates[1], response.data.geo.coordinates[0]]
+            }
+          };
         }
-      }
-    });
-  },
-  updateFilter: (dispatch, filter) => {
-    dispatch({
-      type: STREAMS_TYPES.UPDATED_FILTER,
-      filter //ES6 syntax sugar
-    });
+        else {
+          parsedResponse = {};
+        }
 
-    STREAMS_ACTIONS.fetchStreams(dispatch, filter);
+        dispatch({
+          type: STREAMS_TYPES.FETCH_STREAM,
+          stream: parsedResponse
+        });
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  },
+  fetchLandingStreams: () => {
+    return (dispatch, getState) => {
+      const authenticatedAxiosClient = axios(null,true);
+      authenticatedAxiosClient.get(
+        `/streamregistry/list?limit=100&type[]=temperature&type[]=humidity&type[]=PM25&type[]=PM10&near=4.700518,50.879844,4000` //TODO add near parameter
+      ).then(response => {
+        const parsedResponse = {};
+        _.each(response.data.items, (item) => {
+          const itemAtSameCoordinates = _.find(parsedResponse, parsedItem => {
+            return parsedItem.geometry.coordinates[0] === item.geo.coordinates[1] && parsedItem.geometry.coordinates[1] === item.geo.coordinates[0];
+          });
+
+          if(!itemAtSameCoordinates){
+            parsedResponse[item.key] = {
+              id:item._id,
+              key:item.key,
+              name:item.name,
+              type:item.type,
+              price:item.price,
+              stake:item.stake,
+              example:item.example,
+              geometry:{
+                "type": "Point",
+                "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
+              }
+            };
+          }
+        });
+
+        dispatch({
+          type: STREAMS_TYPES.FETCH_LANDING_STREAMS,
+          streams: parsedResponse
+        });
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  },
+  fetchAvailableStreamTypes: () => {
+    return (dispatch, getState) => {
+      dispatch({
+        type: STREAMS_TYPES.FETCH_AVAILABLE_STREAM_TYPES,
+        availableStreamTypes: {
+          temperature: {
+            id:'temperature',
+            name:'Temperature'
+          },
+          humidity: {
+            id:'humidity',
+            name:'Humidity'
+          },
+          PM10: {
+            id:'PM10',
+            name:'PM10'
+          },
+          PM25: {
+            id:'PM25',
+            name:'PM25'
+          }
+        }
+      });
+    }
+  },
+  updateFilter: (filter) => { //Used by landing page
+    return (dispatch, getState) => {
+      dispatch({
+        type: STREAMS_TYPES.UPDATED_FILTER,
+        filter //ES6 syntax sugar
+      });
+
+      STREAMS_ACTIONS.fetchStreams(dispatch, filter);
+    }
   }
 };

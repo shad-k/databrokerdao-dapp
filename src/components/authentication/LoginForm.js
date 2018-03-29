@@ -48,7 +48,7 @@ const PureLoginForm = ({
           type="submit"
           disabled={isSubmitting}
           flat
-          secondary
+          primary
           swapTheming
           style={{ marginTop: '30px', float:"right" }}
         >
