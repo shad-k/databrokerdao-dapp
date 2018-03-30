@@ -11,10 +11,9 @@ import { WALLET_ACTIONS } from '../../redux/wallet/actions';
 
 const STEP_INTRO = 1,
   STEP_REGISTRATION = 2,
-  STEP_WELCOME = 3,
-  STEP_MINTING = 4,
-  STEP_ENLISTING = 5,
-  STEP_SUCCESS = 6;
+  STEP_MINTING = 3,
+  STEP_ENLISTING = 4,
+  STEP_SUCCESS = 5;
 
 class AddStreamConfirmationDialog extends Component {
   constructor(props){
@@ -37,9 +36,6 @@ class AddStreamConfirmationDialog extends Component {
     }
     else if(step === STEP_REGISTRATION){
       Mixpanel.track("Finish registration for enlisting");
-      this.setState({step:STEP_WELCOME});
-    }
-    else if(step === STEP_WELCOME){
       const amount = BigNumber(this.props.stream.stake).times(BigNumber(10).pow(18)).toString(); //server needs amount in wei, so stake * 10^18
       this.props.mintTokens(amount);
       this.setState({step:STEP_MINTING});
@@ -82,15 +78,6 @@ class AddStreamConfirmationDialog extends Component {
             register={(values, settings) => this.props.register(values, settings)}
             callBack={() => {this.finishStep(STEP_REGISTRATION)}}
           />
-        </div>
-        <div style={{display:(this.state.step === STEP_WELCOME)?'block':'none'}}>
-          <h1>Welcome to DataBroker DAO</h1>
-          <p>
-            To get you started, we will provide you with free demo DTX tokens.
-          </p>
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
-          </div>
         </div>
         <div style={{display:(this.state.step === STEP_MINTING)?'block':'none'}}>
           <h1>Minting free DTX tokens for you</h1>

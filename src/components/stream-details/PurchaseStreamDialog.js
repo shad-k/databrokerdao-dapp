@@ -12,11 +12,10 @@ import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 
 const STEP_INTRO = 1,
   STEP_REGISTRATION = 2,
-  STEP_WELCOME = 3,
-  STEP_CONFIG = 4,
-  STEP_MINTING = 5,
-  STEP_PURCHASING = 6,
-  STEP_SUCCESS = 7;
+  STEP_CONFIG = 3,
+  STEP_MINTING = 4,
+  STEP_PURCHASING = 5,
+  STEP_SUCCESS = 6;
 
 class PurchaseStreamDialog extends Component {
   constructor(props){
@@ -41,13 +40,9 @@ class PurchaseStreamDialog extends Component {
     }
     else if(step === STEP_REGISTRATION){
       Mixpanel.track("Finish registration for purchase");
-      this.setState({step:STEP_WELCOME});
-    }
-    else if(step === STEP_WELCOME){
       this.setState({step:STEP_CONFIG});
     }
     else if(step === STEP_CONFIG){
-      //const amount = this.props.stream.price * days * 86400; //1 wei per second
       const days = Math.abs(moment().diff(moment(this.state.purchaseEndTime),'days')) + 1;
       const amount = BigNumber(this.props.stream.price).times(days).times(86400).toString();
       this.props.mintTokens(amount);
@@ -102,15 +97,6 @@ class PurchaseStreamDialog extends Component {
             register={(values, settings) => this.props.register(values, settings)}
             callBack={() => {this.finishStep(STEP_REGISTRATION)}}
           />
-        </div>
-        <div style={{display:(this.state.step === STEP_WELCOME)?'block':'none'}}>
-          <h1>Welcome to DataBroker DAO</h1>
-          <p>
-            To get you started, we will provide you with free demo DTX tokens.
-          </p>
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_WELCOME)}>Continue</Button>
-          </div>
         </div>
         <div style={{display:(this.state.step === STEP_CONFIG)?'block':'none'}}>
           <h1>Stream readings delivery</h1>
