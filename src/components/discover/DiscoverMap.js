@@ -5,7 +5,7 @@ import _ from 'lodash';
 import supercluster from 'supercluster';
 
 import DiscoverMapMarker from './DiscoverMapMarker';
-import Cluster from './Cluster';
+import Cluster from '../generic/Cluster';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 class DiscoverMap extends Component {
