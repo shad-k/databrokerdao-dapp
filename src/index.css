@@ -3644,7 +3644,8 @@ h2 {
   font-family: 'Titillium Web', sans-serif; }
 
 p {
-  color: rgba(0, 0, 0, 0.7); }
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 14px; }
 
 li {
   color: rgba(0, 0, 0, 0.7);

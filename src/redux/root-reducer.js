@@ -6,6 +6,7 @@ import { reducer as auth } from './authentication/reducer';
 import StreamsReducer from './streams/reducer';
 import PurchasesReducer from './purchases/reducer';
 import WalletReducer from './wallet/reducer';
+import ListingsReducer from './listings/reducer';
 
 /**
  * This is the global reducer to which all reducers which are loaded at runtime are added.
@@ -27,6 +28,7 @@ const rootReducer = (asyncReducers, initialState) => {
     streams: StreamsReducer,
     purchases: PurchasesReducer,
     wallet: WalletReducer,
+    listings: ListingsReducer,
     // TODO: add reducers
     ...asyncReducers,
     ...missingReducers

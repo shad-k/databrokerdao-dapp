@@ -26,13 +26,12 @@ export const PURCHASES_ACTIONS = {
         return authenticatedAxiosClient.get(`/streamregistry/list/${streamKey}`);
       }
 
-      //Test code to test getting purchases
       const email = localStorage.getItem('email');
       authenticatedAxiosClient.get(`/purchaseregistry/list?email=${email}`).then(response => {
         const purchases = response.data.items;
 
         const streamDetailCalls = [];
-        _.each(response.data.items, (purchase) => {
+        _.each(purchases, (purchase) => {
           streamDetailCalls.push(getStreamDetails(purchase.stream));
         });
 

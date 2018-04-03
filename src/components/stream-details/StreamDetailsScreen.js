@@ -100,7 +100,12 @@ class StreamDetailsScreen extends Component {
         </div>
       );
 
-      const example = JSON.stringify(JSON.parse(stream.example.replace(/'/g, '"')), null, '  ');
+      const example = stream.example;
+      try {
+        JSON.stringify(JSON.parse(stream.example.replace(/'/g, '"')), null, '  ');
+      } catch (e) {
+        // Not a JSON example - OK no problem
+      }
 
       const price = this.convertWeiToDtx(stream.price * stream.updateinterval / 1000);
       const stake = this.convertWeiToDtx(stream.stake);
@@ -116,7 +121,7 @@ class StreamDetailsScreen extends Component {
             <StyledSensorNameCardContent>
               <h1 style={{display:"inline-block"}}>{stream.name}</h1>
               {!purchased &&
-                <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"6px"}}>Purchase access</Button>
+                <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"8px"}}>Purchase access</Button>
               }
             </StyledSensorNameCardContent>
           </CardContent>

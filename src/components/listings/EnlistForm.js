@@ -8,9 +8,9 @@ import Mixpanel from 'mixpanel-browser';
 import EnhancedTextField from '../generic/EnhancedTextField';
 import EnhancedTextArea from '../generic/EnhancedTextArea';
 import EnhancedSelectField from '../generic/EnhancedSelectField';
-import AddStreamConfirmationDialog from './AddStreamConfirmationDialog';
+import EnlistConfirmationDialog from './EnlistConfirmationDialog';
 
-export default class AddStreamForm extends Component {
+export default class EnlistForm extends Component {
   constructor(props){
     super(props);
 
@@ -186,7 +186,7 @@ export default class AddStreamForm extends Component {
             </StyledColumn>
           </StyledForm>
           {this.state.stream &&
-            <AddStreamConfirmationDialog visible={this.state.ConfirmationDialogVisible} stream={this.state.stream} hideEventHandler={() => this.toggleConfirmationDialog()} />
+            <EnlistConfirmationDialog visible={this.state.ConfirmationDialogVisible} stream={this.state.stream} hideEventHandler={() => this.toggleConfirmationDialog()} />
           }
         </div>
       );
@@ -220,7 +220,7 @@ export default class AddStreamForm extends Component {
         });
         this.toggleConfirmationDialog();
       },
-      displayName: 'AddStreamForm', // helps with React DevTools
+      displayName: 'EnlistForm', // helps with React DevTools
     })(InnerForm);
 
     return(

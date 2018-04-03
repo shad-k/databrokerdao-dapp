@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import RegisterForm from '../authentication/RegisterForm';
 import { register } from '../../redux/authentication/reducer';
 import { WALLET_ACTIONS } from '../../redux/wallet/actions';
+import { LISTING_ACTIONS } from '../../redux/listings/actions';
 
 const STEP_INTRO = 1,
   STEP_REGISTRATION = 2,
@@ -16,7 +17,7 @@ const STEP_INTRO = 1,
   STEP_ENLISTING = 4,
   STEP_SUCCESS = 5;
 
-class AddStreamConfirmationDialog extends Component {
+class EnlistConfirmationDialog extends Component {
   constructor(props){
     super(props);
 
@@ -42,7 +43,7 @@ class AddStreamConfirmationDialog extends Component {
       this.setState({step:STEP_MINTING});
     }
     else if (step === STEP_MINTING){
-      //this.props.purchaseAccess(this.props.stream,this.state.purchaseEndTime);
+      this.props.enlistStream(this.props.stream);
       this.setState({step:STEP_ENLISTING});
     }
     else if(step === STEP_ENLISTING)
@@ -72,7 +73,7 @@ class AddStreamConfirmationDialog extends Component {
     `;
 
     const StyledCircularProgress = styled(CircularProgress)`
-      margin: 9px 0 0 0;
+      margin: 8px 0 0 0;
     `;
 
     return(
@@ -81,12 +82,12 @@ class AddStreamConfirmationDialog extends Component {
         visible={this.props.visible}
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
-        dialogStyle={{width:"530px",position:"relative",top:"33%",padding:"4px 10px 4px 10px"}}
+        dialogStyle={{width:"560px",position:"relative",top:"33%",padding:"4px 10px 4px 10px"}}
         aria-labelledby="Add stream"
         modal={true}
       >
         <div style={{display:(this.state.step === STEP_INTRO)?'block':'none'}}>
-          <h1>Enlisting your stream: {this.props.stream.name}</h1>
+          <h1>Confirm listing</h1>
           <p>
             To enlist a stream, you need DTX tokens to stake. As DataBroker DAO is currently in beta, we will provide you with free demo tokens.
           </p>
@@ -104,7 +105,7 @@ class AddStreamConfirmationDialog extends Component {
           />
         </div>
         <div style={{display:(this.state.step === STEP_MINTING)?'block':'none'}}>
-          <h1>Minting free DTX tokens for you</h1>
+          <h1>Minting free DTX tokens</h1>
           <p>During the beta of DataBroker DAO DTX tokens are free.</p>
           <StyledButtonContainer>
             {this.props.mintingTokens && (
@@ -126,16 +127,16 @@ class AddStreamConfirmationDialog extends Component {
             It takes a while to save to the blockchain due to blocks that have to be mined before your transaction can be confirmed.
           </p>
           <StyledButtonContainer>
-            {this.props.purchasingAccess && (
+            {this.props.enlistingStream && (
               <StyledButtonColumnLeft>
                 <StyledCircularProgress
                   centered={false}
-                  id="purchasing-in-progress"
+                  id="enlisting-in-progress"
                 />
               </StyledButtonColumnLeft>
             )}
             <StyledButtonColumnRight>
-              <Button flat primary swapTheming onClick={event => this.finishStep(STEP_ENLISTING)} disabled={this.props.purchasingAccess} className={this.props.purchasingAccess?'disabled-button':''} >Continue</Button>
+              <Button flat primary swapTheming onClick={event => this.finishStep(STEP_ENLISTING)} disabled={this.props.enlistingStream} className={this.props.enlistingStream?'disabled-button':''} >Continue</Button>
             </StyledButtonColumnRight>
           </StyledButtonContainer>
         </div>
@@ -157,14 +158,16 @@ class AddStreamConfirmationDialog extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  mintingTokens: state.wallet.mintingTokens
+  mintingTokens: state.wallet.mintingTokens,
+  enlistingStream: state.listings.enlistingStream
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     register: (values, settings) => dispatch(register(values, settings)),
-    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount))
+    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount)),
+    enlistStream: (stream) => dispatch(LISTING_ACTIONS.enlistStream(stream))
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddStreamConfirmationDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(EnlistConfirmationDialog);

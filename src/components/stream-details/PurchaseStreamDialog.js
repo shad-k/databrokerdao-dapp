@@ -88,7 +88,7 @@ class PurchaseStreamDialog extends Component {
     `;
 
     const StyledCircularProgress = styled(CircularProgress)`
-      margin: 9px 0 0 0;
+      margin: 8px 0 0 0;
     `;
 
     return(
@@ -97,7 +97,7 @@ class PurchaseStreamDialog extends Component {
         visible={this.props.visible}
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
-        dialogStyle={{width:"530px",position:"relative",top:"33%",padding:"4px 10px 4px 10px"}}
+        dialogStyle={{width:"560px",position:"relative",top:"33%",padding:"4px 10px 4px 10px"}}
         aria-labelledby="Purchase stream"
         modal={this.state.modal}
       >
@@ -152,7 +152,7 @@ class PurchaseStreamDialog extends Component {
           </StyledButtonContainer>
         </div>
         <div style={{display:(this.state.step === STEP_MINTING)?'block':'none'}}>
-          <h1>Minting free DTX tokens for you</h1>
+          <h1>Minting free DTX tokens</h1>
           <p>During the beta of DataBroker DAO DTX tokens are free.</p>
           <StyledButtonContainer>
             {this.props.mintingTokens && (

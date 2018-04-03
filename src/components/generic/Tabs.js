@@ -4,13 +4,13 @@ import { Link, withRouter } from 'react-router-dom';
 
 import DiscoverIcon from '../../assets/discover-icon.svg';
 import PurchasesIcon from '../../assets/purchases-icon.svg';
-import AddSensorIcon from '../../assets/add-sensor-icon.svg';
+import ListingsIcon from '../../assets/listings-icon.svg';
 
 export default withRouter(class Tabs extends Component {
   render() {
     const StyledTabBarContainer = styled.div`
       width: 100%;
-      max-width: 660px;
+      max-width: 520px;
       display: flex;
       justify-content: space-between;
     `;
@@ -60,13 +60,13 @@ export default withRouter(class Tabs extends Component {
         <StyledTabBarItem to="/purchases" className={this.props.location.pathname === '/purchases'?'active':''}>
           <StyledTabBarItemIcon src={PurchasesIcon} alt="Purchases" />
           <StyledTabBarItemContent>
-            Purchased streams
+            Purchases
           </StyledTabBarItemContent>
         </StyledTabBarItem>
-        <StyledTabBarItem to="/add-stream" className={this.props.location.pathname === '/add-stream'?'active':''}>
-          <StyledTabBarItemIcon src={AddSensorIcon} alt="Add stream" />
+        <StyledTabBarItem to="/listings" className={this.props.location.pathname === '/listings'?'active':''}>
+          <StyledTabBarItemIcon src={ListingsIcon} alt="Add stream" />
           <StyledTabBarItemContent>
-            Add stream
+            Listings
           </StyledTabBarItemContent>
         </StyledTabBarItem>
       </StyledTabBarContainer>
