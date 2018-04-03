@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Button, DialogContainer, DatePicker, Checkbox } from 'react-md';
+import { Button, DialogContainer, DatePicker, Checkbox, CircularProgress } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
 import moment from 'moment';
 import { BigNumber } from 'bignumber.js';
+import styled from 'styled-components';
 
 import RegisterForm from '../authentication/RegisterForm';
 import { register } from '../../redux/authentication/reducer';
@@ -69,13 +70,34 @@ class PurchaseStreamDialog extends Component {
   }
 
   render(){
+    const StyledButtonContainer = styled.div`
+      width:100%;
+      margin-top:24px;
+      display: flex;
+    `;
+
+    const StyledButtonColumnLeft = styled.div`
+      flex:1;
+    `;
+
+    const StyledButtonColumnRight = styled.div`
+      flex:1;
+      justify-content:flex-end;
+      align-items:flex-end;
+      display:flex;
+    `;
+
+    const StyledCircularProgress = styled(CircularProgress)`
+      margin: 9px 0 0 0;
+    `;
+
     return(
       <DialogContainer
         id="staking-explainer"
         visible={this.props.visible}
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
-        dialogStyle={{width:"500px",position:"relative",top:"33%"}}
+        dialogStyle={{width:"530px",position:"relative",top:"33%",padding:"4px 10px 4px 10px"}}
         aria-labelledby="Purchase stream"
         modal={this.state.modal}
       >
@@ -87,9 +109,11 @@ class PurchaseStreamDialog extends Component {
           <p>
             After your purchase, the readings of this stream will be delivered to your email address.
           </p>
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
-          </div>
+          <StyledButtonContainer>
+            <StyledButtonColumnRight>
+              <Button flat primary swapTheming onClick={event => this.finishStep(STEP_INTRO)}>Continue</Button>
+            </StyledButtonColumnRight>
+          </StyledButtonContainer>
         </div>
         <div style={{display:(this.state.step === STEP_REGISTRATION)?'block':'none'}}>
           <h1>Registration</h1>
@@ -121,25 +145,47 @@ class PurchaseStreamDialog extends Component {
             onChange={(value) => this.handlePurchaseEndTimeChange(value)}
             formatOptions={{timeZone: 'UTC'}}
           />
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
-          </div>
+          <StyledButtonContainer>
+            <StyledButtonColumnRight>
+              <Button flat primary swapTheming onClick={event => this.finishStep(STEP_CONFIG)}>Continue</Button>
+            </StyledButtonColumnRight>
+          </StyledButtonContainer>
         </div>
         <div style={{display:(this.state.step === STEP_MINTING)?'block':'none'}}>
           <h1>Minting free DTX tokens for you</h1>
           <p>During the beta of DataBroker DAO DTX tokens are free.</p>
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_MINTING)} disabled={this.props.mintingTokens} className={this.props.mintingTokens?'disabled-button':''} >Continue</Button>
-          </div>
+          <StyledButtonContainer>
+            {this.props.mintingTokens && (
+              <StyledButtonColumnLeft>
+                <StyledCircularProgress
+                  centered={false}
+                  id="minting-in-progress"
+                />
+              </StyledButtonColumnLeft>
+            )}
+            <StyledButtonColumnRight>
+              <Button flat primary swapTheming onClick={event => this.finishStep(STEP_MINTING)} disabled={this.props.mintingTokens} className={this.props.mintingTokens?'disabled-button':''} >Continue</Button>
+            </StyledButtonColumnRight>
+          </StyledButtonContainer>
         </div>
         <div style={{display:(this.state.step === STEP_PURCHASING)?'block':'none'}}>
           <h1>Saving purchase to the blockchain</h1>
           <p>
             It takes a while to save your purchase to the blockchain due to blocks that have to be mined before your transaction can be confirmed.
           </p>
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_PURCHASING)} disabled={this.props.purchasingAccess} className={this.props.purchasingAccess?'disabled-button':''} >Continue</Button>
-          </div>
+          <StyledButtonContainer>
+            {this.props.purchasingAccess && (
+              <StyledButtonColumnLeft>
+                <StyledCircularProgress
+                  centered={false}
+                  id="purchasing-in-progress"
+                />
+              </StyledButtonColumnLeft>
+            )}
+            <StyledButtonColumnRight>
+              <Button flat primary swapTheming onClick={event => this.finishStep(STEP_PURCHASING)} disabled={this.props.purchasingAccess} className={this.props.purchasingAccess?'disabled-button':''} >Continue</Button>
+            </StyledButtonColumnRight>
+          </StyledButtonContainer>
         </div>
         <div style={{display:(this.state.step === STEP_SUCCESS)?'block':'none'}}>
           <h1>Purchase successful</h1>
@@ -153,9 +199,11 @@ class PurchaseStreamDialog extends Component {
               Congratulations! You successfully purchased access to this stream.
             </p>
           }
-          <div style={{display:"flex", justifyContent:"flex-end",width:"100%"}}>
-            <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
-          </div>
+          <StyledButtonContainer>
+            <StyledButtonColumnRight>
+              <Button flat primary swapTheming onClick={event => this.finishStep(STEP_SUCCESS)}>Continue</Button>
+            </StyledButtonColumnRight>
+          </StyledButtonContainer>
         </div>
       </DialogContainer>
     );
