@@ -73,7 +73,7 @@ class EnlistConfirmationDialog extends Component {
     `;
 
     const StyledCircularProgress = styled(CircularProgress)`
-      margin: 8px 0 0 0;
+      margin: 4px 0 0 0;
     `;
 
     return(
@@ -87,7 +87,7 @@ class EnlistConfirmationDialog extends Component {
         modal={true}
       >
         <div style={{display:(this.state.step === STEP_INTRO)?'block':'none'}}>
-          <h1>Confirm listing</h1>
+          <h1>Confirm enlisting</h1>
           <p>
             To enlist a stream, you need DTX tokens to stake. As DataBroker DAO is currently in beta, we will provide you with free demo tokens.
           </p>
@@ -122,7 +122,7 @@ class EnlistConfirmationDialog extends Component {
           </StyledButtonContainer>
         </div>
         <div style={{display:(this.state.step === STEP_ENLISTING)?'block':'none'}}>
-          <h1>Saving your stream to the blockchain</h1>
+          <h1>Saving to the blockchain</h1>
           <p>
             It takes a while to save to the blockchain due to blocks that have to be mined before your transaction can be confirmed.
           </p>

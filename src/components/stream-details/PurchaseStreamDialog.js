@@ -88,7 +88,7 @@ class PurchaseStreamDialog extends Component {
     `;
 
     const StyledCircularProgress = styled(CircularProgress)`
-      margin: 8px 0 0 0;
+      margin: 4px 0 0 0;
     `;
 
     return(
@@ -102,7 +102,7 @@ class PurchaseStreamDialog extends Component {
         modal={this.state.modal}
       >
         <div style={{display:(this.state.step === STEP_INTRO)?'block':'none'}}>
-          <h1>Purchase access to {this.props.stream.name}</h1>
+          <h1>Purchase access</h1>
           <p>
             Purchases are made using DTX tokens. As DataBroker DAO is currently in beta, we will provide you with free demo tokens.
           </p>
@@ -169,7 +169,7 @@ class PurchaseStreamDialog extends Component {
           </StyledButtonContainer>
         </div>
         <div style={{display:(this.state.step === STEP_PURCHASING)?'block':'none'}}>
-          <h1>Saving purchase to the blockchain</h1>
+          <h1>Saving to the blockchain</h1>
           <p>
             It takes a while to save your purchase to the blockchain due to blocks that have to be mined before your transaction can be confirmed.
           </p>
