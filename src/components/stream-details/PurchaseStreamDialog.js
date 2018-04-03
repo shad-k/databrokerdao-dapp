@@ -191,7 +191,7 @@ class PurchaseStreamDialog extends Component {
           <h1>Purchase successful</h1>
           {this.state.receiveEmail &&
             <p>
-              Congratulations! You will start to receive readings of this stream in your inbox.
+              You will start to receive readings of this stream in your inbox.
             </p>
           }
           {!this.state.receiveEmail &&

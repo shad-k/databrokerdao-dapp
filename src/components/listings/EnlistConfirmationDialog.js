@@ -141,9 +141,9 @@ class EnlistConfirmationDialog extends Component {
           </StyledButtonContainer>
         </div>
         <div style={{display:(this.state.step === STEP_SUCCESS)?'block':'none'}}>
-          <h1>Stream successfully added</h1>
+          <h1>Stream successfully enlisted</h1>
           <p>
-            Congratulations! From now on, people are able to purchase your stream data.
+            From now on, people are able to purchase your stream data.
           </p>
           <StyledButtonContainer>
             <StyledButtonColumnRight>
