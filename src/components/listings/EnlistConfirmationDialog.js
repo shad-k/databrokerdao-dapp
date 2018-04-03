@@ -105,7 +105,7 @@ class EnlistConfirmationDialog extends Component {
           />
         </div>
         <div style={{display:(this.state.step === STEP_MINTING)?'block':'none'}}>
-          <h1>Minting free DTX tokens</h1>
+          <h1>Minting DTX tokens</h1>
           <p>During the beta of DataBroker DAO DTX tokens are free.</p>
           <StyledButtonContainer>
             {this.props.mintingTokens && (
