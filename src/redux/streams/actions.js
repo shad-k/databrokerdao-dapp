@@ -98,7 +98,8 @@ export const STREAMS_ACTIONS = {
                 geometry:{
                   "type": "Point",
                   "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
-                }
+                },
+                owner:item.owner
               };
             }
           });
@@ -139,7 +140,8 @@ export const STREAMS_ACTIONS = {
             geometry:{
               "type": "Point",
               "coordinates": [response.data.geo.coordinates[1], response.data.geo.coordinates[0]]
-            }
+            },
+            owner:response.data.owner
           };
         }
         else {

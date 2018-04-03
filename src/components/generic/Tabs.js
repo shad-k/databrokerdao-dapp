@@ -10,7 +10,7 @@ export default withRouter(class Tabs extends Component {
   render() {
     const StyledTabBarContainer = styled.div`
       width: 100%;
-      max-width: 520px;
+      max-width: 530px;
       display: flex;
       justify-content: space-between;
     `;

@@ -15,7 +15,6 @@ export default class AddStreamScreen extends Component {
         <CenteredCard>
           <CardContent>
             <h1>Enlist your stream</h1>
-            <p>Earn money by selling access to the data of your stream via DataBroker DAO.</p>
             <EnlistForm/>
           </CardContent>
         </CenteredCard>

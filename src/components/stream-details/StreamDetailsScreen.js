@@ -111,57 +111,58 @@ class StreamDetailsScreen extends Component {
       const stake = this.convertWeiToDtx(stream.stake);
 
       const purchased = _.findIndex(this.props.purchases, purchase => {return purchase.key === this.props.stream.key;}) !== -1;
+      const isOwner = this.props.stream.owner === localStorage.getItem('address');
 
-    return (
-      <div>
-        <Toolbar showTabs={true} />
-        <ToolbarSpacer/>
-        <CenteredCard>
-          <CardContent noMarginBottom>
-            <StyledSensorNameCardContent>
-              <h1 style={{display:"inline-block"}}>{stream.name}</h1>
-              {!purchased &&
-                <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"8px"}}>Purchase access</Button>
-              }
-            </StyledSensorNameCardContent>
-          </CardContent>
-          <StyledContentContainer>
-            <StyledContentCell>
-              <StyledSensorAttribute>
-                <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                <StyledAttributeLabel>Type: {availableStreamTypes[stream.type].name}</StyledAttributeLabel>
-              </StyledSensorAttribute>
-              <StyledSensorAttribute>
-                <FontIcon>update</FontIcon>
-                <StyledAttributeLabel>Frequency: daily</StyledAttributeLabel>
-              </StyledSensorAttribute>
-            </StyledContentCell>
-            <StyledContentCell>
-              <StyledSensorAttribute>
-                <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                <StyledAttributeLabel>Price: {price} DTX per reading</StyledAttributeLabel>
-              </StyledSensorAttribute>
-              <StyledSensorAttribute>
-                <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                <StyledAttributeLabel>
-                  Owner stake: {stake} DTX (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
-                </StyledAttributeLabel>
-              </StyledSensorAttribute>
-            </StyledContentCell>
-          </StyledContentContainer>
-        </CenteredCard>
-        <CenteredCard>
-          <CardContent>
-            <h1>Example reading(s)</h1>
-            <StyledExampleContainer>
-              <pre>{example}</pre>
-            </StyledExampleContainer>
-          </CardContent>
-        </CenteredCard>
-        <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
-        <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
-      </div>
-    );
+      return (
+        <div>
+          <Toolbar showTabs={true} />
+          <ToolbarSpacer/>
+          <CenteredCard>
+            <CardContent noMarginBottom>
+              <StyledSensorNameCardContent>
+                <h1 style={{display:"inline-block"}}>{stream.name}</h1>
+                {(!purchased && !isOwner) &&
+                  <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"8px"}}>Purchase access</Button>
+                }
+              </StyledSensorNameCardContent>
+            </CardContent>
+            <StyledContentContainer>
+              <StyledContentCell>
+                <StyledSensorAttribute>
+                  <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
+                  <StyledAttributeLabel>Type: {availableStreamTypes[stream.type].name}</StyledAttributeLabel>
+                </StyledSensorAttribute>
+                <StyledSensorAttribute>
+                  <FontIcon>update</FontIcon>
+                  <StyledAttributeLabel>Frequency: daily</StyledAttributeLabel>
+                </StyledSensorAttribute>
+              </StyledContentCell>
+              <StyledContentCell>
+                <StyledSensorAttribute>
+                  <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
+                  <StyledAttributeLabel>Price: {price} DTX per reading</StyledAttributeLabel>
+                </StyledSensorAttribute>
+                <StyledSensorAttribute>
+                  <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
+                  <StyledAttributeLabel>
+                    Owner stake: {stake} DTX (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
+                  </StyledAttributeLabel>
+                </StyledSensorAttribute>
+              </StyledContentCell>
+            </StyledContentContainer>
+          </CenteredCard>
+          <CenteredCard>
+            <CardContent>
+              <h1>Example reading(s)</h1>
+              <StyledExampleContainer>
+                <pre>{example}</pre>
+              </StyledExampleContainer>
+            </CardContent>
+          </CenteredCard>
+          <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
+          <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
+        </div>
+      );
   }
 }
 
