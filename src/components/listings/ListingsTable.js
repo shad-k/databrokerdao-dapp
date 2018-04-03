@@ -61,7 +61,7 @@ class ListingsTable extends Component {
               <StyledTableRow key={listing.key} onClick={() => this.onViewListingDetails(listing.key)}>
                 <LeftTableColumn>{listing.name}</LeftTableColumn>
                 <TableColumn>{listing.type}</TableColumn>
-                <TableColumn>Daily</TableColumn>
+                <TableColumn>{listing.updateinterval === 86400000?"daily":`${listing.updateinterval/1000}\'\'`}</TableColumn>
               </StyledTableRow>
             ))}
           </TableBody>

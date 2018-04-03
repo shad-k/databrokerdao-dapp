@@ -100,9 +100,9 @@ class StreamDetailsScreen extends Component {
         </div>
       );
 
-      const example = stream.example;
+      let example = stream.example;
       try {
-        JSON.stringify(JSON.parse(stream.example.replace(/'/g, '"')), null, '  ');
+        example = JSON.stringify(JSON.parse(stream.example.replace(/'/g, '"')), null, '  ');
       } catch (e) {
         // Not a JSON example - OK no problem
       }
@@ -112,6 +112,8 @@ class StreamDetailsScreen extends Component {
 
       const purchased = _.findIndex(this.props.purchases, purchase => {return purchase.key === this.props.stream.key;}) !== -1;
       const isOwner = this.props.stream.owner === localStorage.getItem('address');
+
+      const updateInterval = stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}\'\'`;
 
       return (
         <div>
@@ -134,7 +136,7 @@ class StreamDetailsScreen extends Component {
                 </StyledSensorAttribute>
                 <StyledSensorAttribute>
                   <FontIcon>update</FontIcon>
-                  <StyledAttributeLabel>Frequency: daily</StyledAttributeLabel>
+                  <StyledAttributeLabel>Frequency: {updateInterval}</StyledAttributeLabel>
                 </StyledSensorAttribute>
               </StyledContentCell>
               <StyledContentCell>

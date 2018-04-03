@@ -44,17 +44,19 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       width: calc(100% - 20px);
     `;
 
-      return (
-          <div>
-            <StyledContentContainer>
-              <Icon icon={this.props.stream.type} style={{color:"white", width:"24px", height:"24px"}}/>
-              <div style={{width:"196px"}}>
-                <StyledSensorName onClick={event => this.onPurchaseButtonClicked()}>{this.props.stream.name}</StyledSensorName>
-                <StyledSensorDetails>Frequency: daily</StyledSensorDetails>
-              </div>
-            </StyledContentContainer>
-            <StyledButton raised primary onClick={event => this.onPurchaseButtonClicked()}>Purchase</StyledButton>
-          </div>
-      );
+    const stream = this.props.stream;
+
+    return (
+        <div>
+          <StyledContentContainer>
+            <Icon icon={stream.type} style={{color:"white", width:"24px", height:"24px"}}/>
+            <div style={{width:"196px"}}>
+              <StyledSensorName onClick={event => this.onPurchaseButtonClicked()}>{stream.name}</StyledSensorName>
+              <StyledSensorDetails>Frequency: {stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}\'\'`}</StyledSensorDetails>
+            </div>
+          </StyledContentContainer>
+          <StyledButton raised primary onClick={event => this.onPurchaseButtonClicked()}>Purchase</StyledButton>
+        </div>
+    );
   }
 })

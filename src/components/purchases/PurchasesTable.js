@@ -61,7 +61,7 @@ class PurchasesTable extends Component {
               <StyledTableRow key={purchase.key} onClick={() => this.onViewPurchaseDetails(purchase.key)}>
                 <LeftTableColumn>{purchase.name}</LeftTableColumn>
                 <TableColumn>{purchase.type}</TableColumn>
-                <TableColumn>Daily</TableColumn>
+                <TableColumn>{purchase.updateinterval === 86400000?"daily":`${purchase.updateinterval/1000}\'\'`}</TableColumn>
               </StyledTableRow>
             ))}
           </TableBody>

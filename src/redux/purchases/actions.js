@@ -44,7 +44,8 @@ export const PURCHASES_ACTIONS = {
                 key: purchases[i].stream,
                 name: streamDetails[i].data.name,
                 type: streamDetails[i].data.type,
-                endTime: purchases[i].endtime
+                endTime: purchases[i].endtime,
+                updateinterval: streamDetails[i].data.updateinterval
               });
             }
 
