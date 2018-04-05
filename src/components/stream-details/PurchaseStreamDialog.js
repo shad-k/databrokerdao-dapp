@@ -62,6 +62,7 @@ class PurchaseStreamDialog extends Component {
       this.setState({stepIndex:STEP_SUCCESS});
     else if(step === STEP_SUCCESS){
       Mixpanel.track("Finished purchase stream");
+      this.props.fetchPurchases();
       this.props.hideEventHandler();
     }
   }
@@ -166,7 +167,8 @@ function mapDispatchToProps(dispatch) {
   return {
     register: (values, settings) => dispatch(register(values, settings)),
     mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount)),
-    purchaseAccess: (stream,endTime) => dispatch(PURCHASES_ACTIONS.purchaseAccess(stream,endTime))
+    purchaseAccess: (stream,endTime) => dispatch(PURCHASES_ACTIONS.purchaseAccess(stream,endTime)),
+    fetchPurchases: () => dispatch(PURCHASES_ACTIONS.fetchPurchases())
   };
 }
 
