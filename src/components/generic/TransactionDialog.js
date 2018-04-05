@@ -33,7 +33,7 @@ export default class TransactionDialog extends Component {
   }
 
   render(){
-    const dialogStyle = {width:"780px",position:"relative",top:"33%",padding:"20px 20px 12px 20px"};
+    const dialogStyle = {width:"780px",position:"relative",top:"160px",padding:"20px 20px 12px 20px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
 
     const StyledStepsContainer = styled.div`
       display: flex;
