@@ -69,7 +69,6 @@ export const STREAMS_ACTIONS = {
 
       //Counter to keep track of calls so when response arrives we can take the latest
       ((counter) => {
-          console.log(counter);
           authenticatedAxiosClient.get(
           `/streamregistry/list?limit=${limit}&${filterUrlQuery}`
         ).then(response => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, DialogContainer, DatePicker, Checkbox, CircularProgress } from 'react-md';
+import { Button, DatePicker, Checkbox } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
 import moment from 'moment';
@@ -39,10 +39,10 @@ class PurchaseStreamDialog extends Component {
 
   finishStep(step){
     if(step === STEP_INTRO){
-        if(!this.props.token)
-          this.setState({stepIndex:STEP_REGISTRATION});
-        else
-          this.setState({stepIndex:STEP_CONFIG});
+      if(!this.props.token)
+        this.setState({stepIndex:STEP_REGISTRATION});
+      else
+        this.setState({stepIndex:STEP_CONFIG});
     }
     else if(step === STEP_REGISTRATION){
       Mixpanel.track("Finish registration for purchase");

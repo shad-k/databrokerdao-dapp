@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FontIcon, DropdownMenu, AccessibleFakeButton, IconSeparator } from 'react-md';
+import { Button, FontIcon, DropdownMenu, AccessibleFakeButton, IconSeparator, ListItem } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
 import Mixpanel from 'mixpanel-browser';
@@ -16,6 +16,7 @@ import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 import Icon from '../generic/Icon';
 import StakingExplainerDialog from './StakingExplainerDialog';
 import PurchaseStreamDialog from './PurchaseStreamDialog';
+import ChallengeStreamDialog from './ChallengeStreamDialog';
 
 class StreamDetailsScreen extends Component {
   constructor(props){
@@ -23,7 +24,8 @@ class StreamDetailsScreen extends Component {
 
     this.state = {
       StakingExplainerVisible: false,
-      PurchaseStreamVisible: false
+      PurchaseStreamVisible: false,
+      ChallengeDialogVisible: false
     };
   }
 
@@ -36,6 +38,10 @@ class StreamDetailsScreen extends Component {
     Mixpanel.track("View stream details screen");
   }
 
+  convertWeiToDtx(dtxValue){
+    return BigNumber(dtxValue).div(BigNumber(10).pow(18)).toString();
+  }
+
   toggleStakingExplainer(){
     this.setState({StakingExplainerVisible: !this.state.StakingExplainerVisible});
   }
@@ -46,8 +52,10 @@ class StreamDetailsScreen extends Component {
     this.setState({PurchaseStreamVisible: !this.state.PurchaseStreamVisible});
   }
 
-  convertWeiToDtx(dtxValue){
-    return BigNumber(dtxValue).div(BigNumber(10).pow(18)).toString();
+  toggleChallengeDialog(event){
+    if(!this.state.PurchaseStreamVisible)
+      Mixpanel.track("View challenge stream dialog");
+    this.setState({ChallengeDialogVisible: !this.state.ChallengeDialogVisible});
   }
 
   render() {
@@ -121,6 +129,15 @@ class StreamDetailsScreen extends Component {
       if(purchase)
         purchaseEndTime = moment(parseInt(purchase.endTime)*1000).format('MMM D, YYYY');
 
+      const menuItems =  [
+        <ListItem
+          id="challenge-list-item"
+          key="challenge-list-item"
+          primaryText="Challenge stream"
+          onClick={(event) => this.toggleChallengeDialog(event)}
+        />
+      ];
+
       return (
         <div>
           <Toolbar showTabs={true} />
@@ -135,7 +152,7 @@ class StreamDetailsScreen extends Component {
                 { purchased &&
                   <DropdownMenu
                     id={`smart-avatar-dropdown-menu`}
-                    menuItems={['Challenge stream']}
+                    menuItems={menuItems}
                     anchor={{
                       x: DropdownMenu.HorizontalAnchors.CENTER,
                       y: DropdownMenu.VerticalAnchors.OVERLAP,
@@ -188,8 +205,9 @@ class StreamDetailsScreen extends Component {
               </StyledExampleContainer>
             </CardContent>
           </CenteredCard>
-          <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
           <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
+          <ChallengeStreamDialog visible={this.state.ChallengeDialogVisible} stream={stream} hideEventHandler={() => this.toggleChallengeDialog()} toggleStakingExplainer={() => this.toggleStakingExplainer()}/>
+          <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
         </div>
       );
   }
