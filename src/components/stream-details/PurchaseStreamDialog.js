@@ -25,8 +25,8 @@ class PurchaseStreamDialog extends Component {
 
     const defaultPurchaseEndTime = moment().add(7,'d').format('MM/DD/YYYY');
     const steps = (this.props.token)?
-                    [{id:STEP_INTRO,description:"Intro"},{id:STEP_CONFIG,description:"Delivery"},{id:STEP_MINTING,description:"Minting"},{id:STEP_PURCHASING,description:"Purchasing"},{id:STEP_SUCCESS,description:"Success"}]
-                    :[{id:STEP_INTRO,description:"Intro"},{id:STEP_REGISTRATION,description:"Registration"},{id:STEP_CONFIG,description:"Delivery"},{id:STEP_MINTING,description:"Minting"},{id:STEP_PURCHASING,description:"Purchasing"},{id:STEP_SUCCESS,description:"Success"}];
+                    [{id:STEP_INTRO,description:"Intro"},{id:STEP_CONFIG,description:"Delivery"},{id:STEP_MINTING,description:"Mint"},{id:STEP_PURCHASING,description:"Purchase"},{id:STEP_SUCCESS,description:"Success"}]
+                    :[{id:STEP_INTRO,description:"Intro"},{id:STEP_REGISTRATION,description:"Registration"},{id:STEP_CONFIG,description:"Delivery"},{id:STEP_MINTING,description:"Mint"},{id:STEP_PURCHASING,description:"Purchase"},{id:STEP_SUCCESS,description:"Success"}];
 
     this.state = {
       steps: steps,
