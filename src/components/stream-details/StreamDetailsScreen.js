@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Button, FontIcon } from 'react-md';
+import { Button, FontIcon, DropdownMenu, AccessibleFakeButton, IconSeparator } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
 import Mixpanel from 'mixpanel-browser';
 import { BigNumber } from 'bignumber.js';
 import _ from 'lodash';
+import moment from 'moment';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
@@ -110,10 +111,15 @@ class StreamDetailsScreen extends Component {
       const price = this.convertWeiToDtx(stream.price * stream.updateinterval / 1000);
       const stake = this.convertWeiToDtx(stream.stake);
 
-      const purchased = _.findIndex(this.props.purchases, purchase => {return purchase.key === this.props.stream.key;}) !== -1;
+      const purchase = _.find(this.props.purchases, purchase => {return purchase.key === this.props.stream.key;});
+      const purchased = purchase !== undefined;
       const isOwner = this.props.stream.owner === localStorage.getItem('address');
 
       const updateInterval = stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}\'\'`;
+
+      let purchaseEndTime = null;
+      if(purchase)
+        purchaseEndTime = moment(parseInt(purchase.endTime)*1000).format('MMM D, YYYY');
 
       return (
         <div>
@@ -125,6 +131,27 @@ class StreamDetailsScreen extends Component {
                 <h1 style={{display:"inline-block"}}>{stream.name}</h1>
                 {(!purchased && !isOwner) &&
                   <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"8px"}}>Purchase access</Button>
+                }
+                { purchased &&
+                  <DropdownMenu
+                    id={`smart-avatar-dropdown-menu`}
+                    menuItems={['Challenge stream']}
+                    anchor={{
+                      x: DropdownMenu.HorizontalAnchors.CENTER,
+                      y: DropdownMenu.VerticalAnchors.OVERLAP,
+                    }}
+                    position={DropdownMenu.Positions.TOP_LEFT}
+                    animationPosition="below"
+                    sameWidth
+                    simplifiedMenu={true}
+                    style={{marginTop:"17px"}}
+                  >
+                    <AccessibleFakeButton>
+                      <IconSeparator label={`Purchased until ${purchaseEndTime}`}>
+                        <FontIcon>arrow_drop_down</FontIcon>
+                      </IconSeparator>
+                    </AccessibleFakeButton>
+                  </DropdownMenu>
                 }
               </StyledSensorNameCardContent>
             </CardContent>
