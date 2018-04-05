@@ -17,29 +17,31 @@ const PureRegisterForm = ({
     onSubmit={handleSubmit}
     style={{ minWidth: '300px', textAlign: 'left' }}
   >
-    <EnhancedTextField
-      type="email"
-      fieldname="email"
-      label="Email"
-      onChange={setFieldValue}
-      onBlur={setFieldTouched}
-      error={errors.email}
-      touched={touched.email}
-    />
-    <EnhancedTextField
-      type="password"
-      fieldname="password"
-      label="Password"
-      onChange={setFieldValue}
-      onBlur={setFieldTouched}
-      error={errors.password}
-      touched={touched.password}
-    />
-    <div>
-      {isSubmitting && (
+    <div style={{padding:"0 20%"}}>
+      <EnhancedTextField
+        type="email"
+        fieldname="email"
+        label="Email"
+        onChange={setFieldValue}
+        onBlur={setFieldTouched}
+        error={errors.email}
+        touched={touched.email}
+      />
+      <EnhancedTextField
+        type="password"
+        fieldname="password"
+        label="Password"
+        onChange={setFieldValue}
+        onBlur={setFieldTouched}
+        error={errors.password}
+        touched={touched.password}
+      />
+    </div>
+    <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center", marginTop:"60px"}}>
+      {(isSubmitting) && (
         <CircularProgress
           centered={false}
-          style={{ marginTop: '30px' }}
+          style={{margin:"0 24px 0 0" }}
           id="registration-in-progress"
         />
       )}
@@ -49,18 +51,16 @@ const PureRegisterForm = ({
           <Link to="/account/login">Login here.</Link>
         </span>
       )*/}
-      {!isSubmitting && (
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          flat
-          primary
-          swapTheming
-          style={{ marginTop: '30px', float:"right" }}
-        >
-          Register
-        </Button>
-      )}
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        className={isSubmitting?"disabled-button":""}
+        flat
+        primary
+        swapTheming
+      >
+        Continue
+      </Button>
     </div>
   </form>
 );
@@ -82,8 +82,8 @@ const RegisterForm = withFormik({
     return errors;
   },
   // Submission handler
-  handleSubmit: (values, { props, setErrors, setSubmitting }) => {
-    props.register(values, { props, setErrors, setSubmitting });
+  handleSubmit: (values, { props, setErrors }) => { //, setSubmitting
+    props.register(values, { props, setErrors }); //, setSubmitting
   }
 })(PureRegisterForm);
 

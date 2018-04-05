@@ -57,12 +57,12 @@ async function getJWTToken(axiosClient, encryptedPrivateKey) {
     },
     encrypted: true
   });
-  console.log(tokenResponse);
+  //console.log(tokenResponse);
   localStorage.setItem('jwtToken', tokenResponse.data.token);
   return tokenResponse.data.token;
 }
 
-export function register(values, { props, setSubmitting, setErrors }) {
+export function register(values, { props, setErrors }) { //setSubmitting
   return async (dispatch, getState) => {
     const axiosClient = axios();
     try {
@@ -125,7 +125,7 @@ export function register(values, { props, setSubmitting, setErrors }) {
           error.message
       });
     }
-    setSubmitting(false);
+    //setSubmitting(false);
   };
 }
 
