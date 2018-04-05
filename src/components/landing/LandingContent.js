@@ -66,9 +66,10 @@ class LandingContent extends Component {
 
   render() {
     const StyledCard = styled(Card)`
-      max-width: 600px;
+      max-width: 620px;
       position: relative;
       top: 120px;
+      padding: 10px;
     `;
 
     const StyledH1 = styled.h1`

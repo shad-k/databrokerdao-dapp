@@ -13,7 +13,7 @@ export default class TransactionDialog extends Component {
       font-weight:500;
 
       &.active{
-        color: #2e3192;
+        color: #ee274c;
       }
 
       &:last-child{
