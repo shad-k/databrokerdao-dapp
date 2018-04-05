@@ -72,6 +72,7 @@ class PurchaseStreamDialog extends Component {
   }
 
   handlePurchaseEndTimeChange(value){
+    console.log(value);
     this.setState({purchaseEndTime:value});
   }
 
@@ -126,7 +127,6 @@ class PurchaseStreamDialog extends Component {
             value={this.state.purchaseEndTime}
             style={{marginBottom:"20px"}}
             onChange={(value) => this.handlePurchaseEndTimeChange(value)}
-            formatOptions={{timeZone: 'UTC'}}
           />
         </div>
         <div style={{display:(this.state.stepIndex === STEP_MINTING)?'block':'none'}}>
