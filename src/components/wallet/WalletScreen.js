@@ -28,7 +28,7 @@ class WalletScreen extends Component {
             <p>Address: {address}</p>
             <p>Email: {email}</p>
             <p>DTX balance: &Xi; {this.props.fetchingWallet?'(loading)':this.props.wallet.balance}</p>
-            <Button flat swapTheming primary onClick={() => this.props.logout()}>Log out</Button>
+            <Button flat swapTheming primary onClick={() => this.props.logout()} style={{marginTop:"10px"}}>Log out</Button>
           </CardContent>
         </CenteredCard>
       </div>

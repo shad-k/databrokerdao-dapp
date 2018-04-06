@@ -6,6 +6,8 @@ import Mixpanel from 'mixpanel-browser';
 import { BigNumber } from 'bignumber.js';
 import _ from 'lodash';
 import moment from 'moment';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faQuestionCircle from '@fortawesome/fontawesome-free-regular/faQuestionCircle';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
@@ -185,7 +187,7 @@ class StreamDetailsScreen extends Component {
                 {parseInt(stream.challenges) !== 0 &&
                   <StyledSensorAttribute>
                     <Icon icon="danger" style={{fill:"red", width:"20px", height:"20px"}} />
-                    <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX staked) (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)</StyledAttributeLabel>
+                    <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX staked) <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} color="rgba(0,0,0,0.6)" style={{marginLeft:"4px"}} /></span></StyledAttributeLabel>
                   </StyledSensorAttribute>
                 }
               </StyledContentCell>
@@ -197,7 +199,7 @@ class StreamDetailsScreen extends Component {
                 <StyledSensorAttribute>
                   <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>
-                    Owner stake: {stake} DTX (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
+                    Owner stake: {stake} DTX <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} color="rgba(0,0,0,0.6)" style={{marginLeft:"4px"}} /></span>
                   </StyledAttributeLabel>
                 </StyledSensorAttribute>
               </StyledContentCell>

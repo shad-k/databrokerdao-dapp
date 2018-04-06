@@ -3,6 +3,8 @@ import { Button, DatePicker, Checkbox, TextField } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
 import { BigNumber } from 'bignumber.js';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faQuestionCircle from '@fortawesome/fontawesome-free-regular/faQuestionCircle';
 
 import TransactionDialog from '../generic/TransactionDialog';
 import { WALLET_ACTIONS } from '../../redux/wallet/actions';
@@ -77,7 +79,7 @@ class ChallengeStreamDialog extends Component {
         <div style={{display:(this.state.stepIndex === STEP_INTRO)?'block':'none'}}>
           <h1>Challenge stream quality</h1>
           <p>If you are unhappy with the quality of data of this stream, you can challenge it by staking some DTX tokens.</p>
-          <p>Upon reaching a certain threshold of challenges, a check of the data provider will be performed by a DataBroker DAO administrator (<span className="clickable" onClick={this.props.toggleStakingExplainer}>learn more</span>).</p>
+          <p>Upon reaching a certain threshold of challenges, a check of the data provider will be performed by a DataBroker DAO administrator. <span className="clickable" onClick={this.props.toggleStakingExplainer}><FontAwesomeIcon icon={faQuestionCircle} color="rgba(0,0,0,0.6)" /></span></p>
         </div>
         {this.state.stepIndex === STEP_STAKE &&
           <div style={{padding:"0 15%"}}>
@@ -108,7 +110,7 @@ class ChallengeStreamDialog extends Component {
         <div style={{display:(this.state.stepIndex === STEP_SUCCESS)?'block':'none'}}>
           <h1>Challenge successful</h1>
           <p>
-            Upon reaching a certain threshold of challenges, a check of the data provider will be performed by a DataBroker DAO administrator (<span className="clickable" onClick={this.props.toggleStakingExplainer}>learn more</span>).
+            Upon reaching a certain threshold of challenges, a check of the data provider will be performed by a DataBroker DAO administrator <span className="clickable" onClick={this.props.toggleStakingExplainer}><FontAwesomeIcon icon={faQuestionCircle} color="rgba(0,0,0,0.6)"/></span>.
           </p>
         </div>
       </TransactionDialog>
