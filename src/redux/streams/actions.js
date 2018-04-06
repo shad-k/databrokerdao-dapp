@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import axios from '../../utils/axios';
+import Bluebird from 'bluebird';
+import { BigNumber } from 'bignumber.js';
 
 //TODO remove when API call works
 import EXAMPLE_STREAMS_API_RESPONSE from '../../example-api-responses/streams';
@@ -12,7 +14,8 @@ export const STREAMS_TYPES = {
   FETCH_AVAILABLE_STREAM_TYPES: 'FETCH_AVAILABLE_STREAM_TYPES',
   UPDATED_FILTER: 'UPDATED_FILTER',
   UPDATED_MAP: 'UPDATED_MAP',
-  FETCH_STREAM_COUNTER: 'FETCH_STREAM_COUNTER'
+  FETCH_STREAM_COUNTER: 'FETCH_STREAM_COUNTER',
+  CHALLENGING_STREAM: 'CHALLENGING_STREAM'
 };
 
 export const STREAMS_ACTIONS = {
@@ -227,6 +230,50 @@ export const STREAMS_ACTIONS = {
       });
 
       STREAMS_ACTIONS.fetchStreams(dispatch, filter);
+    }
+  },
+  challengeStream: (stream,amount) => {
+    return(dispatch, getState) => {
+      dispatch({
+        type: STREAMS_TYPES.CHALLENGING_STREAM,
+        value: true
+      });
+
+      const authenticatedAxiosClient = axios(null,true);
+
+      function getDtxTokenRegistry() {
+        return authenticatedAxiosClient.get("/dtxtokenregistry/list");
+      }
+
+      function getStreamRegistry() {
+        return authenticatedAxiosClient.get("/streamregistry/list");
+      }
+
+      Bluebird.all([getDtxTokenRegistry(),getStreamRegistry()])
+        .then((responses) => {
+          const deployedTokenContractAddress = responses[0].data.items[0].contractaddress;
+          const spenderAddress = responses[1].data.base.key;
+
+          // Time to approve the tokens
+          authenticatedAxiosClient.post(`/dtxtoken/${deployedTokenContractAddress}/approve`,{
+            spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
+            value: amount.toString()
+          }).then(response => {
+            //Tokens have been allocated - now we can make the purchase!
+            authenticatedAxiosClient.post(`/streamregistry/challenge`,{
+              listing:stream.key,
+              stakeamount:amount
+            }).then(response => {
+              dispatch({
+                type: STREAMS_TYPES.CHALLENGING_STREAM,
+                value: false
+              });
+            });
+
+          }).catch(error => {
+            console.log(error);
+          });
+        })
     }
   }
 };

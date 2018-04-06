@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Button, DatePicker, Checkbox } from 'react-md';
+import { Button, DatePicker, Checkbox, TextField } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
+import { BigNumber } from 'bignumber.js';
 
 import TransactionDialog from '../generic/TransactionDialog';
 import { WALLET_ACTIONS } from '../../redux/wallet/actions';
+import EnhancedTextField from '../generic/EnhancedTextField';
+import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 const STEP_INTRO = 0,
   STEP_STAKE = 1,
@@ -21,7 +24,9 @@ class ChallengeStreamDialog extends Component {
     this.state = {
       steps: steps,
       stepIndex: STEP_INTRO,
-      modal: false
+      modal: false,
+      stakeAmount: "",
+      stakeError: null
     };
   }
 
@@ -30,9 +35,17 @@ class ChallengeStreamDialog extends Component {
       this.setState({stepIndex:STEP_STAKE});
     }
     else if(step === STEP_STAKE){
-      this.setState({stepIndex:STEP_MINTING,modal:true});
+      if(parseInt(this.state.stakeAmount) > 0){
+        const amount = BigNumber(parseInt(this.state.stakeAmount)).times(BigNumber(10).pow(18)).toString();
+        this.props.mintTokens(amount);
+        this.setState({stepIndex:STEP_MINTING,modal:true});
+      }
+      else
+        this.setState({stakeError:"Stake amount must be a positive number"});
     }
     else if (step === STEP_MINTING){
+      const amount = BigNumber(parseInt(this.state.stakeAmount)).times(BigNumber(10).pow(18)).toString();
+      this.props.challengeStream(this.props.stream,amount);
       this.setState({stepIndex:STEP_CHALLENGING});
     }
     else if(step === STEP_CHALLENGING)
@@ -43,8 +56,12 @@ class ChallengeStreamDialog extends Component {
     }
   }
 
+  stakeAmountChanged(event){
+    this.setState({stakeAmount:event.value});
+  }
+
   render(){
-    const loading = false;
+    const loading = this.props.mintingTokens || this.props.challengingStream;
 
     return(
       <TransactionDialog
@@ -62,9 +79,22 @@ class ChallengeStreamDialog extends Component {
           <p>If you are unhappy with the quality of data of this stream, you can challenge it by staking some DTX tokens.</p>
           <p>Upon reaching a certain threshold of challenges, a check of the data provider will be performed by a DataBroker DAO administrator (<span className="clickable" onClick={this.props.toggleStakingExplainer}>learn more</span>).</p>
         </div>
-        <div style={{display:(this.state.stepIndex === STEP_STAKE)?'block':'none', padding:"0 15%"}}>
-          <h1>Stake amount</h1>
-        </div>
+        {this.state.stepIndex === STEP_STAKE &&
+          <div style={{padding:"0 15%"}}>
+            <h1>Define stake</h1>
+            <TextField
+              id="stake"
+              fieldname="stake"
+              label="Number of DTX to stake"
+              className="md-cell md-cell--bottom"
+              value={this.state.stakeAmount}
+              onChange={(value) => this.setState({stakeAmount: value})}
+              style={{width:"100%"}}
+              error={this.state.stakeError !== null}
+              errorText={this.state.stakeError}
+            />
+          </div>
+        }
         <div style={{display:(this.state.stepIndex === STEP_MINTING)?'block':'none'}}>
           <h1>Minting DTX tokens</h1>
           <p>During the beta of DataBroker DAO DTX tokens are free.</p>
@@ -88,12 +118,14 @@ class ChallengeStreamDialog extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  mintingTokens: state.wallet.mintingTokens
+  mintingTokens: state.wallet.mintingTokens,
+  challengingStream: state.streams.challengingStream
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount))
+    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount)),
+    challengeStream: (stream,amount) => dispatch(STREAMS_ACTIONS.challengeStream(stream,amount))
   };
 }
 

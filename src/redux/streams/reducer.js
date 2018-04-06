@@ -16,7 +16,8 @@ export const DEFAULT_STATE = {
   landingStreams: {},
   fetchingStreams: false,
   availableStreamTypes: [], //All possible types the user could filter on
-  fetchStreamCounter: 0
+  fetchStreamCounter: 0,
+  challengingStream: false
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
@@ -46,6 +47,9 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.FETCH_STREAM_COUNTER:{
       return Immutable.set(state, "fetchStreamCounter", action.value);
+    }
+    case STREAMS_TYPES.CHALLENGING_STREAM:{
+      return Immutable.set(state, "challengingStream", action.value);
     }
     default:
       return state;

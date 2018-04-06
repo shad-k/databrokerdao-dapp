@@ -4,6 +4,26 @@ import styled from 'styled-components';
 import _ from 'lodash';
 
 export default class TransactionDialog extends Component {
+  constructor(props){
+    super(props);
+
+    //Outside render() function to allow input fields inside (https://labs.chiedo.com/blog/always-define-components-outside-react-render-method)
+    this.StyledContentContainer = styled.div`
+      h1 {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      p {
+        text-align:center;
+        padding: 0 5%;
+        line-height: 1.7;
+        font-size:15px;
+      }
+    `;
+  }
+
+
   renderSteps(){
     const StyledStep = styled.div`
       color: #B6B6B6;
@@ -41,20 +61,6 @@ export default class TransactionDialog extends Component {
       margin-bottom: 48px;
     `;
 
-    const StyledContentContainer = styled.div`
-      h1 {
-        text-align: center;
-        margin-bottom: 24px;
-      }
-
-      p {
-        text-align:center;
-        padding: 0 5%;
-        line-height: 1.7;
-        font-size:15px;
-      }
-    `;
-
     const StyledButtonContainer = styled.div`
       margin-top: 60px;
       display: flex;
@@ -71,7 +77,6 @@ export default class TransactionDialog extends Component {
         id="transaction-dialog"
         visible={this.props.visible}
         onHide={this.props.onHide}
-        focusOnMount={false}
         dialogStyle={dialogStyle}
         aria-labelledby="Transaction dialog"
         modal={this.props.modal}
@@ -79,9 +84,9 @@ export default class TransactionDialog extends Component {
         <StyledStepsContainer>
           {this.renderSteps()}
         </StyledStepsContainer>
-        <StyledContentContainer>
+        <this.StyledContentContainer>
           {this.props.children}
-        </StyledContentContainer>
+        </this.StyledContentContainer>
         {(this.props.showContinueButton) && (
           <StyledButtonContainer>
             {(this.props.loading) && (

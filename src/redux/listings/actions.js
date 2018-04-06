@@ -60,7 +60,7 @@ export const LISTING_ACTIONS = {
         return authenticatedAxiosClient.get("/dtxtokenregistry/list");
       }
 
-      function getPurchaseRegistry() {
+      function getStreamRegistry() {
         return authenticatedAxiosClient.get("/streamregistry/list");
       }
 
@@ -80,7 +80,7 @@ export const LISTING_ACTIONS = {
         });
       }
 
-      Bluebird.all([getDtxTokenRegistry(),getPurchaseRegistry(),getMetadataHash()])
+      Bluebird.all([getDtxTokenRegistry(),getStreamRegistry(),getMetadataHash()])
         .then((responses) => {
           const deployedTokenContractAddress = responses[0].data.items[0].contractaddress;
           const spenderAddress = responses[1].data.base.key;
@@ -89,7 +89,7 @@ export const LISTING_ACTIONS = {
           // Time to approve the tokens
           authenticatedAxiosClient.post(`/dtxtoken/${deployedTokenContractAddress}/approve`,{
             spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
-            value: BigNumber(stream.stake).times(BigNumber(10).pow(18)).toString()
+            value: BigNumber(stream.stake).times(BigNumber(stream.stake).pow(18)).toString()
           }).then(response => {
             //Tokens have been allocated - now we can make the purchase!
             authenticatedAxiosClient.post(`/streamregistry/enlist`,{
