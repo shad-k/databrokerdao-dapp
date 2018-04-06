@@ -75,7 +75,7 @@ export const LISTING_ACTIONS = {
             },
             type: stream.type,
             example: stream.example,
-            updateinterval: stream.updateinterval,
+            updateinterval: stream.updateinterval * 1000,
           }
         });
       }
