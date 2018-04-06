@@ -182,6 +182,12 @@ class StreamDetailsScreen extends Component {
                   <FontIcon>update</FontIcon>
                   <StyledAttributeLabel>Frequency: {updateInterval}</StyledAttributeLabel>
                 </StyledSensorAttribute>
+                {parseInt(stream.challenges) !== 0 &&
+                  <StyledSensorAttribute>
+                    <Icon icon="danger" style={{fill:"red", width:"20px", height:"20px"}} />
+                    <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX staked) (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)</StyledAttributeLabel>
+                  </StyledSensorAttribute>
+                }
               </StyledContentCell>
               <StyledContentCell>
                 <StyledSensorAttribute>

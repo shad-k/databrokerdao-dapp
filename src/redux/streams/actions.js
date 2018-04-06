@@ -101,7 +101,9 @@ export const STREAMS_ACTIONS = {
                   "type": "Point",
                   "coordinates": [item.geo.coordinates[1], item.geo.coordinates[0]]
                 },
-                owner:item.owner
+                owner:item.owner,
+                challenges:item.challenges,
+                challengesstake:item.challengesstake
               };
             }
           });
@@ -143,7 +145,9 @@ export const STREAMS_ACTIONS = {
               "type": "Point",
               "coordinates": [response.data.geo.coordinates[1], response.data.geo.coordinates[0]]
             },
-            owner:response.data.owner
+            owner:response.data.owner,
+            challenges:response.data.challenges,
+            challengesstake:response.data.challengesstake
           };
         }
         else {
