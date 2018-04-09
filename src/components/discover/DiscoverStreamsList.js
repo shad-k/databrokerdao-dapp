@@ -14,8 +14,8 @@ class DiscoverStreamsList extends Component {
 
   renderStreamsListItems(streams){
     const StyledListItem = styled.div`
-      padding: 16px;
-      font-size: 13px;
+      padding: 18px 16px;
+      font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;

@@ -96,7 +96,7 @@ class PurchaseStreamDialog extends Component {
             Purchases are made using DTX tokens. As DataBroker DAO is currently in beta, we will provide you with free demo tokens.
           </p>
           <p>
-            After your purchase, the readings of this stream will be delivered to your email address.
+            After your purchase, the readings of this stream will be delivered via email.
           </p>
         </div>
         <div style={{display:(this.state.stepIndex === STEP_REGISTRATION)?'block':'none'}}>

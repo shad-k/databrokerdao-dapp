@@ -37,6 +37,7 @@ class Toolbar extends Component {
       justify-content: space-between;
       position: absolute;
       top: 0;
+      font-size: 14px;
     `;
 
     const StyledLogoContainer = styled.div`

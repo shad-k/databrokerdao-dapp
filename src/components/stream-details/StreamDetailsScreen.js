@@ -72,8 +72,6 @@ class StreamDetailsScreen extends Component {
     `;
 
     const StyledSensorAttribute = styled.p`
-      font-weight: 400;
-      font-size: 18px;
       display: flex;
       align-content: center;
       margin-bottom: 20px;
@@ -90,7 +88,7 @@ class StreamDetailsScreen extends Component {
 
     const StyledExampleContainer = styled.div`
       background-color:rgba(0,0,0,0.1);
-      border-radius:12px;
+      border-radius:3px;
       padding:15px;
     `;
 
