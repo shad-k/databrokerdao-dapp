@@ -189,23 +189,32 @@ class StreamDetailsScreen extends Component {
                   <FontIcon>update</FontIcon>
                   <StyledAttributeLabel>Frequency: {updateInterval}</StyledAttributeLabel>
                 </StyledSensorAttribute>
-                {parseInt(stream.challenges) !== 0 &&
-                  <StyledSensorAttribute>
-                    <Icon icon="danger" style={{fill:"red", width:"20px", height:"20px"}} />
-                    <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX staked) <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} color="rgba(0,0,0,0.6)" style={{marginLeft:"4px"}} /></span></StyledAttributeLabel>
-                  </StyledSensorAttribute>
-                }
               </StyledContentCell>
               <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>Price: {price} DTX per reading</StyledAttributeLabel>
                 </StyledSensorAttribute>
+              </StyledContentCell>
+            </StyledContentContainer>
+          </CenteredCard>
+          <CenteredCard>
+            <CardContent noMarginBottom>
+              <h1>Stakes and challenges <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} style={{marginLeft:"4px"}} /></span></h1>
+            </CardContent>
+            <StyledContentContainer>
+              <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>
-                    Owner stake: {stake} DTX <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} color="rgba(0,0,0,0.6)" style={{marginLeft:"4px"}} /></span>
+                    Owner stake: {stake} DTX
                   </StyledAttributeLabel>
+                </StyledSensorAttribute>
+              </StyledContentCell>
+              <StyledContentCell>
+                <StyledSensorAttribute>
+                  <Icon icon="danger" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
+                  <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX</StyledAttributeLabel>
                 </StyledSensorAttribute>
               </StyledContentCell>
             </StyledContentContainer>
@@ -216,6 +225,12 @@ class StreamDetailsScreen extends Component {
               <StyledExampleContainer>
                 <pre>{example}</pre>
               </StyledExampleContainer>
+            </CardContent>
+          </CenteredCard>
+          <CenteredCard>
+            <CardContent>
+              <h1>Similar streams nearby</h1>
+              <p>Hallo allemaal goed weer vandaag</p>
             </CardContent>
           </CenteredCard>
           <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
