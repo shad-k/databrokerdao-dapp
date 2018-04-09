@@ -230,7 +230,6 @@ class StreamDetailsScreen extends Component {
           <CenteredCard>
             <CardContent>
               <h1>Similar streams nearby</h1>
-              <p>Hallo allemaal goed weer vandaag</p>
             </CardContent>
           </CenteredCard>
           <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
