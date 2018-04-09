@@ -19,6 +19,7 @@ import Icon from '../generic/Icon';
 import StakingExplainerDialog from './StakingExplainerDialog';
 import PurchaseStreamDialog from './PurchaseStreamDialog';
 import ChallengeStreamDialog from './ChallengeStreamDialog';
+import StreamDetailsBackground from './StreamDetailsBackground';
 
 class StreamDetailsScreen extends Component {
   constructor(props){
@@ -93,6 +94,11 @@ class StreamDetailsScreen extends Component {
       padding:15px;
     `;
 
+    const FirstCenteredCard = styled(CenteredCard)`
+      margin-top: 250px;
+      background: red;
+    `;
+
     const { stream, availableStreamTypes, fetchingPurchases } = this.props;
 
     if(!stream || !availableStreamTypes || fetchingPurchases)
@@ -100,7 +106,7 @@ class StreamDetailsScreen extends Component {
         <div>
           <Toolbar showTabs={true} />
           <ToolbarSpacer/>
-          <CenteredCard>
+          <CenteredCard style={{marginTop:"190px"}}>
             <CardContent>
               <StyledSensorNameCardContent>
                 <h1 style={{display:"inline-block"}}>Loading...</h1>
@@ -143,7 +149,7 @@ class StreamDetailsScreen extends Component {
         <div>
           <Toolbar showTabs={true} />
           <ToolbarSpacer/>
-          <CenteredCard>
+          <CenteredCard style={{marginTop:"190px"}}>
             <CardContent noMarginBottom>
               <StyledSensorNameCardContent>
                 <h1 style={{display:"inline-block"}}>{stream.name}</h1>
@@ -215,6 +221,7 @@ class StreamDetailsScreen extends Component {
           <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
           <ChallengeStreamDialog visible={this.state.ChallengeDialogVisible} stream={stream} hideEventHandler={() => this.toggleChallengeDialog()} toggleStakingExplainer={() => this.toggleStakingExplainer()} fetchStreamEventHandler={() => this.props.fetchStream()}/>
           <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
+          <StreamDetailsBackground stream={stream}/>
         </div>
       );
   }
