@@ -84,6 +84,7 @@ class StreamDetailsScreen extends Component {
 
     const StyledAttributeLabel = styled.span`
       margin-left: 12px;
+      line-height: 1.3;
     `;
 
     const StyledExampleContainer = styled.div`
