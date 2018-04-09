@@ -54,6 +54,7 @@ class ChallengeStreamDialog extends Component {
       this.setState({stepIndex:STEP_SUCCESS});
     else if(step === STEP_SUCCESS){
       Mixpanel.track("Finished challenging stream");
+      this.props.fetchStreamEventHandler();
       this.props.hideEventHandler();
     }
   }

@@ -214,7 +214,7 @@ class StreamDetailsScreen extends Component {
             </CardContent>
           </CenteredCard>
           <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
-          <ChallengeStreamDialog visible={this.state.ChallengeDialogVisible} stream={stream} hideEventHandler={() => this.toggleChallengeDialog()} toggleStakingExplainer={() => this.toggleStakingExplainer()}/>
+          <ChallengeStreamDialog visible={this.state.ChallengeDialogVisible} stream={stream} hideEventHandler={() => this.toggleChallengeDialog()} toggleStakingExplainer={() => this.toggleStakingExplainer()} fetchStreamEventHandler={() => this.props.fetchStream()}/>
           <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
         </div>
       );
