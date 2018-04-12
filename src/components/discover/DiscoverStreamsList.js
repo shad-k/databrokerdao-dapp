@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { BigNumber } from 'bignumber.js';
 
 import Icon from '../generic/Icon';
 
@@ -12,10 +13,13 @@ class DiscoverStreamsList extends Component {
     this.props.history.push(`/stream-details/${stream.key}`);
   }
 
+  convertWeiToDtx(dtxValue){
+    return BigNumber(dtxValue).div(BigNumber(10).pow(18)).toString();
+  }
+
   renderStreamsListItems(streams){
     const StyledListItem = styled.div`
       padding: 18px 16px;
-      font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -34,13 +38,27 @@ class DiscoverStreamsList extends Component {
       }
     `;
 
+    const StreamName = styled.p`
+      font-size: 16px;
+      margin: 0 0 3px 0;
+    `;
+
+    const StakeDetails = styled.p`
+      font-size: 14px;
+      color: #B6B6B6;
+      margin: 0;
+    `;
+
     let listItems = _.map(streams, stream => {
       return (<StyledListItem
                 key={stream.id} onClick={(event) => this.onStreamListItemClick(stream)}
                 leftIcon={<FontIcon key="data">data_usage</FontIcon>}
                 >
-                <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.5)", width:"20px", height:"20px", marginRight:"12px"}} />
-                {stream.name}
+                <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.5)", width:"20px", height:"20px", marginRight:"13px"}} />
+                <div style={{flex:"1"}}>
+                  <StreamName>{stream.name}</StreamName>
+                  <StakeDetails>Stake: {this.convertWeiToDtx(stream.stake)}, Challenges: {stream.challenges} ({this.convertWeiToDtx(stream.challengesstake)} DTX)</StakeDetails>
+                </div>
               </StyledListItem>
               );
     });
