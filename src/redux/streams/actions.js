@@ -75,7 +75,7 @@ export const STREAMS_ACTIONS = {
       //Counter to keep track of calls so when response arrives we can take the latest
       (counter => {
         authenticatedAxiosClient
-          .get(`/sensorregistry/list?limit=${limit}&${filterUrlQuery}`)
+          .get(`/sensorregistry/list?limit=${limit}&${filterUrlQuery}&sort=stake`)
           .then(response => {
             if (counter !== getState().streams.fetchStreamCounter) {
               // console.log(counter);
