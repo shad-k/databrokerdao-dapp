@@ -115,7 +115,7 @@ export const STREAMS_ACTIONS = {
                     ]
                   },
                   owner: item.owner,
-                  challenges: item.challenges,
+                  challenges: item.numberofchallenges,
                   challengesstake: item.challengesstake
                 };
               }
@@ -142,6 +142,7 @@ export const STREAMS_ACTIONS = {
       authenticatedAxiosClient
         .get(`/sensor/${streamKey}/list`)
         .then(response => {
+          console.log(response);
           let parsedResponse = null;
           if (response.data.base._id) {
             parsedResponse = {
@@ -161,8 +162,9 @@ export const STREAMS_ACTIONS = {
                 ]
               },
               owner: response.data.base.owner,
-              challenges: _.filter(response.data.items, item => {return !item.resolved}),
-              challengesstake: response.data.base.challengesstake
+              challenges: response.data.items.length,
+              challengesstake: response.data.base.challengesstake,
+              challengeslist: _.filter(response.data.items, item => {return !item.resolved})
             };
           } else {
             parsedResponse = {};

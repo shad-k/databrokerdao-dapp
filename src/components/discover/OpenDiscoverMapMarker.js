@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'react-md';
 import styled from 'styled-components';
+import { BigNumber } from 'bignumber.js';
 
 import Icon from '../generic/Icon';
 
 export default withRouter(class ClosedDiscoverMapMarker extends Component {
   onPurchaseButtonClicked() {
     this.props.history.push(`/stream-details/${this.props.stream.key}`);
+  }
+
+  convertWeiToDtx(dtxValue){
+    return BigNumber(dtxValue).div(BigNumber(10).pow(18)).toString();
   }
 
   render() {
@@ -24,7 +29,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       font-weight:700;
       font-size:16px;
       width: 100%;
-      margin-left: 9px;
+      margin-left: 11px;
       margin-bottom: 3px;
       cursor: pointer;
       &:hover{
@@ -36,7 +41,11 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
       color:white;
       font-size:14px;
       width: 100%;
-      margin-left: 9px;
+      margin-left: 11px;
+      margin-bottom: 4px;
+      &:last-child{
+        margin-bottom:0;
+      }
     `;
 
     const StyledButton = styled(Button)`
@@ -53,6 +62,10 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
             <div style={{width:"196px"}}>
               <StyledSensorName onClick={event => this.onPurchaseButtonClicked()}>{stream.name}</StyledSensorName>
               <StyledSensorDetails>Frequency: {stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}\'\'`}</StyledSensorDetails>
+              <StyledSensorDetails>Stake: {this.convertWeiToDtx(stream.stake)} DTX</StyledSensorDetails>
+              {stream.challenges > 0 &&
+                <StyledSensorDetails>Challenges: {stream.challenges} ({this.convertWeiToDtx(stream.challengesstake)} DTX)</StyledSensorDetails>
+              }
             </div>
           </StyledContentContainer>
           <StyledButton raised primary onClick={event => this.onPurchaseButtonClicked()}>Purchase</StyledButton>

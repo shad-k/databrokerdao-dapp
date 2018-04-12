@@ -203,7 +203,7 @@ class StreamDetailsScreen extends Component {
             <CardContent noMarginBottom>
               <h1>Stakes and challenges <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} style={{marginLeft:"4px"}} /></span></h1>
             </CardContent>
-            <StyledContentContainer className={stream.challenges && stream.challenges.length > 0?"no-padding-bottom":""}>
+            <StyledContentContainer className={stream.challenges > 0?"no-padding-bottom":""}>
               <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
@@ -215,14 +215,14 @@ class StreamDetailsScreen extends Component {
               <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="danger" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                  <StyledAttributeLabel>Challenges: {stream.challenges?stream.challenges.length:"0"} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX)</StyledAttributeLabel>
+                  <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX)</StyledAttributeLabel>
                 </StyledSensorAttribute>
               </StyledContentCell>
             </StyledContentContainer>
-            {stream.challenges && stream.challenges.length > 0 &&
+            {stream.challengeslist && stream.challengeslist.length > 0 &&
               <StyledContentContainer className="no-padding-top">
                 <StyledContentCell>
-                  <ChallengesTable challenges={stream.challenges} />
+                  <ChallengesTable challenges={stream.challengeslist} />
                 </StyledContentCell>
               </StyledContentContainer>
             }
