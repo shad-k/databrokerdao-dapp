@@ -23,7 +23,7 @@ export const PURCHASES_ACTIONS = {
       const authenticatedAxiosClient = axios(null,true);
 
       function getStreamDetails(streamKey) {
-        return authenticatedAxiosClient.get(`/streamregistry/list/${streamKey}`);
+        return authenticatedAxiosClient.get(`/sensorregistry/list/${streamKey}`);
       }
 
       const email = localStorage.getItem('email');
