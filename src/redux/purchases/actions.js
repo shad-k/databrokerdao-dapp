@@ -20,26 +20,29 @@ export const PURCHASES_ACTIONS = {
         value: true
       });
 
-      const authenticatedAxiosClient = axios(null,true);
+      const authenticatedAxiosClient = axios(null, true);
 
       function getStreamDetails(streamKey) {
-        return authenticatedAxiosClient.get(`/sensorregistry/list/${streamKey}`);
+        return authenticatedAxiosClient.get(
+          `/sensorregistry/list/${streamKey}`
+        );
       }
 
       const email = localStorage.getItem('email');
-      authenticatedAxiosClient.get(`/purchaseregistry/list?email=${email}`).then(response => {
-        const purchases = response.data.items;
+      authenticatedAxiosClient
+        .get(`/purchaseregistry/list?email=${email}`)
+        .then(response => {
+          const purchases = response.data.items;
 
-        const streamDetailCalls = [];
-        _.each(purchases, (purchase) => {
-          streamDetailCalls.push(getStreamDetails(purchase.stream));
-        });
+          const streamDetailCalls = [];
+          _.each(purchases, purchase => {
+            streamDetailCalls.push(getStreamDetails(purchase.stream));
+          });
 
-        Bluebird.all(streamDetailCalls)
-          .then((streamDetails) => {
+          Bluebird.all(streamDetailCalls).then(streamDetails => {
             const parsedResponse = [];
 
-            for(let i = 0; i < purchases.length; i++){
+            for (let i = 0; i < purchases.length; i++) {
               parsedResponse.push({
                 key: purchases[i].stream,
                 name: streamDetails[i].data.name,
@@ -54,66 +57,77 @@ export const PURCHASES_ACTIONS = {
               purchases: parsedResponse
             });
           });
-      }).catch(error => {
-        console.log(error);
-      });
-    }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
   },
-  purchaseAccess: (stream,endTime) => {
+  purchaseAccess: (stream, endTime) => {
     return (dispatch, getState) => {
       dispatch({
         type: PURCHASES_TYPES.PURCHASING_ACCESS,
         value: true
       });
 
-      const authenticatedAxiosClient = axios(null,true);
+      const authenticatedAxiosClient = axios(null, true);
 
       const duration = moment.duration(moment(endTime).diff(moment()));
       const purchasePrice = stream.price * duration;
 
       function getDtxTokenRegistry() {
-        return authenticatedAxiosClient.get("/dtxtokenregistry/list");
+        return authenticatedAxiosClient.get('/dtxtokenregistry/list');
       }
 
       function getPurchaseRegistry() {
-        return authenticatedAxiosClient.get("/purchaseregistry/list");
+        return authenticatedAxiosClient.get('/purchaseregistry/list');
       }
 
       function getMetadataHash() {
-        return authenticatedAxiosClient.post("/ipfs/add/json",{
-          data:{
+        return authenticatedAxiosClient.post('/ipfs/add/json', {
+          data: {
             email: localStorage.getItem('email')
           }
         });
       }
 
-      Bluebird.all([getDtxTokenRegistry(),getPurchaseRegistry(),getMetadataHash()])
-        .then((responses) => {
-          const deployedTokenContractAddress = responses[0].data.items[0].contractaddress;
-          const spenderAddress = responses[1].data.base.key;
-          const metadataHash = responses[2].data[0].hash;
+      Bluebird.all([
+        getDtxTokenRegistry(),
+        getPurchaseRegistry(),
+        getMetadataHash()
+      ]).then(responses => {
+        const deployedTokenContractAddress =
+          responses[0].data.items[0].contractaddress;
+        const spenderAddress = responses[1].data.base.key;
+        const metadataHash = responses[2].data[0].hash;
 
-          // Time to approve the tokens
-          authenticatedAxiosClient.post(`/dtxtoken/${deployedTokenContractAddress}/approve`,{
+        // Time to approve the tokens
+        authenticatedAxiosClient
+          .post(`/dtxtoken/${deployedTokenContractAddress}/approve`, {
             spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
             value: purchasePrice.toString()
-          }).then(response => {
+          })
+          .then(response => {
             //Tokens have been allocated - now we can make the purchase!
-            authenticatedAxiosClient.post(`/purchaseregistry/purchaseaccess`,{
-              stream:stream.key,
-              endtime:moment(endTime).unix().toString(),
-              metadata:metadataHash
-            }).then(response => {
-              dispatch({
-                type: PURCHASES_TYPES.PURCHASING_ACCESS,
-                value: false
+            authenticatedAxiosClient
+              .post(`/purchaseregistry/purchaseaccess`, {
+                sensor: stream.key,
+                endtime: moment(endTime)
+                  .unix()
+                  .toString(),
+                metadata: metadataHash
+              })
+              .then(response => {
+                dispatch({
+                  type: PURCHASES_TYPES.PURCHASING_ACCESS,
+                  value: false
+                });
               });
-            });
-
-          }).catch(error => {
+          })
+          .catch(error => {
             console.log(error);
           });
-        })
-    }
+      });
+    };
   }
 };
