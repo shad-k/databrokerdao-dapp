@@ -214,7 +214,7 @@ class StreamDetailsScreen extends Component {
               <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="danger" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                  <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX</StyledAttributeLabel>
+                  <StyledAttributeLabel>Challenges: {stream.challenges?stream.challenges:"0"} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX)</StyledAttributeLabel>
                 </StyledSensorAttribute>
               </StyledContentCell>
             </StyledContentContainer>
