@@ -95,6 +95,7 @@ export default class EnlistForm extends Component {
                 style={{width:"100%"}}
                 error={errors.type}
                 touched={touched.type}
+                valueInState={true}
               />
             </StyledColumn>
             <StyledColumn>

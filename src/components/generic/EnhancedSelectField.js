@@ -13,7 +13,9 @@ export default class EnhancedSelectField extends Component {
   }
 
   handleChange = value => {
-    this.setState({ value });
+    if(this.props.valueInState){
+      this.setState({ value });
+    }
     this.props.onChange(this.props.fieldname, value);
   };
 
@@ -35,8 +37,6 @@ export default class EnhancedSelectField extends Component {
       itemLabel,
       itemValue
     } = this.props;
-
-    //console.log(this.props);
 
     return (
       <SelectField
