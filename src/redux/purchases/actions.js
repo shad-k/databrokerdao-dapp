@@ -36,7 +36,7 @@ export const PURCHASES_ACTIONS = {
 
           const streamDetailCalls = [];
           _.each(purchases, purchase => {
-            streamDetailCalls.push(getStreamDetails(purchase.stream));
+            streamDetailCalls.push(getStreamDetails(purchase.sensor));
           });
 
           Bluebird.all(streamDetailCalls).then(streamDetails => {
@@ -44,7 +44,7 @@ export const PURCHASES_ACTIONS = {
 
             for (let i = 0; i < purchases.length; i++) {
               parsedResponse.push({
-                key: purchases[i].stream,
+                key: purchases[i].sensor,
                 name: streamDetails[i].data.name,
                 type: streamDetails[i].data.type,
                 endTime: purchases[i].endtime,

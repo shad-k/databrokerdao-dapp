@@ -3622,6 +3622,12 @@ svg.md-icon {
   .md-background--secondary-hover:hover {
     background: rgba(238, 39, 76, 0.9); } }
 
+.no-padding-top {
+  padding-top: 0 !important; }
+
+.no-padding-bottom {
+  padding-bottom: 0 !important; }
+
 html {
   height: 100%;
   font-size: 16px;

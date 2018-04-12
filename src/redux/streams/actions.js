@@ -140,29 +140,29 @@ export const STREAMS_ACTIONS = {
     return (dispatch, getState) => {
       const authenticatedAxiosClient = axios(null, true);
       authenticatedAxiosClient
-        .get(`/sensorregistry/list/${streamKey}`)
+        .get(`/sensor/${streamKey}/list`)
         .then(response => {
           let parsedResponse = null;
-          if (response.data._id) {
+          if (response.data.base._id) {
             parsedResponse = {
-              id: response.data._id,
-              key: response.data.key,
-              name: response.data.name,
-              type: response.data.type,
-              price: response.data.price,
-              updateinterval: response.data.updateinterval,
-              stake: response.data.stake,
-              example: response.data.example,
+              id: response.data.base._id,
+              key: response.data.base.key,
+              name: response.data.base.name,
+              type: response.data.base.type,
+              price: response.data.base.price,
+              updateinterval: response.data.base.updateinterval,
+              stake: response.data.base.stake,
+              example: response.data.base.example,
               geometry: {
                 type: 'Point',
                 coordinates: [
-                  response.data.geo.coordinates[1],
-                  response.data.geo.coordinates[0]
+                  response.data.base.geo.coordinates[1],
+                  response.data.base.geo.coordinates[0]
                 ]
               },
-              owner: response.data.owner,
-              challenges: response.data.challenges,
-              challengesstake: response.data.challengesstake
+              owner: response.data.base.owner,
+              challenges: _.filter(response.data.items, item => {return !item.resolved}),
+              challengesstake: response.data.base.challengesstake
             };
           } else {
             parsedResponse = {};
@@ -262,7 +262,7 @@ export const STREAMS_ACTIONS = {
       STREAMS_ACTIONS.fetchStreams(dispatch, filter);
     };
   },
-  challengeStream: (stream, amount) => {
+  challengeStream: (stream, reason, amount) => {
     return (dispatch, getState) => {
       dispatch({
         type: STREAMS_TYPES.CHALLENGING_STREAM,
@@ -279,11 +279,20 @@ export const STREAMS_ACTIONS = {
         return authenticatedAxiosClient.get('/sensorregistry/list');
       }
 
-      Bluebird.all([getDtxTokenRegistry(), getStreamRegistry()]).then(
+      function getMetadataHash() {
+        return authenticatedAxiosClient.post('/ipfs/add/json', {
+          data: {
+            reason: reason
+          }
+        });
+      }
+
+      Bluebird.all([getDtxTokenRegistry(), getStreamRegistry(), getMetadataHash()]).then(
         responses => {
           const deployedTokenContractAddress =
             responses[0].data.items[0].contractaddress;
           const spenderAddress = responses[1].data.base.key;
+          const metadataHash = responses[2].data[0].hash;
 
           // Time to approve the tokens
           authenticatedAxiosClient
@@ -296,7 +305,8 @@ export const STREAMS_ACTIONS = {
               authenticatedAxiosClient
                 .post(`/sensorregistry/challenge`, {
                   listing: stream.key,
-                  stakeamount: amount
+                  stakeamount: amount,
+                  metadata: metadataHash
                 })
                 .then(response => {
                   dispatch({

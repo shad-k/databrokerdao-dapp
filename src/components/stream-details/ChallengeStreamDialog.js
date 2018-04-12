@@ -12,21 +12,24 @@ import EnhancedTextField from '../generic/EnhancedTextField';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 const STEP_INTRO = 0,
-  STEP_STAKE = 1,
-  STEP_MINTING = 2,
-  STEP_CHALLENGING = 3,
-  STEP_SUCCESS = 4;
+  STEP_REASON = 1,
+  STEP_STAKE = 2,
+  STEP_MINTING = 3,
+  STEP_CHALLENGING = 4,
+  STEP_SUCCESS = 5;
 
 class ChallengeStreamDialog extends Component {
   constructor(props){
     super(props);
 
-    const steps = [{id:STEP_INTRO,description:"Intro"},{id:STEP_STAKE,description:"Stake"},{id:STEP_MINTING,description:"Mint"},{id:STEP_CHALLENGING,description:"Challenge"},{id:STEP_SUCCESS,description:"Success"}];
+    const steps = [{id:STEP_INTRO,description:"Intro"},{id:STEP_REASON,description:"Reason"},{id:STEP_STAKE,description:"Stake"},{id:STEP_MINTING,description:"Mint"},{id:STEP_CHALLENGING,description:"Challenge"},{id:STEP_SUCCESS,description:"Success"}];
 
     this.state = {
       steps: steps,
       stepIndex: STEP_INTRO,
       modal: false,
+      reason: "",
+      reasonError: null,
       stakeAmount: "",
       stakeError: null
     };
@@ -34,7 +37,15 @@ class ChallengeStreamDialog extends Component {
 
   finishStep(step){
     if(step === STEP_INTRO){
-      this.setState({stepIndex:STEP_STAKE});
+      this.setState({stepIndex:STEP_REASON});
+    }
+    else if(step === STEP_REASON){
+      if(this.state.reason.length > 0){
+        this.setState({stepIndex:STEP_STAKE});
+      }
+      else{
+        this.setState({reasonError:"Reason is a required field"});
+      }
     }
     else if(step === STEP_STAKE){
       if(parseInt(this.state.stakeAmount) > 0){
@@ -47,7 +58,7 @@ class ChallengeStreamDialog extends Component {
     }
     else if (step === STEP_MINTING){
       const amount = BigNumber(parseInt(this.state.stakeAmount)).times(BigNumber(10).pow(18)).toString();
-      this.props.challengeStream(this.props.stream,amount);
+      this.props.challengeStream(this.props.stream,this.state.reason,amount);
       this.setState({stepIndex:STEP_CHALLENGING});
     }
     else if(step === STEP_CHALLENGING)
@@ -82,6 +93,22 @@ class ChallengeStreamDialog extends Component {
           <p>If you are unhappy with the quality of data of this stream, you can challenge it by staking some DTX tokens.</p>
           <p>Upon reaching a certain threshold of challenges, a check of the data provider will be performed by a DataBroker DAO administrator. <span className="clickable" onClick={this.props.toggleStakingExplainer}><FontAwesomeIcon icon={faQuestionCircle} color="rgba(0,0,0,0.6)" /></span></p>
         </div>
+        {this.state.stepIndex === STEP_REASON &&
+          <div style={{padding:"0 15%"}}>
+            <h1>Why are you unhappy with the quality of data of this stream?</h1>
+            <TextField
+              id="reason"
+              fieldname="reason"
+              label="Explain why"
+              className="md-cell md-cell--bottom"
+              value={this.state.reason}
+              onChange={(value) => this.setState({reason: value})}
+              style={{width:"100%"}}
+              error={this.state.reasonError !== null}
+              errorText={this.state.reasonError}
+            />
+          </div>
+        }
         {this.state.stepIndex === STEP_STAKE &&
           <div style={{padding:"0 15%"}}>
             <h1>Define stake</h1>
@@ -128,7 +155,7 @@ const mapStateToProps = state => ({
 function mapDispatchToProps(dispatch) {
   return {
     mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount)),
-    challengeStream: (stream,amount) => dispatch(STREAMS_ACTIONS.challengeStream(stream,amount))
+    challengeStream: (stream,reason,amount) => dispatch(STREAMS_ACTIONS.challengeStream(stream,reason,amount))
   };
 }
 

@@ -20,6 +20,7 @@ import StakingExplainerDialog from './StakingExplainerDialog';
 import PurchaseStreamDialog from './PurchaseStreamDialog';
 import ChallengeStreamDialog from './ChallengeStreamDialog';
 import StreamDetailsBackground from './StreamDetailsBackground';
+import ChallengesTable from './ChallengesTable';
 
 class StreamDetailsScreen extends Component {
   constructor(props){
@@ -202,7 +203,7 @@ class StreamDetailsScreen extends Component {
             <CardContent noMarginBottom>
               <h1>Stakes and challenges <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} style={{marginLeft:"4px"}} /></span></h1>
             </CardContent>
-            <StyledContentContainer>
+            <StyledContentContainer className={stream.challenges && stream.challenges.length > 0?"no-padding-bottom":""}>
               <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
@@ -214,10 +215,17 @@ class StreamDetailsScreen extends Component {
               <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="danger" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
-                  <StyledAttributeLabel>Challenges: {stream.challenges?stream.challenges:"0"} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX)</StyledAttributeLabel>
+                  <StyledAttributeLabel>Challenges: {stream.challenges?stream.challenges.length:"0"} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX)</StyledAttributeLabel>
                 </StyledSensorAttribute>
               </StyledContentCell>
             </StyledContentContainer>
+            {stream.challenges && stream.challenges.length > 0 &&
+              <StyledContentContainer className="no-padding-top">
+                <StyledContentCell>
+                  <ChallengesTable challenges={stream.challenges} />
+                </StyledContentCell>
+              </StyledContentContainer>
+            }
           </CenteredCard>
           <CenteredCard>
             <CardContent>
