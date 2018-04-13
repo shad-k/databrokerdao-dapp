@@ -5,6 +5,7 @@ import Mixpanel from 'mixpanel-browser';
 import { BigNumber } from 'bignumber.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faQuestionCircle from '@fortawesome/fontawesome-free-regular/faQuestionCircle';
+import { withRouter } from 'react-router-dom';
 
 import TransactionDialog from '../generic/TransactionDialog';
 import { WALLET_ACTIONS } from '../../redux/wallet/actions';
@@ -14,15 +15,15 @@ import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 const STEP_INTRO = 0,
   STEP_REASON = 1,
   STEP_STAKE = 2,
-  STEP_MINTING = 3,
-  STEP_CHALLENGING = 4,
-  STEP_SUCCESS = 5;
+  STEP_CHALLENGING = 3,
+  STEP_SUCCESS = 4,
+  STEP_BALANCE_ERROR = 5;
 
 class ChallengeStreamDialog extends Component {
   constructor(props){
     super(props);
 
-    const steps = [{id:STEP_INTRO,description:"Intro"},{id:STEP_REASON,description:"Reason"},{id:STEP_STAKE,description:"Stake"},{id:STEP_MINTING,description:"Mint"},{id:STEP_CHALLENGING,description:"Challenge"},{id:STEP_SUCCESS,description:"Success"}];
+    const steps = [{id:STEP_INTRO,description:"Intro"},{id:STEP_REASON,description:"Reason"},{id:STEP_STAKE,description:"Stake"},{id:STEP_CHALLENGING,description:"Challenge"},{id:STEP_SUCCESS,description:"Success"}];
 
     this.state = {
       steps: steps,
@@ -33,6 +34,10 @@ class ChallengeStreamDialog extends Component {
       stakeAmount: "",
       stakeError: null
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchWallet();
   }
 
   finishStep(step){
@@ -50,16 +55,16 @@ class ChallengeStreamDialog extends Component {
     else if(step === STEP_STAKE){
       if(parseInt(this.state.stakeAmount) > 0){
         const amount = BigNumber(parseInt(this.state.stakeAmount)).times(BigNumber(10).pow(18)).toString();
-        this.props.mintTokens(amount);
-        this.setState({stepIndex:STEP_MINTING,modal:true});
+        if(BigNumber(this.props.balance).isGreaterThan(amount)){
+          this.props.challengeStream(this.props.stream,this.state.reason,amount);
+          this.setState({stepIndex:STEP_CHALLENGING,modal:true});
+        }
+        else{
+          this.setState({stepIndex:STEP_BALANCE_ERROR});
+        }
       }
       else
         this.setState({stakeError:"Stake amount must be a positive number"});
-    }
-    else if (step === STEP_MINTING){
-      const amount = BigNumber(parseInt(this.state.stakeAmount)).times(BigNumber(10).pow(18)).toString();
-      this.props.challengeStream(this.props.stream,this.state.reason,amount);
-      this.setState({stepIndex:STEP_CHALLENGING});
     }
     else if(step === STEP_CHALLENGING)
       this.setState({stepIndex:STEP_SUCCESS});
@@ -68,6 +73,9 @@ class ChallengeStreamDialog extends Component {
       this.props.fetchStreamEventHandler();
       this.props.hideEventHandler();
     }
+    else if(step === STEP_BALANCE_ERROR){
+      this.props.history.push(`/wallet`);
+    }
   }
 
   stakeAmountChanged(event){
@@ -75,7 +83,7 @@ class ChallengeStreamDialog extends Component {
   }
 
   render(){
-    const loading = this.props.mintingTokens || this.props.challengingStream;
+    const loading = this.props.challengingStream;
 
     return(
       <TransactionDialog
@@ -125,9 +133,11 @@ class ChallengeStreamDialog extends Component {
             />
           </div>
         }
-        <div style={{display:(this.state.stepIndex === STEP_MINTING)?'block':'none'}}>
-          <h1>Minting DTX tokens</h1>
-          <p>During the beta of DataBroker DAO DTX tokens are free.</p>
+        <div style={{display:(this.state.stepIndex === STEP_BALANCE_ERROR)?'block':'none'}}>
+          <h1>Your DTX balance is too low</h1>
+          <p>
+            As DataBroker DAO is currently in beta, you can fund your wallet with demo tokens free of charge.
+          </p>
         </div>
         <div style={{display:(this.state.stepIndex === STEP_CHALLENGING)?'block':'none'}}>
           <h1>Saving to the blockchain</h1>
@@ -148,15 +158,15 @@ class ChallengeStreamDialog extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  mintingTokens: state.wallet.mintingTokens,
-  challengingStream: state.streams.challengingStream
+  challengingStream: state.streams.challengingStream,
+  balance: state.wallet.wallet.balance
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount)),
-    challengeStream: (stream,reason,amount) => dispatch(STREAMS_ACTIONS.challengeStream(stream,reason,amount))
+    challengeStream: (stream,reason,amount) => dispatch(STREAMS_ACTIONS.challengeStream(stream,reason,amount)),
+    fetchWallet: () => dispatch(WALLET_ACTIONS.fetchWallet())
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChallengeStreamDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ChallengeStreamDialog));

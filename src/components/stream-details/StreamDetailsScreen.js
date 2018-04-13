@@ -132,7 +132,7 @@ class StreamDetailsScreen extends Component {
         // Not a JSON example - OK no problem
       }
 
-      const price = this.convertWeiToDtx(stream.price * stream.updateinterval / 1000);
+      const price = this.convertWeiToDtx(BigNumber(stream.price).multipliedBy(stream.updateinterval).div(1000));
       const stake = this.convertWeiToDtx(stream.stake);
 
       const purchase = _.find(this.props.purchases, purchase => {return purchase.key === this.props.stream.key;});

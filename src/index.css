@@ -3695,9 +3695,6 @@ pre {
 .md-cell {
   margin: 0 !important; }
 
-/* Dialog screens (purchase, staking explainer,...)*/
-.md-dialog-content--padded {
-  padding: 34px; }
-
+/* Dialog screens (purchase, staking explainer,...) */
 .md-dialog--centered {
   max-height: 75%; }

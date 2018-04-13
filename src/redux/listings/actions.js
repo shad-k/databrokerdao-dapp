@@ -15,8 +15,6 @@ export const LISTING_ACTIONS = {
     return (dispatch, getState) => {
       const state = getState();
 
-      console.log(state.wallet.wallet);
-
       dispatch({
         type: LISTING_TYPES.FETCHING_LISTINGS,
         value: true
@@ -98,7 +96,7 @@ export const LISTING_ACTIONS = {
           .post(`/dtxtoken/${deployedTokenContractAddress}/approve`, {
             spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
             value: BigNumber(stream.stake)
-              .times(BigNumber(stream.stake).pow(18))
+              .times(BigNumber(10).pow(18))
               .toString()
           })
           .then(response => {

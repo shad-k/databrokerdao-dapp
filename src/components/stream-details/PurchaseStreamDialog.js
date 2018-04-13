@@ -5,6 +5,7 @@ import Mixpanel from 'mixpanel-browser';
 import moment from 'moment';
 import { BigNumber } from 'bignumber.js';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
 import RegisterForm from '../authentication/RegisterForm';
 import TransactionDialog from '../generic/TransactionDialog';
@@ -15,9 +16,9 @@ import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 const STEP_INTRO = 0,
   STEP_REGISTRATION = 1,
   STEP_CONFIG = 2,
-  STEP_MINTING = 3,
-  STEP_PURCHASING = 4,
-  STEP_SUCCESS = 5;
+  STEP_PURCHASING = 3,
+  STEP_SUCCESS = 4,
+  STEP_BALANCE_ERROR = 5;
 
 class PurchaseStreamDialog extends Component {
   constructor(props){
@@ -25,8 +26,8 @@ class PurchaseStreamDialog extends Component {
 
     const defaultPurchaseEndTime = moment().add(7,'d').format('MM/DD/YYYY');
     const steps = (this.props.token)?
-                    [{id:STEP_INTRO,description:"Intro"},{id:STEP_CONFIG,description:"Delivery"},{id:STEP_MINTING,description:"Mint"},{id:STEP_PURCHASING,description:"Purchase"},{id:STEP_SUCCESS,description:"Success"}]
-                    :[{id:STEP_INTRO,description:"Intro"},{id:STEP_REGISTRATION,description:"Registration"},{id:STEP_CONFIG,description:"Delivery"},{id:STEP_MINTING,description:"Mint"},{id:STEP_PURCHASING,description:"Purchase"},{id:STEP_SUCCESS,description:"Success"}];
+                    [{id:STEP_INTRO,description:"Intro"},{id:STEP_CONFIG,description:"Delivery"},{id:STEP_PURCHASING,description:"Purchase"},{id:STEP_SUCCESS,description:"Success"}]
+                    :[{id:STEP_INTRO,description:"Intro"},{id:STEP_REGISTRATION,description:"Registration"},{id:STEP_CONFIG,description:"Delivery"},{id:STEP_PURCHASING,description:"Purchase"},{id:STEP_SUCCESS,description:"Success"}];
 
     this.state = {
       steps: steps,
@@ -35,6 +36,10 @@ class PurchaseStreamDialog extends Component {
       receiveEmail: true,
       modal: false
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchWallet();
   }
 
   finishStep(step){
@@ -49,14 +54,17 @@ class PurchaseStreamDialog extends Component {
       this.setState({stepIndex:STEP_CONFIG});
     }
     else if(step === STEP_CONFIG){
-      const days = Math.abs(moment().diff(moment(this.state.purchaseEndTime),'days')) + 1;
-      const amount = BigNumber(this.props.stream.price).times(days).times(86400).toString();
-      this.props.mintTokens(amount);
-      this.setState({stepIndex:STEP_MINTING,modal:true});
-    }
-    else if (step === STEP_MINTING){
-      this.props.purchaseAccess(this.props.stream,this.state.purchaseEndTime);
-      this.setState({stepIndex:STEP_PURCHASING});
+      //Check if user has enough DTX in wallet
+      const durationSeconds = moment(this.state.purchaseEndTime).diff(moment())/1000;
+      const purchasePrice = BigNumber(this.props.stream.price).multipliedBy(durationSeconds);
+
+      if(BigNumber(this.props.balance).isGreaterThan(purchasePrice)){ // Check if purchasePrice > balance in wallet
+        this.props.purchaseAccess(this.props.stream,this.state.purchaseEndTime);
+        this.setState({stepIndex:STEP_PURCHASING,modal:true});
+      }
+      else{
+        this.setState({stepIndex:STEP_BALANCE_ERROR});
+      }
     }
     else if(step === STEP_PURCHASING)
       this.setState({stepIndex:STEP_SUCCESS});
@@ -65,6 +73,9 @@ class PurchaseStreamDialog extends Component {
       this.props.fetchPurchases();
       this.props.hideEventHandler();
     }
+    else if(step === STEP_BALANCE_ERROR){
+      this.props.history.push(`/wallet`);
+    }
   }
 
   handleReceiveEmailChange(value){
@@ -72,12 +83,11 @@ class PurchaseStreamDialog extends Component {
   }
 
   handlePurchaseEndTimeChange(value){
-    console.log(value);
     this.setState({purchaseEndTime:value});
   }
 
   render(){
-    const loading = this.props.mintingTokens || this.props.purchasingAccess;
+    const loading = this.props.purchasingAccess;
 
     return(
       <TransactionDialog
@@ -129,9 +139,11 @@ class PurchaseStreamDialog extends Component {
             onChange={(value) => this.handlePurchaseEndTimeChange(value)}
           />
         </div>
-        <div style={{display:(this.state.stepIndex === STEP_MINTING)?'block':'none'}}>
-          <h1>Minting DTX tokens</h1>
-          <p>During the beta of DataBroker DAO DTX tokens are free.</p>
+        <div style={{display:(this.state.stepIndex === STEP_BALANCE_ERROR)?'block':'none'}}>
+          <h1>Your DTX balance is too low</h1>
+          <p>
+            As DataBroker DAO is currently in beta, you can fund your wallet with demo tokens free of charge.
+          </p>
         </div>
         <div style={{display:(this.state.stepIndex === STEP_PURCHASING)?'block':'none'}}>
           <h1>Saving to the blockchain</h1>
@@ -159,17 +171,17 @@ class PurchaseStreamDialog extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  mintingTokens: state.wallet.mintingTokens,
-  purchasingAccess: state.purchases.purchasingAccess
+  purchasingAccess: state.purchases.purchasingAccess,
+  balance: state.wallet.wallet.balance
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     register: (values, settings) => dispatch(register(values, settings)),
-    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount)),
     purchaseAccess: (stream,endTime) => dispatch(PURCHASES_ACTIONS.purchaseAccess(stream,endTime)),
-    fetchPurchases: () => dispatch(PURCHASES_ACTIONS.fetchPurchases())
+    fetchPurchases: () => dispatch(PURCHASES_ACTIONS.fetchPurchases()),
+    fetchWallet: () => dispatch(WALLET_ACTIONS.fetchWallet())
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PurchaseStreamDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PurchaseStreamDialog));

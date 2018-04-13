@@ -13,7 +13,7 @@ class LoginDialog extends Component {
         visible={this.props.visible}
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
-        dialogStyle={{width:"500px",position:"relative",top:"33%",padding:"4px 10px 4px 10px"}}
+        dialogStyle={{width:"500px",position:"relative",top:"33%",padding:"14px 20px 14px 20px"}}
         aria-labelledby="Log In"
       >
         <h1>Log In</h1>

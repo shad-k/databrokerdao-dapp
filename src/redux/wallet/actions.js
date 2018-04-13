@@ -47,6 +47,18 @@ export const WALLET_ACTIONS = {
           type: WALLET_TYPES.MINTING_TOKENS,
           value: false
         });
+        authenticatedAxiosClient.get(
+          "/my-wallet"
+        ).then(response => {
+          const wallet = response.data.DTX;
+
+          dispatch({
+            type: WALLET_TYPES.FETCH_WALLET,
+            wallet
+          });
+        }).catch(error => {
+          console.log(error);
+        });
       }).catch(error => {
         console.log(error);
       });

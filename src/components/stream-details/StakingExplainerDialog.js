@@ -9,7 +9,7 @@ export default class StakingExplainerDialog extends Component {
         visible={this.props.visible}
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
-        dialogStyle={{width:"560px",position:"relative",top:"160px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"}}
+        dialogStyle={{width:"560px",position:"relative",top:"160px",padding:"20px 20px 12px 20px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"}}
         aria-labelledby="About staking"
       >
         <h1>About staking and challenging</h1>
