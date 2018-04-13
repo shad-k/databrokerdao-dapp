@@ -206,7 +206,6 @@ export default class EnlistForm extends Component {
         stake: Yup.number().typeError('Stake must be a number').required('Stake is required')
       }),
       handleSubmit: (values, { setSubmitting }) => {
-        console.log(values);
         setSubmitting(false);
         this.setState({stream:{
             name:values.name,
