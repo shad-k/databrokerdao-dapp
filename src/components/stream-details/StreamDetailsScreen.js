@@ -21,6 +21,7 @@ import PurchaseStreamDialog from './PurchaseStreamDialog';
 import ChallengeStreamDialog from './ChallengeStreamDialog';
 import StreamDetailsBackground from './StreamDetailsBackground';
 import ChallengesTable from './ChallengesTable';
+import NearbyStreamsTable from './NearbyStreamsTable';
 
 class StreamDetailsScreen extends Component {
   constructor(props){
@@ -40,6 +41,13 @@ class StreamDetailsScreen extends Component {
     if(this.props.token)
       this.props.fetchPurchases();
     Mixpanel.track("View stream details screen");
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // After selecting stream in list of nearby streams, get details of this new stream
+    // If user came to stream details screen directly, the other stream is not in the Redux state
+    if(this.props.match.params.key !== prevProps.match.params.key)
+      this.props.fetchStream();
   }
 
   convertWeiToDtx(dtxValue){
@@ -235,11 +243,14 @@ class StreamDetailsScreen extends Component {
               </StyledExampleContainer>
             </CardContent>
           </CenteredCard>
-          <CenteredCard>
-            <CardContent>
-              <h1>Similar streams nearby</h1>
-            </CardContent>
-          </CenteredCard>
+          {this.props.nearbyStreams && this.props.nearbyStreams.length > 0 &&
+            <CenteredCard>
+              <CardContent>
+                <h1>Similar streams nearby</h1>
+                <NearbyStreamsTable streams={this.props.nearbyStreams}/>
+              </CardContent>
+            </CenteredCard>
+          }
           <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
           <ChallengeStreamDialog visible={this.state.ChallengeDialogVisible} stream={stream} hideEventHandler={() => this.toggleChallengeDialog()} toggleStakingExplainer={() => this.toggleStakingExplainer()} fetchStreamEventHandler={() => this.props.fetchStream()}/>
           <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
@@ -263,7 +274,8 @@ function mapStateToProps(state, ownProps) {
     availableStreamTypes: state.streams.availableStreamTypes,
     purchases:state.purchases.purchases,
     fetchingPurchases:state.purchases.fetchingPurchases,
-    token: state.auth.token //Used to verify if a user is signed in, if not we don't have to get purchases from API
+    token: state.auth.token, //Used to verify if a user is signed in, if not we don't have to get purchases from API
+    nearbyStreams: state.streams.nearbyStreams
   };
 }
 

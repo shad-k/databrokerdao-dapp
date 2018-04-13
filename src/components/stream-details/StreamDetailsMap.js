@@ -16,7 +16,7 @@ export default withScriptjs(withGoogleMap(class StreamDetailsMap extends Compone
     return (
       <GoogleMap
         defaultZoom={16}
-        defaultCenter={{lng: this.props.stream.geometry.coordinates[1], lat: this.props.stream.geometry.coordinates[0]}}
+        center={{lng: this.props.stream.geometry.coordinates[1], lat: this.props.stream.geometry.coordinates[0]}}
         options={MapOptions}
       >
         <LandingMapMarker

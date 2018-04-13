@@ -17,7 +17,9 @@ export const DEFAULT_STATE = {
   fetchingStreams: false,
   availableStreamTypes: [], //All possible types the user could filter on
   fetchStreamCounter: 0,
-  challengingStream: false
+  challengingStream: false,
+  nearbyStreams: [],
+  fetchingNearbyStreams: false
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
@@ -50,6 +52,12 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.CHALLENGING_STREAM:{
       return Immutable.set(state, "challengingStream", action.value);
+    }
+    case STREAMS_TYPES.FETCH_NEARBY_STREAMS:{
+      return Immutable.merge(state, {nearbyStreams: action.streams, fetchingNearbyStreams: false});
+    }
+    case STREAMS_TYPES.FETCHING_NEARBY_STREAMS:{
+      return Immutable.set(state, "fetchingNearbyStreams", action.value);
     }
     default:
       return state;

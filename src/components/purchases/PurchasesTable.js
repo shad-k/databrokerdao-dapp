@@ -41,33 +41,34 @@ class PurchasesTable extends Component {
         <p>Loading...</p>
       );
     }
-    else if(this.props.purchases.length === 0){
+
+    if(this.props.purchases.length === 0){
       return(
         <p>When you purchase access to a stream, it will be listed here.</p>
       );
     }
-    else
-      return(
-        <DataTable baseId="purchases-table" plain>
-          <TableHeader>
-            <TableRow>
-              <LeftTableColumn grow>Name</LeftTableColumn>
-              <TableColumn>Type</TableColumn>
-              <TableColumn>Frequency</TableColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {this.props.purchases.map((purchase) => (
-              <StyledTableRow key={purchase.key} onClick={() => this.onViewPurchaseDetails(purchase.key)}>
-                <LeftTableColumn>{purchase.name}</LeftTableColumn>
-                <TableColumn>{purchase.type}</TableColumn>
-                <TableColumn>{purchase.updateinterval === 86400000?"daily":`${purchase.updateinterval/1000}\'\'`}</TableColumn>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-          <TablePagination rows={this.props.purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination}/>
-        </DataTable>
-      );
+
+    return(
+      <DataTable baseId="purchases-table" plain>
+        <TableHeader>
+          <TableRow>
+            <LeftTableColumn grow>Name</LeftTableColumn>
+            <TableColumn>Type</TableColumn>
+            <TableColumn>Frequency</TableColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {this.props.purchases.map((purchase) => (
+            <StyledTableRow key={purchase.key} onClick={() => this.onViewPurchaseDetails(purchase.key)}>
+              <LeftTableColumn>{purchase.name}</LeftTableColumn>
+              <TableColumn>{purchase.type}</TableColumn>
+              <TableColumn>{purchase.updateinterval === 86400000?"daily":`${purchase.updateinterval/1000}\'\'`}</TableColumn>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+        <TablePagination rows={this.props.purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination}/>
+      </DataTable>
+    );
   }
 }
 

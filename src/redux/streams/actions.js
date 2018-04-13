@@ -15,7 +15,9 @@ export const STREAMS_TYPES = {
   UPDATED_FILTER: 'UPDATED_FILTER',
   UPDATED_MAP: 'UPDATED_MAP',
   FETCH_STREAM_COUNTER: 'FETCH_STREAM_COUNTER',
-  CHALLENGING_STREAM: 'CHALLENGING_STREAM'
+  CHALLENGING_STREAM: 'CHALLENGING_STREAM',
+  FETCH_NEARBY_STREAMS: 'FETCH_NEARBY_STREAMS',
+  FETCHING_NEARBY_STREAMS: 'FETCHING_NEARBY_STREAMS'
 };
 
 export const STREAMS_ACTIONS = {
@@ -120,7 +122,6 @@ export const STREAMS_ACTIONS = {
                 };
               }
             });
-            if (1 === 1) console.log('Fetched streams v2');
             dispatch({
               type: STREAMS_TYPES.FETCH_STREAMS,
               streams: parsedResponse
@@ -138,11 +139,15 @@ export const STREAMS_ACTIONS = {
   },
   fetchStream: (dispatch, streamKey) => {
     return (dispatch, getState) => {
+      dispatch({
+        type: STREAMS_TYPES.FETCHING_NEARBY_STREAMS,
+        value: true
+      });
+
       const authenticatedAxiosClient = axios(null, true);
       authenticatedAxiosClient
         .get(`/sensor/${streamKey}/list`)
         .then(response => {
-          console.log(response);
           let parsedResponse = null;
           if (response.data.base._id) {
             parsedResponse = {
@@ -174,6 +179,47 @@ export const STREAMS_ACTIONS = {
             type: STREAMS_TYPES.FETCH_STREAM,
             stream: parsedResponse
           });
+
+          // Get nearby streams
+          const filterUrlQuery = `limit=20&type=${parsedResponse.type}&near=${parsedResponse.geometry.coordinates[1]},${parsedResponse.geometry.coordinates[0]},500&sort=stake`; //TODO in meter?
+
+          const authenticatedAxiosClient = axios(null, true);
+          authenticatedAxiosClient
+            .get(`/sensorregistry/list?${filterUrlQuery}`)
+            .then(response => {
+              let parsedResponse = [];
+              _.each(response.data.items, item => {
+                //The stream itself is not a similar nearby stream
+                if(item.key === streamKey)
+                  return;
+
+                parsedResponse.push({
+                  id: item._id,
+                  key: item.key,
+                  name: item.name,
+                  type: item.type,
+                  price: item.price,
+                  updateinterval: item.updateinterval,
+                  stake: item.stake,
+                  example: item.example,
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [
+                      item.geo.coordinates[1],
+                      item.geo.coordinates[0]
+                    ]
+                  },
+                  owner: item.owner,
+                  challenges: item.numberofchallenges,
+                  challengesstake: item.challengesstake
+                });
+              });
+
+              dispatch({
+                type: STREAMS_TYPES.FETCH_NEARBY_STREAMS,
+                streams: parsedResponse
+              });
+            });
         })
         .catch(error => {
           console.log(error);
