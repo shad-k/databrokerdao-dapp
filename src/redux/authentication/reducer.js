@@ -34,7 +34,11 @@ async function encryptedPrivateKeyAndAddress(wallet, password) {
       privateKey
     )
     .toString('hex');
-  return { encryptedPrivateKey, address: walletObject.getAddressString() };
+  return {
+    encryptedPrivateKey,
+    address: walletObject.getAddressString(),
+    privateKey: walletObject.getPrivateKeyString()
+  };
 }
 
 async function storeKeys(axiosClient, email, address, keystore, mnemonicHash) {
@@ -62,7 +66,8 @@ async function getJWTToken(axiosClient, encryptedPrivateKey) {
   return tokenResponse.data.token;
 }
 
-export function register(values, { props, setErrors }) { //setSubmitting
+export function register(values, { props, setErrors }) {
+  //setSubmitting
   return async (dispatch, getState) => {
     const axiosClient = axios();
     try {
@@ -78,9 +83,11 @@ export function register(values, { props, setErrors }) { //setSubmitting
       // console.log('GET THE ADDRESS AND ENCRYPT THE PRIVATE KEY');
       const {
         encryptedPrivateKey,
-        address
+        address,
+        privateKey
       } = await encryptedPrivateKeyAndAddress(wallet, values.password);
       localStorage.setItem('address', address);
+      localStorage.setItem('privateKey', privateKey);
 
       // console.log({
       //   encryptedPrivateKey,
@@ -95,11 +102,11 @@ export function register(values, { props, setErrors }) { //setSubmitting
       // GET THE JWT TOKEN
       const token = await getJWTToken(axiosClient, encryptedPrivateKey);
 
-      localStorage.setItem('email',values.email);
+      localStorage.setItem('email', values.email);
 
       dispatch({
         type: TOKEN_RECEIVED,
-        payload: { token, address }
+        payload: { token, address, privateKey }
       });
       // GET THE ROLES OF THE USER
       // TODO add JWT token to the axios client!
@@ -113,8 +120,7 @@ export function register(values, { props, setErrors }) { //setSubmitting
       //   payload: { roles: roleResponse.data.roles }
       // });
 
-      if(props.callBack)
-        props.callBack();
+      if (props.callBack) props.callBack();
     } catch (error) {
       //console.log(error);
       setErrors({
@@ -140,20 +146,22 @@ export function login(values, { props, setSubmitting, setErrors }) {
       // GET THE ADDRESS AND ENCRYPT THE PRIVATE KEY
       const {
         encryptedPrivateKey,
-        address
+        address,
+        privateKey
       } = await encryptedPrivateKeyAndAddress(
         wallet.ethereum.keystore,
         values.password
       );
       localStorage.setItem('address', address);
+      localStorage.setItem('pk', privateKey);
 
       // GET THE JWT TOKEN
       const token = await getJWTToken(axiosClient, encryptedPrivateKey);
       dispatch({
         type: TOKEN_RECEIVED,
-        payload: { token, address }
+        payload: { token, address, privateKey }
       });
-      localStorage.setItem('email',values.email);
+      localStorage.setItem('email', values.email);
 
       // GET THE ROLES OF THE USER
       const authenticatedAxiosClient = axios(token);
@@ -187,6 +195,7 @@ export function logout() {
       localStorage.removeItem('roles');
       localStorage.removeItem('address');
       localStorage.removeItem('email');
+      localStorage.removeItem('pk');
 
       // Remove all data from redux.
       dispatch({
@@ -220,7 +229,8 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       token: action.payload.token,
-      address: action.payload.address
+      address: action.payload.address,
+      pk: action.payload.privateKey
     };
   },
   [ROLES_RECEIVED]: (state, action) => {
@@ -241,7 +251,8 @@ const ACTION_HANDLERS = {
 const initialState = {
   token: localStorage.getItem('jwtToken') || false,
   roles: localStorage.getItem('roles') || [],
-  address: localStorage.getItem('address') || null
+  address: localStorage.getItem('address') || null,
+  pk: localStorage.getItem('pk') || null
 };
 
 function reducer(state = initialState, action) {
