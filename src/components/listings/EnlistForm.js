@@ -141,7 +141,7 @@ export default class EnlistForm extends Component {
               <EnhancedTextField
                 id="price"
                 fieldname="price"
-                label="Price (DTX)"
+                label="Price per second (DTX)"
                 className="md-cell md-cell--bottom"
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
@@ -154,7 +154,7 @@ export default class EnlistForm extends Component {
               <EnhancedTextField
                 id="stake"
                 fieldname="stake"
-                label="Stake (DTX)"
+                label="Owner stake (DTX)"
                 className="md-cell md-cell--bottom"
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}

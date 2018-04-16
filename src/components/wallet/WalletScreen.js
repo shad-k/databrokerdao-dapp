@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Button } from 'react-md';
 import { BigNumber } from 'bignumber.js';
+import styled from 'styled-components';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
@@ -32,20 +33,26 @@ class WalletScreen extends Component {
       DTXBalance = this.convertWeiToDtx(this.props.balance);
     }
 
+    const StyledTitleContainer = styled.div`
+      display:flex;
+      justify-content:space-between;
+    `;
+
     return (
       <div>
         <Toolbar showTabs={true} />
         <ToolbarSpacer/>
         <CenteredCard >
           <CardContent>
-            <h1>My wallet</h1>
+            <StyledTitleContainer>
+              <h1>DTX balance: &Xi; {DTXBalance}</h1>
+              <Button flat primary swapTheming className={this.props.mintingTokens?"disabled-button":""} disabled={this.props.mintingTokens} onClick={event => this.fundWallet()} style={{marginTop:"8px"}}>
+                {this.props.mintingTokens?"(funding in progress)":"Fund wallet (+ 500 DTX)"}
+              </Button>
+            </StyledTitleContainer>
             <p>Address: {address}</p>
             <p>Email: {email}</p>
-            <p>DTX balance: &Xi; {DTXBalance}</p>
-            <Button flat swapTheming primary className={this.props.mintingTokens?"disabled-button":""} disabled={this.props.mintingTokens} onClick={() => this.fundWallet()} style={{marginTop:"10px", marginRight:"10px"}}>
-              {this.props.mintingTokens?"(funding in progress)":"Fund wallet (+ 500 DTX)"}
-            </Button>
-            <Button flat swapTheming primary onClick={() => this.props.logout()} style={{marginTop:"10px"}}>Log out</Button>
+            <p><a href="#" onClick={() => this.props.logout()}>Log out</a></p>
           </CardContent>
         </CenteredCard>
       </div>

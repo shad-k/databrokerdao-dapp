@@ -85,7 +85,7 @@ class Toolbar extends Component {
           <StyledWalletLinkContainer>
             {this.props.token &&
               <StyledWalletLink to="/wallet">
-                My wallet
+                Wallet
               </StyledWalletLink>
             }
             {!this.props.token &&
