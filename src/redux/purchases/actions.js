@@ -13,8 +13,6 @@ export const PURCHASES_TYPES = {
 export const PURCHASES_ACTIONS = {
   fetchPurchases: () => {
     return (dispatch, getState) => {
-      const state = getState();
-
       dispatch({
         type: PURCHASES_TYPES.FETCHING_PURCHASES,
         value: true

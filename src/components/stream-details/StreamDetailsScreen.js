@@ -103,11 +103,6 @@ class StreamDetailsScreen extends Component {
       padding:15px;
     `;
 
-    const FirstCenteredCard = styled(CenteredCard)`
-      margin-top: 250px;
-      background: red;
-    `;
-
     const { stream, availableStreamTypes, fetchingPurchases } = this.props;
 
     if(!stream || !availableStreamTypes || fetchingPurchases)
@@ -139,7 +134,7 @@ class StreamDetailsScreen extends Component {
       const purchased = purchase !== undefined;
       const isOwner = this.props.stream.owner === localStorage.getItem('address');
 
-      const updateInterval = stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}\'\'`;
+      const updateInterval = stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}''`;
 
       let purchaseEndTime = null;
       if(purchase)

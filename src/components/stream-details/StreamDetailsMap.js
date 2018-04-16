@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
-import _ from 'lodash';
 
 import LandingMapMarker from '../landing/LandingMapMarker';
 

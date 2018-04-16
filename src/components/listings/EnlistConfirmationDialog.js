@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Button, DialogContainer, Checkbox, CircularProgress } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
-import moment from 'moment';
 import { BigNumber } from 'bignumber.js';
-import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
 import RegisterForm from '../authentication/RegisterForm';

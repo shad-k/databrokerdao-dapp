@@ -48,7 +48,7 @@ class NearbyStreamsTable extends Component {
             <StyledTableRow key={stream.key} onClick={() => this.onViewStreamDetails(stream.key)}>
               <LeftTableColumn>{stream.name}</LeftTableColumn>
               <TableColumn>{stream.type}</TableColumn>
-              <TableColumn>{stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}\'\'`}</TableColumn>
+              <TableColumn>{stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}''`}</TableColumn>
             </StyledTableRow>
           ))}
         </TableBody>

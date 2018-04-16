@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import axios from '../../utils/axios';
 import Bluebird from 'bluebird';
-import moment from 'moment';
 import { BigNumber } from 'bignumber.js';
 
 export const LISTING_TYPES = {
@@ -13,8 +12,6 @@ export const LISTING_TYPES = {
 export const LISTING_ACTIONS = {
   fetchListings: () => {
     return (dispatch, getState) => {
-      const state = getState();
-
       dispatch({
         type: LISTING_TYPES.FETCHING_LISTINGS,
         value: true

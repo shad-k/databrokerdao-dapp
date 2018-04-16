@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Marker } from "react-google-maps"
 
 import MapMarker from '../generic/MapMarker';
 import ClosedDiscoverMapMarker from './ClosedDiscoverMapMarker';

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import axios from '../../utils/axios';
 
 export const WALLET_TYPES = {

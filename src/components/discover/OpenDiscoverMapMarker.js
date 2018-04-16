@@ -61,7 +61,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
             <Icon icon={stream.type} style={{color:"white", width:"24px", height:"24px"}}/>
             <div style={{width:"196px"}}>
               <StyledSensorName onClick={event => this.onPurchaseButtonClicked()}>{stream.name}</StyledSensorName>
-              <StyledSensorDetails>Frequency: {stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}\'\'`}</StyledSensorDetails>
+              <StyledSensorDetails>Frequency: {stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}''`}</StyledSensorDetails>
               <StyledSensorDetails>Stake: {this.convertWeiToDtx(stream.stake)} DTX</StyledSensorDetails>
               <StyledSensorDetails>Challenges: {stream.challenges} ({this.convertWeiToDtx(stream.challengesstake)} DTX)</StyledSensorDetails>
             </div>

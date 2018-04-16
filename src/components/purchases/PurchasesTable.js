@@ -4,8 +4,7 @@ import {
   TableHeader,
   TableBody,
   TableRow,
-  TableColumn,
-  TablePagination,
+  TableColumn
 } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -17,10 +16,6 @@ class PurchasesTable extends Component {
   componentDidMount(){
     if(this.props.token)
       this.props.fetchPurchases();
-  }
-
-  handlePagination(start, rowsPerPage) {
-      console.log("Handle pagination");
   }
 
   onViewPurchaseDetails(key) {
@@ -36,7 +31,7 @@ class PurchasesTable extends Component {
       cursor: pointer;
     `;
 
-    if(this.props.fetchingPurchases){
+    if(this.props.fetchingPurchases && this.props.purchases.length === 0){
       return(
         <p>Loading...</p>
       );
@@ -62,11 +57,10 @@ class PurchasesTable extends Component {
             <StyledTableRow key={purchase.key} onClick={() => this.onViewPurchaseDetails(purchase.key)}>
               <LeftTableColumn>{purchase.name}</LeftTableColumn>
               <TableColumn>{purchase.type}</TableColumn>
-              <TableColumn>{purchase.updateinterval === 86400000?"daily":`${purchase.updateinterval/1000}\'\'`}</TableColumn>
+              <TableColumn>{purchase.updateinterval === 86400000?"daily":`${purchase.updateinterval/1000}''`}</TableColumn>
             </StyledTableRow>
           ))}
         </TableBody>
-        <TablePagination rows={this.props.purchases.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination}/>
       </DataTable>
     );
   }

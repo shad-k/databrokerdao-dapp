@@ -1,10 +1,6 @@
 import _ from 'lodash';
 import axios from '../../utils/axios';
 import Bluebird from 'bluebird';
-import { BigNumber } from 'bignumber.js';
-
-//TODO remove when API call works
-import EXAMPLE_STREAMS_API_RESPONSE from '../../example-api-responses/streams';
 
 export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',

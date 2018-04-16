@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, DatePicker, Checkbox, TextField } from 'react-md';
+import { TextField } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
 import { BigNumber } from 'bignumber.js';
@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom';
 
 import TransactionDialog from '../generic/TransactionDialog';
 import { WALLET_ACTIONS } from '../../redux/wallet/actions';
-import EnhancedTextField from '../generic/EnhancedTextField';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 
 const STEP_INTRO = 0,

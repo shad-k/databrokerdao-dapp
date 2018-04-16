@@ -4,8 +4,7 @@ import {
   TableHeader,
   TableBody,
   TableRow,
-  TableColumn,
-  TablePagination,
+  TableColumn
 } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -17,10 +16,6 @@ class ListingsTable extends Component {
   componentDidMount(){
     if(this.props.token)
       this.props.fetchListings();
-  }
-
-  handlePagination(start, rowsPerPage) {
-      console.log("Handle pagination");
   }
 
   onViewListingDetails(key) {
@@ -61,11 +56,10 @@ class ListingsTable extends Component {
               <StyledTableRow key={listing.key} onClick={() => this.onViewListingDetails(listing.key)}>
                 <LeftTableColumn>{listing.name}</LeftTableColumn>
                 <TableColumn>{listing.type}</TableColumn>
-                <TableColumn>{listing.updateinterval === 86400000?"daily":`${listing.updateinterval/1000}\'\'`}</TableColumn>
+                <TableColumn>{listing.updateinterval === 86400000?"daily":`${listing.updateinterval/1000}''`}</TableColumn>
               </StyledTableRow>
             ))}
           </TableBody>
-          <TablePagination rows={this.props.listings.length} rowsPerPageLabel="Rows" onPagination={() => this.handlePagination}/>
         </DataTable>
       );
   }
