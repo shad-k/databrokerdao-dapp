@@ -4,6 +4,7 @@ import Bluebird from 'bluebird';
 import moment from 'moment';
 import { ecies } from '@settlemint/lib-crypto';
 import stripHexPrefix from 'strip-hex-prefix';
+import Wallet from 'ethereumjs-wallet';
 
 export const PURCHASES_TYPES = {
   FETCH_PURCHASES: 'FETCH_PURCHASES',
@@ -86,14 +87,14 @@ export const PURCHASES_ACTIONS = {
       }
 
       function getMetadataHash() {
-        console.log(localStorage.getItem('pk'));
         const email = ecies.encryptMessage(
           Buffer.from(stripHexPrefix(localStorage.getItem('pk')), 'hex'),
-          Buffer.from(process.env.REACT_APP_SERVER_PUBLIC_KEY, 'hex'),
+          Buffer.from(
+            stripHexPrefix(process.env.REACT_APP_SERVER_PUBLIC_KEY),
+            'hex'
+          ),
           localStorage.getItem('email')
         );
-
-        console.log(email);
 
         return authenticatedAxiosClient.post('/ipfs/add/json', {
           data: {
