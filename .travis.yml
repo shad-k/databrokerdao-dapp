@@ -24,7 +24,7 @@ before_install:
 
 after_success:
   - npm run semantic-release
-  - yes Y | docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}";
+  - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}";
   - if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]); then
     docker build --build-arg NPM_TOKEN=${NPM_TOKEN} --build-arg REACT_APP_DAPI_URL="https://dapi-staging.databrokerdao.com/" -t settlemint/${PROJECT_NAME}:${TRAVIS_BRANCH} -t settlemint/${PROJECT_NAME}:${TRAVIS_BRANCH}-`date +%s` .;
     docker push settlemint/${PROJECT_NAME};
