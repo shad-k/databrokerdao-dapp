@@ -165,7 +165,7 @@ export const STREAMS_ACTIONS = {
               owner: response.data.base.owner,
               challenges: response.data.items.length,
               challengesstake: response.data.base.challengesstake,
-              challengeslist: _.filter(response.data.items, item => {return !item.resolved})
+              challengeslist: _.filter(response.data.items, item => {return !item.resolved && item.stake})
             };
           } else {
             parsedResponse = {};
