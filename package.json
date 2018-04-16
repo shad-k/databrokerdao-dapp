@@ -2,6 +2,10 @@
   "name": "@settlemint/databrokerdao-dapp",
   "version": "0.0.0-development",
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.5",
+    "@fortawesome/fontawesome-free-regular": "^5.0.9",
+    "@fortawesome/fontawesome-free-solid": "^5.0.9",
+    "@fortawesome/react-fontawesome": "0.0.18",
     "@settlemint/lib-crypto": "^4.5.3",
     "@settlemint/lib-utils": "^1.1.5",
     "axios": "^0.18.0",
@@ -17,6 +21,7 @@
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.7.0",
     "ethereumjs-wallet": "^0.6.0",
+    "font-awesome": "^4.7.0",
     "formik": "^0.11.11",
     "history": "^4.7.2",
     "identicon.js": "^2.3.2",

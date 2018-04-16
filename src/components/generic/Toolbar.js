@@ -37,6 +37,7 @@ class Toolbar extends Component {
       justify-content: space-between;
       position: absolute;
       top: 0;
+      font-size: 14px;
     `;
 
     const StyledLogoContainer = styled.div`
@@ -84,7 +85,7 @@ class Toolbar extends Component {
           <StyledWalletLinkContainer>
             {this.props.token &&
               <StyledWalletLink to="/wallet">
-                My wallet
+                Wallet
               </StyledWalletLink>
             }
             {!this.props.token &&

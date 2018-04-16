@@ -95,6 +95,7 @@ export default class EnlistForm extends Component {
                 style={{width:"100%"}}
                 error={errors.type}
                 touched={touched.type}
+                valueInState={true}
               />
             </StyledColumn>
             <StyledColumn>
@@ -140,7 +141,7 @@ export default class EnlistForm extends Component {
               <EnhancedTextField
                 id="price"
                 fieldname="price"
-                label="Price (DTX)"
+                label="Price per second (DTX)"
                 className="md-cell md-cell--bottom"
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
@@ -153,7 +154,7 @@ export default class EnlistForm extends Component {
               <EnhancedTextField
                 id="stake"
                 fieldname="stake"
-                label="Stake (DTX)"
+                label="Owner stake (DTX)"
                 className="md-cell md-cell--bottom"
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
@@ -205,7 +206,6 @@ export default class EnlistForm extends Component {
         stake: Yup.number().typeError('Stake must be a number').required('Stake is required')
       }),
       handleSubmit: (values, { setSubmitting }) => {
-        console.log(values);
         setSubmitting(false);
         this.setState({stream:{
             name:values.name,

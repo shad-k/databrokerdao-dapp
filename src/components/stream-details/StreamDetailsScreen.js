@@ -6,6 +6,8 @@ import Mixpanel from 'mixpanel-browser';
 import { BigNumber } from 'bignumber.js';
 import _ from 'lodash';
 import moment from 'moment';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faQuestionCircle from '@fortawesome/fontawesome-free-regular/faQuestionCircle';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
@@ -17,6 +19,9 @@ import Icon from '../generic/Icon';
 import StakingExplainerDialog from './StakingExplainerDialog';
 import PurchaseStreamDialog from './PurchaseStreamDialog';
 import ChallengeStreamDialog from './ChallengeStreamDialog';
+import StreamDetailsBackground from './StreamDetailsBackground';
+import ChallengesTable from './ChallengesTable';
+import NearbyStreamsTable from './NearbyStreamsTable';
 
 class StreamDetailsScreen extends Component {
   constructor(props){
@@ -36,6 +41,13 @@ class StreamDetailsScreen extends Component {
     if(this.props.token)
       this.props.fetchPurchases();
     Mixpanel.track("View stream details screen");
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // After selecting stream in list of nearby streams, get details of this new stream
+    // If user came to stream details screen directly, the other stream is not in the Redux state
+    if(this.props.match.params.key !== prevProps.match.params.key)
+      this.props.fetchStream();
   }
 
   convertWeiToDtx(dtxValue){
@@ -70,8 +82,6 @@ class StreamDetailsScreen extends Component {
     `;
 
     const StyledSensorAttribute = styled.p`
-      font-weight: 400;
-      font-size: 18px;
       display: flex;
       align-content: center;
       margin-bottom: 20px;
@@ -84,11 +94,12 @@ class StreamDetailsScreen extends Component {
 
     const StyledAttributeLabel = styled.span`
       margin-left: 12px;
+      line-height: 1.3;
     `;
 
     const StyledExampleContainer = styled.div`
       background-color:rgba(0,0,0,0.1);
-      border-radius:12px;
+      border-radius:3px;
       padding:15px;
     `;
 
@@ -99,7 +110,7 @@ class StreamDetailsScreen extends Component {
         <div>
           <Toolbar showTabs={true} />
           <ToolbarSpacer/>
-          <CenteredCard>
+          <CenteredCard style={{marginTop:"190px"}}>
             <CardContent>
               <StyledSensorNameCardContent>
                 <h1 style={{display:"inline-block"}}>Loading...</h1>
@@ -116,14 +127,14 @@ class StreamDetailsScreen extends Component {
         // Not a JSON example - OK no problem
       }
 
-      const price = this.convertWeiToDtx(stream.price * stream.updateinterval / 1000);
+      const price = this.convertWeiToDtx(BigNumber(stream.price).multipliedBy(stream.updateinterval).div(1000));
       const stake = this.convertWeiToDtx(stream.stake);
 
       const purchase = _.find(this.props.purchases, purchase => {return purchase.key === this.props.stream.key;});
       const purchased = purchase !== undefined;
       const isOwner = this.props.stream.owner === localStorage.getItem('address');
 
-      const updateInterval = stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}\'\'`;
+      const updateInterval = stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}''`;
 
       let purchaseEndTime = null;
       if(purchase)
@@ -142,7 +153,7 @@ class StreamDetailsScreen extends Component {
         <div>
           <Toolbar showTabs={true} />
           <ToolbarSpacer/>
-          <CenteredCard>
+          <CenteredCard style={{marginTop:"190px"}}>
             <CardContent noMarginBottom>
               <StyledSensorNameCardContent>
                 <h1 style={{display:"inline-block"}}>{stream.name}</h1>
@@ -182,26 +193,42 @@ class StreamDetailsScreen extends Component {
                   <FontIcon>update</FontIcon>
                   <StyledAttributeLabel>Frequency: {updateInterval}</StyledAttributeLabel>
                 </StyledSensorAttribute>
-                {parseInt(stream.challenges) !== 0 &&
-                  <StyledSensorAttribute>
-                    <Icon icon="danger" style={{fill:"red", width:"20px", height:"20px"}} />
-                    <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX staked) (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)</StyledAttributeLabel>
-                  </StyledSensorAttribute>
-                }
               </StyledContentCell>
               <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>Price: {price} DTX per reading</StyledAttributeLabel>
                 </StyledSensorAttribute>
+              </StyledContentCell>
+            </StyledContentContainer>
+          </CenteredCard>
+          <CenteredCard>
+            <CardContent noMarginBottom>
+              <h1>Stakes and challenges <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} style={{marginLeft:"4px"}} /></span></h1>
+            </CardContent>
+            <StyledContentContainer className={stream.challenges > 0?"no-padding-bottom":""}>
+              <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>
-                    Owner stake: {stake} DTX (<span className="clickable" onClick={event => this.toggleStakingExplainer()}>?</span>)
+                    Owner stake: {stake} DTX
                   </StyledAttributeLabel>
                 </StyledSensorAttribute>
               </StyledContentCell>
+              <StyledContentCell>
+                <StyledSensorAttribute>
+                  <Icon icon="danger" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
+                  <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX)</StyledAttributeLabel>
+                </StyledSensorAttribute>
+              </StyledContentCell>
             </StyledContentContainer>
+            {stream.challengeslist && stream.challengeslist.length > 0 &&
+              <StyledContentContainer className="no-padding-top">
+                <StyledContentCell>
+                  <ChallengesTable challenges={stream.challengeslist} />
+                </StyledContentCell>
+              </StyledContentContainer>
+            }
           </CenteredCard>
           <CenteredCard>
             <CardContent>
@@ -211,9 +238,18 @@ class StreamDetailsScreen extends Component {
               </StyledExampleContainer>
             </CardContent>
           </CenteredCard>
+          {this.props.nearbyStreams && this.props.nearbyStreams.length > 0 &&
+            <CenteredCard>
+              <CardContent>
+                <h1>Similar streams nearby</h1>
+                <NearbyStreamsTable streams={this.props.nearbyStreams}/>
+              </CardContent>
+            </CenteredCard>
+          }
           <PurchaseStreamDialog visible={this.state.PurchaseStreamVisible} stream={stream} hideEventHandler={() => this.togglePurchaseStream()} />
-          <ChallengeStreamDialog visible={this.state.ChallengeDialogVisible} stream={stream} hideEventHandler={() => this.toggleChallengeDialog()} toggleStakingExplainer={() => this.toggleStakingExplainer()}/>
+          <ChallengeStreamDialog visible={this.state.ChallengeDialogVisible} stream={stream} hideEventHandler={() => this.toggleChallengeDialog()} toggleStakingExplainer={() => this.toggleStakingExplainer()} fetchStreamEventHandler={() => this.props.fetchStream()}/>
           <StakingExplainerDialog visible={this.state.StakingExplainerVisible} hideEventHandler={() => this.toggleStakingExplainer()} />
+          <StreamDetailsBackground stream={stream}/>
         </div>
       );
   }
@@ -233,7 +269,8 @@ function mapStateToProps(state, ownProps) {
     availableStreamTypes: state.streams.availableStreamTypes,
     purchases:state.purchases.purchases,
     fetchingPurchases:state.purchases.fetchingPurchases,
-    token: state.auth.token //Used to verify if a user is signed in, if not we don't have to get purchases from API
+    token: state.auth.token, //Used to verify if a user is signed in, if not we don't have to get purchases from API
+    nearbyStreams: state.streams.nearbyStreams
   };
 }
 

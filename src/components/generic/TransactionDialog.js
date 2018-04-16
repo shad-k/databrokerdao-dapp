@@ -17,8 +17,6 @@ export default class TransactionDialog extends Component {
       p {
         text-align:center;
         padding: 0 5%;
-        line-height: 1.7;
-        font-size:15px;
       }
     `;
   }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Button } from 'react-md';
+import { BigNumber } from 'bignumber.js';
+import styled from 'styled-components';
 
 import Toolbar from '../generic/Toolbar';
 import CenteredCard from '../generic/CenteredCard';
@@ -14,9 +16,27 @@ class WalletScreen extends Component {
     this.props.fetchWallet();
   }
 
+  convertWeiToDtx(dtxValue){
+    return BigNumber(dtxValue).div(BigNumber(10).pow(18)).toString();
+  }
+
+  fundWallet() {
+    const amount = BigNumber(500).times(BigNumber(10).pow(18)).toString();
+    this.props.mintTokens(amount);
+  }
+
   render() {
     const address = localStorage.getItem('address');
     const email = localStorage.getItem('email');
+    let DTXBalance = "(loading)";
+    if(!this.props.fetchingWallet && this.props.balance){
+      DTXBalance = this.convertWeiToDtx(this.props.balance);
+    }
+
+    const StyledTitleContainer = styled.div`
+      display:flex;
+      justify-content:space-between;
+    `;
 
     return (
       <div>
@@ -24,11 +44,15 @@ class WalletScreen extends Component {
         <ToolbarSpacer/>
         <CenteredCard >
           <CardContent>
-            <h1>My wallet</h1>
+            <StyledTitleContainer>
+              <h1>DTX balance: &Xi; {DTXBalance}</h1>
+              <Button flat primary swapTheming className={this.props.mintingTokens?"disabled-button":""} disabled={this.props.mintingTokens} onClick={event => this.fundWallet()} style={{marginTop:"8px"}}>
+                {this.props.mintingTokens?"(funding in progress)":"Fund wallet (+ 500 DTX)"}
+              </Button>
+            </StyledTitleContainer>
             <p>Address: {address}</p>
             <p>Email: {email}</p>
-            <p>DTX balance: &Xi; {this.props.fetchingWallet?'(loading)':this.props.wallet.balance}</p>
-            <Button flat swapTheming primary onClick={() => this.props.logout()}>Log out</Button>
+            <p><a href="#" onClick={() => this.props.logout()}>Log out</a></p>
           </CardContent>
         </CenteredCard>
       </div>
@@ -38,14 +62,16 @@ class WalletScreen extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  wallet: state.wallet.wallet,
-  fetchingWallet: state.wallet.fetchingWallet
+  balance: state.wallet.wallet.balance,
+  fetchingWallet: state.wallet.fetchingWallet,
+  mintingTokens: state.wallet.mintingTokens
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     logout: () => dispatch(logout()),
-    fetchWallet: () => dispatch(WALLET_ACTIONS.fetchWallet())
+    fetchWallet: () => dispatch(WALLET_ACTIONS.fetchWallet()),
+    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount))
   }
 }
 

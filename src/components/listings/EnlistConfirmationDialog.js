@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Button, DialogContainer, Checkbox, CircularProgress } from 'react-md';
 import { connect } from 'react-redux';
 import Mixpanel from 'mixpanel-browser';
-import moment from 'moment';
 import { BigNumber } from 'bignumber.js';
-import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
 import RegisterForm from '../authentication/RegisterForm';
 import TransactionDialog from '../generic/TransactionDialog';
@@ -14,17 +12,17 @@ import { LISTING_ACTIONS } from '../../redux/listings/actions';
 
 const STEP_INTRO = 1,
   STEP_REGISTRATION = 2,
-  STEP_MINTING = 3,
-  STEP_ENLISTING = 4,
-  STEP_SUCCESS = 5;
+  STEP_ENLISTING = 3,
+  STEP_SUCCESS = 4,
+  STEP_BALANCE_ERROR = 5;
 
 class EnlistConfirmationDialog extends Component {
   constructor(props){
     super(props);
 
     const steps = (this.props.token)?
-                    [{id:STEP_INTRO,description:"Intro"},{id:STEP_MINTING,description:"Mint"},{id:STEP_ENLISTING,description:"Enlist"},{id:STEP_SUCCESS,description:"Success"}]
-                    :[{id:STEP_INTRO,description:"Intro"},{id:STEP_REGISTRATION,description:"Registration"},{id:STEP_MINTING,description:"Mint"},{id:STEP_ENLISTING,description:"Enlist"},{id:STEP_SUCCESS,description:"Success"}];
+                    [{id:STEP_INTRO,description:"Intro"},{id:STEP_ENLISTING,description:"Enlist"},{id:STEP_SUCCESS,description:"Success"}]
+                    :[{id:STEP_INTRO,description:"Intro"},{id:STEP_REGISTRATION,description:"Registration"},{id:STEP_ENLISTING,description:"Enlist"},{id:STEP_SUCCESS,description:"Success"}];
 
     this.state = {
       steps:steps,
@@ -32,23 +30,27 @@ class EnlistConfirmationDialog extends Component {
     };
   }
 
+  componentDidMount(){
+    this.props.fetchWallet();
+  }
+
   finishStep(step){
     if(step === STEP_INTRO){
         if(!this.props.token)
           this.setState({stepIndex:STEP_REGISTRATION});
         else{
-          const amount = BigNumber(this.props.stream.stake).times(BigNumber(10).pow(18)).toString(); //server needs amount in wei, so stake * 10^18
-          this.props.mintTokens(amount);
-          this.setState({stepIndex:STEP_MINTING});
+          const stakeDTX = BigNumber(parseInt(this.props.stream.stake)).times(BigNumber(10).pow(18));
+          if(BigNumber(this.props.balance).isGreaterThan(stakeDTX)){
+            this.props.enlistStream(this.props.stream);
+            this.setState({stepIndex:STEP_ENLISTING});
+          }
+          else{
+            this.setState({stepIndex:STEP_BALANCE_ERROR});
+          }
         }
     }
     else if(step === STEP_REGISTRATION){
       Mixpanel.track("Finish registration for enlisting");
-      const amount = BigNumber(this.props.stream.stake).times(BigNumber(10).pow(18)).toString(); //server needs amount in wei, so stake * 10^18
-      this.props.mintTokens(amount);
-      this.setState({stepIndex:STEP_MINTING});
-    }
-    else if (step === STEP_MINTING){
       this.props.enlistStream(this.props.stream);
       this.setState({stepIndex:STEP_ENLISTING});
     }
@@ -58,10 +60,13 @@ class EnlistConfirmationDialog extends Component {
       Mixpanel.track("Finished enlisting stream");
       this.props.hideEventHandler();
     }
+    else if(step === STEP_BALANCE_ERROR){
+      this.props.history.push(`/wallet`);
+    }
   }
 
   render(){
-    const loading = this.props.mintingTokens || this.props.enlistingStream;
+    const loading = this.props.enlistingStream;
 
     return(
       <TransactionDialog
@@ -75,9 +80,9 @@ class EnlistConfirmationDialog extends Component {
         modal={true}
       >
         <div style={{display:(this.state.stepIndex === STEP_INTRO)?'block':'none'}}>
-          <h1>Confirm enlisting</h1>
+          <h1>Enlist your stream</h1>
           <p>
-            To enlist a stream, you need DTX tokens to stake. As DataBroker DAO is currently in beta, we will provide you with free demo tokens.
+            To enlist your stream you need DTX tokens. As DataBroker DAO is currently in beta, we will provide you with free demo tokens.
           </p>
         </div>
         <div style={{display:(this.state.stepIndex === STEP_REGISTRATION)?'block':'none'}}>
@@ -86,10 +91,6 @@ class EnlistConfirmationDialog extends Component {
             register={(values, settings) => this.props.register(values, settings)}
             callBack={() => {this.finishStep(STEP_REGISTRATION)}}
           />
-        </div>
-        <div style={{display:(this.state.stepIndex === STEP_MINTING)?'block':'none'}}>
-          <h1>Minting DTX tokens</h1>
-          <p>During the beta of DataBroker DAO DTX tokens are free.</p>
         </div>
         <div style={{display:(this.state.stepIndex === STEP_ENLISTING)?'block':'none'}}>
           <h1>Saving to the blockchain</h1>
@@ -103,6 +104,12 @@ class EnlistConfirmationDialog extends Component {
             From now on, people are able to purchase your stream data.
           </p>
         </div>
+        <div style={{display:(this.state.stepIndex === STEP_BALANCE_ERROR)?'block':'none'}}>
+          <h1>Your DTX balance is too low</h1>
+          <p>
+            As DataBroker DAO is currently in beta, you can fund your wallet with demo tokens free of charge.
+          </p>
+        </div>
       </TransactionDialog>
     );
   }
@@ -110,16 +117,16 @@ class EnlistConfirmationDialog extends Component {
 
 const mapStateToProps = state => ({
   token: state.auth.token,
-  mintingTokens: state.wallet.mintingTokens,
-  enlistingStream: state.listings.enlistingStream
+  enlistingStream: state.listings.enlistingStream,
+  balance: state.wallet.wallet.balance
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     register: (values, settings) => dispatch(register(values, settings)),
-    mintTokens: (amount) => dispatch(WALLET_ACTIONS.mintTokens(amount)),
-    enlistStream: (stream) => dispatch(LISTING_ACTIONS.enlistStream(stream))
+    enlistStream: (stream) => dispatch(LISTING_ACTIONS.enlistStream(stream)),
+    fetchWallet: () => dispatch(WALLET_ACTIONS.fetchWallet())
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnlistConfirmationDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EnlistConfirmationDialog));

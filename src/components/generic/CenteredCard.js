@@ -14,7 +14,7 @@ export default class CenteredCard extends Component {
     `;
 
     return(
-      <StyledCard className='md-block-centered'>
+      <StyledCard style={this.props.style} className='md-block-centered'>
         {this.props.children}
       </StyledCard>
     );

@@ -7,6 +7,7 @@ import Immutable from 'seamless-immutable';
 
 import Icon from '../generic/Icon';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
+import EnhancedSelectField from '../generic/EnhancedSelectField';
 
 class Filter extends Component {
   componentDidMount() {
@@ -22,9 +23,9 @@ class Filter extends Component {
     };
   }
 
-  addTypeToFilter(event){
+  addTypeToFilter(value){
     const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
-    const newType = event.target.value;
+    const newType = value;
 
     if(_.indexOf(newFilter.types, newType) === -1){
       newFilter.types = _.concat(newFilter.types, newType);
@@ -58,6 +59,9 @@ class Filter extends Component {
       width:100%;
       margin-bottom:16px;
       cursor: pointer;
+      &:first-child{
+        margin-top:20px;
+      }
       &:last-child{
         margin-bottom:0;
       }
@@ -85,36 +89,96 @@ class Filter extends Component {
   }
 
   render() {
-    const StyledSelect = styled.select`
-      height:30px;
-      font-size:16px;
-      color:rgba(0,0,0,0.7);
-      background-color:white;
-      width:100%;
-      border:1px solid rgba(0,0,0,0.2);
-      border-radius:8px;
-      margin-bottom:20px;
-      -moz-appearance:none;
-      outline:0;
-      &:-moz-focusring {
-        color: transparent;
-        text-shadow: 0 0 0 #000;
+    const StyledH2 = styled.h2`
+      margin-top:22px;
+      margin-bottom:6px;
+
+      &:first-child{
+        margin-top:0;
       }
     `;
 
+    const locationMenuItems = [
+      {
+        label: 'Berlin',
+        value: 'berlin',
+        disabled: true
+      },
+      {
+        label: 'Leuven',
+        value: 'leuven'
+      },
+      {
+        label: 'New York City',
+        value: 'newyorkcity',
+        disabled: true
+      },
+      {
+        label: 'Singapore',
+        value: 'singapore',
+        disabled: true
+      }
+    ];
+
+    const typeMenuItems = [
+      {
+        label: 'Temperature',
+        value: 'temperature',
+        disabled: _.findIndex(this.props.filter.types, type => {return type === "temperature"}) >= 0
+      },
+      {
+        label: 'Humidity',
+        value: 'humidity',
+        disabled: _.findIndex(this.props.filter.types, type => {return type === "humidity"}) >= 0
+      },
+      {
+        label: 'PM 2.5',
+        value: 'PM25',
+        disabled: _.findIndex(this.props.filter.types, type => {return type === "PM25"}) >= 0
+      },
+      {
+        label: 'PM 10',
+        value: 'PM10',
+        disabled: _.findIndex(this.props.filter.types, type => {return type === "PM10"}) >= 0
+      }
+    ];
+
     return (
       <div style={{padding:"16px"}}>
-        <h2>Location</h2>
-        <StyledSelect>
-          <option value="leuven">Leuven</option>
-          <option value="newyorkcity" disabled>New York City</option>
-          <option value="singapore" disabled>Singapore</option>
-        </StyledSelect>
-        <h2>Type</h2>
-        <StyledSelect value={this.state.selectedType} onChange={(event) => this.addTypeToFilter(event)}>
-          {this.renderTypeListItems()}
-        </StyledSelect>
-        {this.renderTypeChips()}
+        <StyledH2>Location</StyledH2>
+        <EnhancedSelectField
+          id="location"
+          fieldname="location"
+          label=""
+          className="md-cell"
+          onChange={() => {}}
+          menuItems={locationMenuItems}
+          simplifiedMenu={true}
+          onBlur={() => {}}
+          style={{width:"100%"}}
+          error={false}
+          touched={false}
+          initialValue="leuven"
+        />
+        <StyledH2>Type</StyledH2>
+        <EnhancedSelectField
+          id="location"
+          fieldname="location"
+          label=""
+          className="md-cell"
+          onChange={(fieldname,value) => this.addTypeToFilter(value)}
+          menuItems={typeMenuItems}
+          simplifiedMenu={true}
+          onBlur={() => {}}
+          style={{width:"100%"}}
+          error={false}
+          touched={false}
+          placeholder="Add stream type"
+          initialValue={null}
+        />
+        <div>
+          {this.renderTypeChips()}
+        </div>
       </div>
     );
   }

@@ -10,8 +10,18 @@ $md-secondary-color: $dbdao-pink;
 
 @include react-md-everything;
 
+.no-padding-top{
+  padding-top:0 !important;
+}
+
+.no-padding-bottom{
+  padding-bottom: 0 !important;
+}
+
 html {
   height: 100%;
+  font-size: 16px;
+  background-color: #F8F8F8;
 }
 
 body {
@@ -26,7 +36,7 @@ body {
 }
 
 h1 {
-  font-weight: 400;
+  font-weight: 600;
   color: rgba(0,0,0,0.7);
   font-family: 'Titillium Web', sans-serif;
   line-height: 1.5;
@@ -34,16 +44,23 @@ h1 {
 
 h2 {
   font-family: 'Titillium Web', sans-serif;
+  font-weight: 600;
+  color: rgba(0,0,0,0.7);
 }
 
 p {
   color: rgba(0,0,0,0.7);
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 1.65;
 }
 
 li{
   color: rgba(0, 0, 0, 0.7);
   font-size: 13px;
+}
+
+a{
+  color: rgba(0, 0, 0, 0.7);
 }
 
 span.clickable{
@@ -62,6 +79,18 @@ span.clickable{
   }
 }
 
+.md-selection-control-label{
+  font-size: 16px;
+}
+
+.md-text-field{
+  font-size: 16px;
+}
+
+.md-table-column--header{
+  font-size: 16px;
+}
+
 pre{
   margin:0;
 }
@@ -76,4 +105,13 @@ pre{
 /* md-cell margins add margin to input fields which is weird. If I want margin I'll ask it myself. */
 .md-cell{
   margin: 0 !important;
+}
+
+/* Dialog screens (purchase, staking explainer,...) */
+// .md-dialog-content--padded{
+//   padding:34px;
+// }
+
+.md-dialog--centered{
+  max-height: 75%;
 }

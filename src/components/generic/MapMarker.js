@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { OverlayView, Marker } from "react-google-maps"
+import { OverlayView } from "react-google-maps"
 import styled, { keyframes } from 'styled-components';
 
 export default class MapMarker extends Component {
   render() {
     const StyledContent = styled.div`
-      /*background:rgba(0,0,0,0.85);*/
       background-color:#ee274c;
       border-radius:17px;
     `;
@@ -62,8 +61,7 @@ export default class MapMarker extends Component {
       border: 2px solid #18B81D;
       animation-delay: ${-AnimationDelay}s
     `;
-
-    const zIndex = 90000 - this.props.position.lat*1000 + 10;
+    
     const StyledContainer = styled.div`
       transform:translate(-50%, -100%);
     `;
