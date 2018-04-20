@@ -8,6 +8,8 @@ $dbdao-purple: #2e3192;
 $md-primary-color: $dbdao-purple;
 $md-secondary-color: $dbdao-pink;
 
+$mobileBreakpoint: 480px;
+
 @include react-md-everything;
 
 .no-padding-top{
@@ -40,6 +42,11 @@ h1 {
   color: rgba(0,0,0,0.7);
   font-family: 'Titillium Web', sans-serif;
   line-height: 1.5;
+  font-size: 34px;
+
+  @media (max-width: $mobileBreakpoint) {
+    font-size: 26px;
+  }
 }
 
 h2 {

@@ -8,13 +8,15 @@ import ListingsIcon from '../../assets/listings-icon.svg';
 
 export default withRouter(class Tabs extends Component {
   render() {
+    const breakpoint = "1024px";
+
     const StyledTabBarContainer = styled.div`
       width: 100%;
       max-width: 550px;
       display: flex;
       justify-content: space-between;
 
-      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+      @media (max-width: ${breakpoint}) {
         max-width: 170px;
       }
     `;
@@ -40,7 +42,7 @@ export default withRouter(class Tabs extends Component {
         opacity:1;
       }
 
-      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+      @media (max-width: ${breakpoint}) {
         margin-right: 24px;
       }
     `;
@@ -55,7 +57,7 @@ export default withRouter(class Tabs extends Component {
       font-size: 22px;
       margin-left: 14px;
 
-      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+      @media (max-width: ${breakpoint}) {
         display: none;
       }
     `;

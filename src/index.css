@@ -3646,7 +3646,11 @@ h1 {
   font-weight: 600;
   color: rgba(0, 0, 0, 0.7);
   font-family: 'Titillium Web', sans-serif;
-  line-height: 1.5; }
+  line-height: 1.5;
+  font-size: 34px; }
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 26px; } }
 
 h2 {
   font-family: 'Titillium Web', sans-serif;

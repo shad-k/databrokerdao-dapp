@@ -8,10 +8,23 @@ import Filter from './Filter';
 import DiscoverMap from './DiscoverMap';
 import DiscoverStreamsList from './DiscoverStreamsList';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
+import Sidebar from './Sidebar';
 
 class DiscoverScreen extends Component {
   componentDidMount() {
     Mixpanel.track("View discover screen");
+  }
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      sidebarWidth: window.innerWidth > 480? 340 : 0
+    };
+  }
+
+  setSidebarWidth(width){
+    this.setState({sidebarWidth:width});
   }
 
   render() {
@@ -31,7 +44,7 @@ class DiscoverScreen extends Component {
 
     const mapElementsStyle = {
       height: `100%`,
-      width: "calc(100% - 340px)",
+      width: `calc(100% - ${this.state.sidebarWidth}px)`,
       position:"absolute",
       top:"0",
       left: "340"
@@ -42,10 +55,7 @@ class DiscoverScreen extends Component {
     return (
       <div style={{height:"100%", display:"flex", alignItems:"stretch"}}>
         <Toolbar showTabs={true} />
-        <StyledSidebar>
-          <Filter />
-          <DiscoverStreamsList />
-        </StyledSidebar>
+        <Sidebar setWidthHandler={(width) => this.setSidebarWidth(width)}/>
         <StyledContent>
           <DiscoverMap
             googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${APIKey}`}

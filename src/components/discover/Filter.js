@@ -4,6 +4,8 @@ import { Chip, Avatar } from 'react-md';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Immutable from 'seamless-immutable';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faTimesCircle from '@fortawesome/fontawesome-free-regular/faTimesCircle';
 
 import Icon from '../generic/Icon';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
@@ -12,7 +14,6 @@ import EnhancedSelectField from '../generic/EnhancedSelectField';
 class Filter extends Component {
   componentDidMount() {
     this.props.fetchAvailableStreamTypes();
-    //this.props.fetchStreams(this.props.filter);
   }
 
   constructor(props){
@@ -98,6 +99,15 @@ class Filter extends Component {
       }
     `;
 
+    const CloseButton = styled.span`
+      color:rgba(0,0,0,0.7);
+      display: none;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        display: block;
+      }
+    `;
+
     const locationMenuItems = [
       {
         label: 'Berlin',
@@ -145,7 +155,10 @@ class Filter extends Component {
 
     return (
       <div style={{padding:"16px"}}>
-        <StyledH2>Location</StyledH2>
+        <div style={{display:"flex", justifyContent:"space-between"}}>
+          <StyledH2>Location</StyledH2>
+          <CloseButton className="clickable" onClick={() => this.props.toggleFilterHandler()}><FontAwesomeIcon icon={faTimesCircle} style={{width:"17px",height:"17px",marginTop:"10px"}} /></CloseButton>
+        </div>
         <EnhancedSelectField
           id="location"
           fieldname="location"
