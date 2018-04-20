@@ -119,11 +119,11 @@ class Toolbar extends Component {
             <StyledLogo src={Logo} alt="SettleMint" onClick={() => this.goToDiscoverScreen()}/>
             <StyledLogoMobile src={LogoMobile} alt="SettleMint" onClick={() => this.goToDiscoverScreen()}/>
           </StyledLogoContainer>
+          <TabsContainer>
           {this.props.showTabs &&
-            <TabsContainer>
-              <Tabs />
-            </TabsContainer>
+            <Tabs />
           }
+          </TabsContainer>
           <StyledWalletLinkContainer>
             {this.props.token &&
               <StyledWalletLink to="/wallet">

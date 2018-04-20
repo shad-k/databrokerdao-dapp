@@ -66,10 +66,17 @@ class LandingContent extends Component {
 
   render() {
     const StyledCard = styled(Card)`
+      width: 100%;
       max-width: 620px;
       position: relative;
       top: 120px;
       padding: 10px;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        max-width: calc(100% - 30px);
+        padding:0;
+        top: 100px;
+      }
     `;
 
     const StyledH1 = styled.h1`
@@ -77,11 +84,25 @@ class LandingContent extends Component {
       line-height:1.5;
       margin-top:20px;
       margin-bottom: 10px;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        margin-top:0;
+        margin-bottom:20px;
+      }
     `;
 
     const StyledDiscoverButton = styled(Button)`
       margin:0 auto;
       display:block;
+    `;
+
+    const StyledTypeButtonsContainer = styled.div`
+      padding:0 80px 20px 80px;
+      display:flex;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        display: none;
+      }
     `;
 
     const StyledTypeButton = styled(Paper)`
@@ -102,7 +123,7 @@ class LandingContent extends Component {
         <StyledCard className='md-block-centered'>
           <CardText>
             <StyledH1>Buy sensor data on the global market for local data</StyledH1>
-            <div style={{padding:"0 80px 20px 80px", display:"flex"}}>
+            <StyledTypeButtonsContainer>
               <div style={{flex:"1"}}>
                 <StyledTypeButton zDepth={1}>
                   <Icon icon="temperature"/>
@@ -159,7 +180,7 @@ class LandingContent extends Component {
                   />
                 </StyledTypeButton>
               </div>
-            </div>
+            </StyledTypeButtonsContainer>
             <StyledDiscoverButton primary swapTheming flat onClick={this.onDiscoverButtonClicked.bind(this)}>
               Discover sensors
             </StyledDiscoverButton>
