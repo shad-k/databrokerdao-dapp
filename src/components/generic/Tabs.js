@@ -13,6 +13,10 @@ export default withRouter(class Tabs extends Component {
       max-width: 550px;
       display: flex;
       justify-content: space-between;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        max-width: 170px;
+      }
     `;
 
     const StyledTabBarItem = styled(Link)`
@@ -35,41 +39,50 @@ export default withRouter(class Tabs extends Component {
       &.active, &.active:hover{
         opacity:1;
       }
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        margin-right: 24px;
+      }
     `;
 
     const StyledTabBarItemIcon = styled.img`
-      width: 28px;
-      height: 28px;
-      margin-right: 12px;
-      padding-top: 2px;
+      height: 30px;
+      padding-top: 0;
     `;
 
     const StyledTabBarItemContent = styled.div`
       text-transform: uppercase;
       font-size: 22px;
+      margin-left: 14px;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        display: none;
+      }
     `;
 
     return(
-      <StyledTabBarContainer>
-        <StyledTabBarItem to="/discover" className={this.props.location.pathname === '/discover'?'active':''}>
-          <StyledTabBarItemIcon src={DiscoverIcon} alt="Discover" />
-          <StyledTabBarItemContent>
-            Discover
-          </StyledTabBarItemContent>
-        </StyledTabBarItem>
-        <StyledTabBarItem to="/purchases" className={this.props.location.pathname === '/purchases'?'active':''}>
-          <StyledTabBarItemIcon src={PurchasesIcon} alt="Purchases" />
-          <StyledTabBarItemContent>
-            Purchases
-          </StyledTabBarItemContent>
-        </StyledTabBarItem>
-        <StyledTabBarItem to="/listings" className={this.props.location.pathname === '/listings'?'active':''}>
-          <StyledTabBarItemIcon src={ListingsIcon} alt="Add stream" />
-          <StyledTabBarItemContent>
-            Listings
-          </StyledTabBarItemContent>
-        </StyledTabBarItem>
-      </StyledTabBarContainer>
+      <div style={{width:"100%", display:"flex", justifyContent:"center"}}>
+        <StyledTabBarContainer>
+          <StyledTabBarItem to="/discover" className={this.props.location.pathname === '/discover'?'active':''}>
+            <StyledTabBarItemIcon src={DiscoverIcon} alt="Discover" />
+            <StyledTabBarItemContent>
+              Discover
+            </StyledTabBarItemContent>
+          </StyledTabBarItem>
+          <StyledTabBarItem to="/purchases" className={this.props.location.pathname === '/purchases'?'active':''}>
+            <StyledTabBarItemIcon src={PurchasesIcon} alt="Purchases" />
+            <StyledTabBarItemContent>
+              Purchases
+            </StyledTabBarItemContent>
+          </StyledTabBarItem>
+          <StyledTabBarItem to="/listings" className={this.props.location.pathname === '/listings'?'active':''}>
+            <StyledTabBarItemIcon src={ListingsIcon} alt="Add stream" />
+            <StyledTabBarItemContent>
+              Listings
+            </StyledTabBarItemContent>
+          </StyledTabBarItem>
+        </StyledTabBarContainer>
+      </div>
     );
   }
 })

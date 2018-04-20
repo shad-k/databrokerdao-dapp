@@ -5,7 +5,7 @@ import styled, { keyframes } from 'styled-components';
 export default class MapMarker extends Component {
   render() {
     const StyledContent = styled.div`
-      background-color:#ee274c;
+      background-color:${props => props.theme.dbdaoPink};
       border-radius:17px;
     `;
 
@@ -14,7 +14,7 @@ export default class MapMarker extends Component {
       height: 0;
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 7px solid #ee274c;
+      border-top: 7px solid ${props => props.theme.dbdaoPink};
       position: relative;
       left: 50%;
       transform: translate(-50%,0);
@@ -56,12 +56,12 @@ export default class MapMarker extends Component {
       position:absolute;
       right:0px;
       top:0px;
-      background-color:#ee274c;
+      background-color:${props => props.theme.dbdaoPink};
       animation: ${PulseAnimation} 10s infinite;
       border: 2px solid #18B81D;
       animation-delay: ${-AnimationDelay}s
     `;
-    
+
     const StyledContainer = styled.div`
       transform:translate(-50%, -100%);
     `;

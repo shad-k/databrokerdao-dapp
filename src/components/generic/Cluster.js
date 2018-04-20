@@ -21,7 +21,7 @@ export default class Cluster extends Component {
       width:30px;
       height:30px;
       border-radius:15px;
-      background-color: #2e3192;
+      background-color: ${props => props.theme.dbdaoPurple};
       display:flex;
       justify-content: center;
       align-items: center;

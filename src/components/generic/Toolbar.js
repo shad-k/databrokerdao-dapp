@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import Logo from '../../assets/databroker-logo-white.svg';
+import LogoMobile from '../../assets/databroker-logo-white-mobile.svg';
 import Tabs from './Tabs.js';
 import LoginDialog from '../authentication/LoginDialog';
 
@@ -25,34 +27,73 @@ class Toolbar extends Component {
     this.setState({LoginVisible: !this.state.LoginVisible});
   }
 
+  goToDiscoverScreen(){
+    this.props.history.push('/discover');
+  }
+
   render() {
     const StyledToolbar = styled.div`
-      background: linear-gradient(to right,#EE274C 10%, #2E3192 100%);
+      background: linear-gradient(to right, ${props => props.theme.dbdaoPink} 10%, ${props => props.theme.dbdaoPurple} 100%);
       width: 100%;
       padding: 12px 25px;
       box-shadow: 0 1px 11px rgba(0,0,0,0.5);
       position: fixed;
       z-index: 100;
-      display: flex;
-      justify-content: space-between;
       position: absolute;
       top: 0;
       font-size: 14px;
+      display: flex;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        padding: 12px 10px;
+      }
     `;
 
     const StyledLogoContainer = styled.div`
-      flex: 1;
+      display: flex;
+      align-items: center;
+      width: 150px;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        width: 50px;
+      }
     `;
 
     const StyledLogo = styled.img`
-      height: 40px;
+      height: 28px;
+      cursor: pointer;
+      margin: 8px 0;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        display: none;
+      }
+    `;
+
+    const StyledLogoMobile = styled.img`
+      height: 28px;
+      cursor: pointer;
+      margin: 8px 0;
+
+      @media (min-width: ${props => props.theme.mobileBreakpoint}) {
+        display: none;
+      }
+    `;
+
+    const TabsContainer = styled.div`
+      flex: 1;
+      display: flex;
+      align-items: center;
     `;
 
     const StyledWalletLinkContainer = styled.div`
-      flex: 1;
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      width: 150px;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        width: 50px;
+      }
     `;
 
     const StyledWalletLink = styled(Link)`
@@ -75,12 +116,13 @@ class Toolbar extends Component {
       <div>
         <StyledToolbar >
           <StyledLogoContainer>
-            <Link to="/discover">
-              <StyledLogo src={Logo} alt="SettleMint"/>
-            </Link>
+            <StyledLogo src={Logo} alt="SettleMint" onClick={() => this.goToDiscoverScreen()}/>
+            <StyledLogoMobile src={LogoMobile} alt="SettleMint" onClick={() => this.goToDiscoverScreen()}/>
           </StyledLogoContainer>
           {this.props.showTabs &&
-            <Tabs />
+            <TabsContainer>
+              <Tabs />
+            </TabsContainer>
           }
           <StyledWalletLinkContainer>
             {this.props.token &&
@@ -105,4 +147,4 @@ const mapStateToProps = state => ({
   token: state.auth.token
 });
 
-export default connect(mapStateToProps, null)(Toolbar)
+export default connect(mapStateToProps, null)(withRouter(Toolbar))

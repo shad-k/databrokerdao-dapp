@@ -31,7 +31,7 @@ export default class TransactionDialog extends Component {
       font-weight:500;
 
       &.active{
-        color: #ee274c;
+        color: ${props => props.theme.dbdaoPink};
       }
 
       &:last-child{

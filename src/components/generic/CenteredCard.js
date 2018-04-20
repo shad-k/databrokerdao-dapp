@@ -5,6 +5,7 @@ import { Card } from 'react-md/lib/Cards';
 export default class CenteredCard extends Component {
   render() {
     const StyledCard = styled(Card)`
+      width: calc(100% - 20px);
       max-width: 900px;
       margin-bottom: 24px;
 
