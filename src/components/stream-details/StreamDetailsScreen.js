@@ -111,6 +111,8 @@ class StreamDetailsScreen extends Component {
       background-color:rgba(0,0,0,0.1);
       border-radius:3px;
       padding:15px;
+      overflow:auto;
+      max-width:840px;
     `;
 
     const { stream, availableStreamTypes, fetchingPurchases } = this.props;

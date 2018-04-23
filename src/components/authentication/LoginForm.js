@@ -35,7 +35,7 @@ const PureLoginForm = ({
       error={errors.password}
       touched={touched.password}
     />
-    <div>
+    <div style={{overflow:"hidden"}}>
       {isSubmitting && (
         <CircularProgress
           centered={false}
