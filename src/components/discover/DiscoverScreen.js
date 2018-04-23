@@ -19,7 +19,7 @@ class DiscoverScreen extends Component {
     super(props);
 
     this.state = {
-      sidebarWidth: window.innerWidth > 480? 340 : 0
+      sidebarWidth: window.innerWidth > 480? 320 : 0
     };
   }
 
@@ -30,7 +30,7 @@ class DiscoverScreen extends Component {
   render() {
     const StyledSidebar = styled.div`
       flex: initial;
-      width: 340px;
+      width: 320px;
       background-color:white;
       padding-top:65px;
       overflow-y: auto;
@@ -47,7 +47,7 @@ class DiscoverScreen extends Component {
       width: `calc(100% - ${this.state.sidebarWidth}px)`,
       position:"absolute",
       top:"0",
-      left: "340"
+      left: "320"
     };
 
     const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";

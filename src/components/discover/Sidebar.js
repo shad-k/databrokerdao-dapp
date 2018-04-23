@@ -16,7 +16,7 @@ export default class TransactionDialog extends Component {
   }
 
   toggleFilter(){
-    this.props.setWidthHandler(this.state.filterVisible?0:340);
+    this.props.setWidthHandler(this.state.filterVisible?0:320);
     this.setState({filterVisible:!this.state.filterVisible});
   }
 
@@ -37,7 +37,7 @@ export default class TransactionDialog extends Component {
 
     const FilterContainer = styled.div`
       flex: initial;
-      width: 340px;
+      width: 320px;
       background-color:white;
       padding-top:65px;
       overflow-y: auto;

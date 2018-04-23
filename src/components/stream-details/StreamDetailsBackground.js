@@ -14,7 +14,7 @@ export default class StreamDetailsBackground extends Component {
     };
 
     const StyledGradient = styled.div`
-      background:linear-gradient(rgba(0,0,0,0),#F8F8F8);
+      background:linear-gradient(rgba(248,248,248,0),#F8F8F8);
       position:absolute;
       top:0;
       left:0;
