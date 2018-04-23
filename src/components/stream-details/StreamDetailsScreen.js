@@ -74,18 +74,23 @@ class StreamDetailsScreen extends Component {
   render() {
     const StyledContentContainer = styled.div`
       display:flex;
-      padding:15px;
+      padding:30px;
     `;
 
     const StyledContentCell = styled.div`
-      margin:15px;
+      //margin:15px;
       flex:1;
     `;
 
     const StyledSensorAttribute = styled.p`
       display: flex;
       align-content: center;
-      margin-bottom: 20px;
+      width:50%;
+      margin-top: 20px;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        width:100%;
+      }
     `;
 
     const StyledSensorNameCardContent = styled.div`
@@ -159,7 +164,7 @@ class StreamDetailsScreen extends Component {
           <Toolbar showTabs={true} />
           <ToolbarSpacer/>
           <CenteredCard style={{marginTop:"190px"}}>
-            <CardContent noMarginBottom>
+            <CardContent>
               <StyledSensorNameCardContent>
                 <h1 style={{display:"inline-block"}}>{stream.name}</h1>
                 {(!purchased && !isOwner) &&
@@ -187,53 +192,42 @@ class StreamDetailsScreen extends Component {
                   </DropdownMenu>
                 }
               </StyledSensorNameCardContent>
-            </CardContent>
-            <StyledContentContainer>
-              <StyledContentCell>
+              <div style={{display:"flex",flexWrap:"wrap"}}>
                 <StyledSensorAttribute>
                   <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>Type: {availableStreamTypes[stream.type].name}</StyledAttributeLabel>
                 </StyledSensorAttribute>
                 <StyledSensorAttribute>
-                  <FontIcon>update</FontIcon>
+                  <FontIcon style={{textAlign:"left",width:"20px",height:"20px"}}>update</FontIcon>
                   <StyledAttributeLabel>Frequency: {updateInterval}</StyledAttributeLabel>
                 </StyledSensorAttribute>
-              </StyledContentCell>
-              <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>Price: {price} DTX per reading</StyledAttributeLabel>
                 </StyledSensorAttribute>
-              </StyledContentCell>
-            </StyledContentContainer>
-          </CenteredCard>
-          <CenteredCard>
-            <CardContent noMarginBottom>
-              <h1>Stakes and challenges <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} style={{marginLeft:"4px"}} /></span></h1>
+              </div>
             </CardContent>
-            <StyledContentContainer className={stream.challenges > 0?"no-padding-bottom":""}>
-              <StyledContentCell>
+          </CenteredCard>
+
+          <CenteredCard>
+            <CardContent>
+              <h1>Stakes and challenges <span className="clickable" onClick={event => this.toggleStakingExplainer()}><FontAwesomeIcon icon={faQuestionCircle} style={{marginLeft:"4px"}} /></span></h1>
+              <div style={{display:"flex",flexWrap:"wrap"}}>
                 <StyledSensorAttribute>
                   <Icon icon="staking" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>
                     Owner stake: {stake} DTX
                   </StyledAttributeLabel>
                 </StyledSensorAttribute>
-              </StyledContentCell>
-              <StyledContentCell>
                 <StyledSensorAttribute>
                   <Icon icon="danger" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>Challenges: {stream.challenges} ({Math.floor(this.convertWeiToDtx(stream.challengesstake))} DTX)</StyledAttributeLabel>
                 </StyledSensorAttribute>
-              </StyledContentCell>
-            </StyledContentContainer>
+              </div>
             {stream.challengeslist && stream.challengeslist.length > 0 &&
-              <StyledContentContainer className="no-padding-top">
-                <StyledContentCell>
-                  <ChallengesTable challenges={stream.challengeslist} />
-                </StyledContentCell>
-              </StyledContentContainer>
+              <ChallengesTable challenges={stream.challengeslist} />
             }
+            </CardContent>
           </CenteredCard>
           <CenteredCard>
             <CardContent>
