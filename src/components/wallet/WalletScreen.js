@@ -27,6 +27,7 @@ class WalletScreen extends Component {
 
   render() {
     const address = localStorage.getItem('address');
+    const shortAddress = `${address.slice(0,6)}...${address.slice(-4)}`;
     const email = localStorage.getItem('email');
     let DTXBalance = "(loading)";
     if(!this.props.fetchingWallet && this.props.balance){
@@ -36,6 +37,20 @@ class WalletScreen extends Component {
     const StyledTitleContainer = styled.div`
       display:flex;
       justify-content:space-between;
+    `;
+
+    const DesktopAddress = styled.p`
+      display: none;
+
+      @media (min-width: ${props => props.theme.mobileBreakpoint}) {
+        display:block;
+      }
+    `;
+
+    const MobileAddress = styled.p`
+      @media (min-width: ${props => props.theme.mobileBreakpoint}) {
+        display:none;
+      }
     `;
 
     return (
@@ -50,7 +65,8 @@ class WalletScreen extends Component {
                 {this.props.mintingTokens?"(funding in progress)":"Fund wallet (+ 500 DTX)"}
               </Button>
             </StyledTitleContainer>
-            <p>Address: {address}</p>
+            <DesktopAddress>Address: {address}</DesktopAddress>
+            <MobileAddress>Address: {shortAddress}</MobileAddress>
             <p>Email: {email}</p>
             <p><a href="#" onClick={() => this.props.logout()}>Log out</a></p>
           </CardContent>

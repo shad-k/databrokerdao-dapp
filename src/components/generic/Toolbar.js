@@ -102,6 +102,10 @@ class Toolbar extends Component {
       text-decoration: none;
       font-size: 18px;
       font-family: 'Titillium Web', sans-serif;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        font-size: 16px;
+      }
     `;
 
     const StyledLoginSpan = styled.span`
