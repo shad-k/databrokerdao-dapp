@@ -7,13 +7,19 @@ import { login } from '../../redux/authentication/reducer';
 
 class LoginDialog extends Component {
   render(){
+    let DialogStyle = {};
+    if(window.innerWidth > 480)
+      DialogStyle = {width:"500px",position:"relative",top:"160px",padding:"14px 20px 14px 20px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
+    else
+      DialogStyle = {width:"calc(100% - 20px)",maxWidth:"500px",position:"relative",top:"100px",padding:"0px 6px 0px 6px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
+
     return(
       <DialogContainer
         id="login"
         visible={this.props.visible}
         onHide={this.props.hideEventHandler}
         focusOnMount={false}
-        dialogStyle={{width:"500px",position:"relative",top:"33%",padding:"14px 20px 14px 20px"}}
+        dialogStyle={DialogStyle}
         aria-labelledby="Log In"
       >
         <h1>Log In</h1>
