@@ -96,7 +96,7 @@ export default class EnlistForm extends Component {
                 menuItems={streamTypes}
                 simplifiedMenu={true}
                 onBlur={setFieldTouched}
-                style={{width:"100%"}}
+                style={{width:"100%",paddingTop:"3px"}}
                 error={errors.type}
                 touched={touched.type}
                 valueInState={true}

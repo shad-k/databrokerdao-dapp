@@ -9,9 +9,9 @@ class LoginDialog extends Component {
   render(){
     let DialogStyle = {};
     if(window.innerWidth > 480)
-      DialogStyle = {width:"calc(100% - 20px)",maxWidth:"500px",position:"relative",top:"160px",padding:"14px 20px 14px 20px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
+      DialogStyle = {width:"calc(100% - 20px)",maxWidth:"500px",position:"relative",top:"160px",padding:"38px 44px 38px 44px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
     else
-      DialogStyle = {width:"calc(100% - 20px)",maxWidth:"500px",position:"relative",top:"100px",padding:"0px 6px 0px 6px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
+      DialogStyle = {width:"calc(100% - 20px)",maxWidth:"500px",position:"relative",top:"100px",padding:"18px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
 
     return(
       <DialogContainer
