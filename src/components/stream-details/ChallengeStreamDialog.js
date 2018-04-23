@@ -6,6 +6,7 @@ import { BigNumber } from 'bignumber.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faQuestionCircle from '@fortawesome/fontawesome-free-regular/faQuestionCircle';
 import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
 import TransactionDialog from '../generic/TransactionDialog';
 import { WALLET_ACTIONS } from '../../redux/wallet/actions';
@@ -33,6 +34,14 @@ class ChallengeStreamDialog extends Component {
       stakeAmount: "",
       stakeError: null
     };
+
+    this.StepContentWithPadding = styled.div`
+      padding: 0 15%;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        padding: 0;
+      }
+    `;
   }
 
   componentDidMount() {
@@ -101,7 +110,7 @@ class ChallengeStreamDialog extends Component {
           <p>Upon reaching a certain threshold of challenges, a check of the data provider will be performed by a DataBroker DAO administrator. <span className="clickable" onClick={this.props.toggleStakingExplainer}><FontAwesomeIcon icon={faQuestionCircle} color="rgba(0,0,0,0.6)" /></span></p>
         </div>
         {this.state.stepIndex === STEP_REASON &&
-          <div style={{padding:"0 15%"}}>
+          <this.StepContentWithPadding>
             <h1>Why are you unhappy with the quality of data of this stream?</h1>
             <TextField
               id="reason"
@@ -114,10 +123,10 @@ class ChallengeStreamDialog extends Component {
               error={this.state.reasonError !== null}
               errorText={this.state.reasonError}
             />
-          </div>
+          </this.StepContentWithPadding>
         }
         {this.state.stepIndex === STEP_STAKE &&
-          <div style={{padding:"0 15%"}}>
+          <this.StepContentWithPadding>
             <h1>Define stake</h1>
             <TextField
               id="stake"
@@ -130,7 +139,7 @@ class ChallengeStreamDialog extends Component {
               error={this.state.stakeError !== null}
               errorText={this.state.stakeError}
             />
-          </div>
+          </this.StepContentWithPadding>
         }
         <div style={{display:(this.state.stepIndex === STEP_BALANCE_ERROR)?'block':'none'}}>
           <h1>Your DTX balance is too low</h1>

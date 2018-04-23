@@ -37,6 +37,11 @@ export default class TransactionDialog extends Component {
       &:last-child{
         margin:0;
       }
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        font-size: 11px;
+        margin-right: 14px;
+      }
     `;
 
     const steps = _.map(this.props.steps, (step) => {
@@ -51,12 +56,20 @@ export default class TransactionDialog extends Component {
   }
 
   render(){
-    const dialogStyle = {width:"780px",position:"relative",top:"160px",padding:"20px 20px 12px 20px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
+    let DialogStyle = {};
+    if(window.innerWidth > 480)
+      DialogStyle = {width:"calc(100% - 20px)", maxWidth:"780px", position:"relative",top:"160px",padding:"44px 44px 36px 44px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
+    else
+      DialogStyle = {width:"calc(100% - 20px)", maxWidth:"780px", position:"relative",top:"100px",padding:"18px 18px 10px 18px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
 
     const StyledStepsContainer = styled.div`
       display: flex;
       justify-content: center;
       margin-bottom: 48px;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        margin-bottom: 30px;
+      }
     `;
 
     const StyledButtonContainer = styled.div`
@@ -64,6 +77,11 @@ export default class TransactionDialog extends Component {
       display: flex;
       justify-content:flex-end;
       align-items:center;
+      overflow: hidden;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        margin-top: 30px;
+      }
     `;
 
     const StyledCircularProgress = styled(CircularProgress)`
@@ -75,7 +93,7 @@ export default class TransactionDialog extends Component {
         id="transaction-dialog"
         visible={this.props.visible}
         onHide={this.props.onHide}
-        dialogStyle={dialogStyle}
+        dialogStyle={DialogStyle}
         aria-labelledby="Transaction dialog"
         modal={this.props.modal}
       >
