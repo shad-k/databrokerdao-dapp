@@ -39,7 +39,6 @@ class Toolbar extends Component {
       box-shadow: 0 1px 11px rgba(0,0,0,0.5);
       position: fixed;
       z-index: 100;
-      position: absolute;
       top: 0;
       font-size: 14px;
       display: flex;

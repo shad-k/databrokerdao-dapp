@@ -53,6 +53,10 @@ export default class EnlistForm extends Component {
 
     const StyledColumn = styled.div`
       width:49%;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        width: 100%;
+      }
     `;
 
     // Our inner form component. Will be wrapped with Formik({..})
