@@ -10,6 +10,7 @@ import CardContent from '../generic/CardContent';
 import ToolbarSpacer from '../generic/ToolbarSpacer';
 import { logout } from '../../redux/authentication/reducer';
 import { WALLET_ACTIONS } from '../../redux/wallet/actions';
+import TitleCTAButton from '../generic/TitleCTAButton';
 
 class WalletScreen extends Component {
   componentDidMount() {
@@ -37,6 +38,10 @@ class WalletScreen extends Component {
     const StyledTitleContainer = styled.div`
       display:flex;
       justify-content:space-between;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        flex-direction: column;
+      }
     `;
 
     const DesktopAddress = styled.p`
@@ -61,9 +66,9 @@ class WalletScreen extends Component {
           <CardContent>
             <StyledTitleContainer>
               <h1>DTX balance: &Xi; {DTXBalance}</h1>
-              <Button flat primary swapTheming className={this.props.mintingTokens?"disabled-button":""} disabled={this.props.mintingTokens} onClick={event => this.fundWallet()} style={{marginTop:"8px"}}>
+              <TitleCTAButton flat primary swapTheming disabled={this.props.mintingTokens} onClick={event => this.fundWallet()}>
                 {this.props.mintingTokens?"(funding in progress)":"Fund wallet (+ 500 DTX)"}
-              </Button>
+              </TitleCTAButton>
             </StyledTitleContainer>
             <DesktopAddress>Address: {address}</DesktopAddress>
             <MobileAddress>Address: {shortAddress}</MobileAddress>

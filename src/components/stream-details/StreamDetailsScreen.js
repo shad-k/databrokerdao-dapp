@@ -22,6 +22,7 @@ import ChallengeStreamDialog from './ChallengeStreamDialog';
 import StreamDetailsBackground from './StreamDetailsBackground';
 import ChallengesTable from './ChallengesTable';
 import NearbyStreamsTable from './NearbyStreamsTable';
+import TitleCTAButton from '../generic/TitleCTAButton';
 
 class StreamDetailsScreen extends Component {
   constructor(props){
@@ -90,6 +91,10 @@ class StreamDetailsScreen extends Component {
     const StyledSensorNameCardContent = styled.div`
       display:flex;
       justify-content:space-between;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        flex-direction: column;
+      }
     `;
 
     const StyledAttributeLabel = styled.span`
@@ -158,7 +163,7 @@ class StreamDetailsScreen extends Component {
               <StyledSensorNameCardContent>
                 <h1 style={{display:"inline-block"}}>{stream.name}</h1>
                 {(!purchased && !isOwner) &&
-                  <Button flat primary swapTheming onClick={event => this.togglePurchaseStream()} style={{marginTop:"8px"}}>Purchase access</Button>
+                  <TitleCTAButton flat primary swapTheming onClick={event => this.togglePurchaseStream()}>Purchase access</TitleCTAButton>
                 }
                 { purchased &&
                   <DropdownMenu
