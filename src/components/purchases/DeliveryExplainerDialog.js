@@ -8,9 +8,9 @@ export default class DeliveryExplainerDialog extends Component {
   render(){
     let DialogStyle = {};
     if(window.innerWidth > 480)
-      DialogStyle = {width:"calc(100% - 20px)",maxWidth:"560px",position:"relative",top:"160px",padding:"44px 44px 36px 44px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
+      DialogStyle = {overflow:"auto",width:"calc(100% - 20px)",maxWidth:"560px",position:"relative",top:"160px",padding:"44px 44px 36px 44px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
     else
-      DialogStyle = {width:"calc(100% - 20px)",maxWidth:"500px",position:"relative",top:"100px",padding:"18px 18px 10px 18px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
+      DialogStyle = {overflow:"auto",width:"calc(100% - 20px)",maxWidth:"500px",position:"relative",top:"100px",padding:"18px 18px 10px 18px",transform:"translate3d(-50%,0,0)",WebkitTransform:"translate3d(-50%,0,0)"};
 
     const StyledImage = styled.img`
       width:100%;
