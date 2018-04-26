@@ -226,7 +226,7 @@ export const STREAMS_ACTIONS = {
           //Get challenges
           const urlParametersChallenges = `listing=${streamKey}`;
           authenticatedAxiosClient
-            .get(`/challengeregistry/list`)
+            .get(`/challengeregistry/list?listing=${urlParametersChallenges}`)
             .then(response => {
               console.log(response);
               const parsedResponse = [];
