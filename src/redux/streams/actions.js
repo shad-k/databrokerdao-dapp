@@ -113,7 +113,7 @@ export const STREAMS_ACTIONS = {
                     ]
                   },
                   owner: item.owner,
-                  challenges: item.numberofchallenges,
+                  numberofchallenges: item.numberofchallenges,
                   challengesstake: item.challengesstake
                 };
               }
@@ -142,30 +142,29 @@ export const STREAMS_ACTIONS = {
 
       const authenticatedAxiosClient = axios(null, true);
       authenticatedAxiosClient
-        .get(`/sensor/${streamKey}/list`)
+        .get(`/sensorregistry/list/${streamKey}`)
         .then(response => {
           let parsedResponse = null;
-          if (response.data.base._id) {
+          if (response.data._id) {
             parsedResponse = {
-              id: response.data.base._id,
-              key: response.data.base.key,
-              name: response.data.base.name,
-              type: response.data.base.type,
-              price: response.data.base.price,
-              updateinterval: response.data.base.updateinterval,
-              stake: response.data.base.stake,
-              example: response.data.base.example,
+              id: response.data._id,
+              key: response.data.key,
+              name: response.data.name,
+              type: response.data.type,
+              price: response.data.price,
+              updateinterval: response.data.updateinterval,
+              stake: response.data.stake,
+              example: response.data.example,
               geometry: {
                 type: 'Point',
                 coordinates: [
-                  response.data.base.geo.coordinates[1],
-                  response.data.base.geo.coordinates[0]
+                  response.data.geo.coordinates[1],
+                  response.data.geo.coordinates[0]
                 ]
               },
-              owner: response.data.base.owner,
-              challenges: response.data.items.length,
-              challengesstake: response.data.base.challengesstake,
-              challengeslist: _.filter(response.data.items, item => {return !item.resolved && item.stake})
+              owner: response.data.owner,
+              numberofchallenges: response.data.numberofchallenges,
+              challengesstake: response.data.challengesstake
             };
           } else {
             parsedResponse = {};

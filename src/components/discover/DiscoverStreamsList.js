@@ -57,7 +57,7 @@ class DiscoverStreamsList extends Component {
                 <Icon icon={stream.type} style={{fill:"rgba(0,0,0,0.5)", width:"20px", height:"20px", marginRight:"13px"}} />
                 <div style={{flex:"1"}}>
                   <StreamName>{stream.name}</StreamName>
-                  <StakeDetails>Stake: {this.convertWeiToDtx(stream.stake)}, Challenges: {stream.challenges} ({this.convertWeiToDtx(stream.challengesstake)} DTX)</StakeDetails>
+                  <StakeDetails>Stake: {this.convertWeiToDtx(stream.stake)}, Challenges: {stream.numberofchallenges} ({this.convertWeiToDtx(stream.challengesstake)} DTX)</StakeDetails>
                 </div>
               </StyledListItem>
               );
