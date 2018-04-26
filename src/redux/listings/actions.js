@@ -103,7 +103,9 @@ export const LISTING_ACTIONS = {
                 stakeamount: BigNumber(stream.stake)
                   .times(BigNumber(10).pow(18))
                   .toString(),
-                price: stream.price,
+                price: BigNumber(stream.price)
+                  .times(BigNumber(10).pow(18))
+                  .toString(),
                 metadata: metadataHash
               })
               .then(response => {

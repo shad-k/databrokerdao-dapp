@@ -13,7 +13,9 @@ export const STREAMS_TYPES = {
   FETCH_STREAM_COUNTER: 'FETCH_STREAM_COUNTER',
   CHALLENGING_STREAM: 'CHALLENGING_STREAM',
   FETCH_NEARBY_STREAMS: 'FETCH_NEARBY_STREAMS',
-  FETCHING_NEARBY_STREAMS: 'FETCHING_NEARBY_STREAMS'
+  FETCHING_NEARBY_STREAMS: 'FETCHING_NEARBY_STREAMS',
+  FETCH_CHALLENGES: 'FETCH_CHALLENGES',
+  FETCHING_CHALLENGES:'FETCHING_CHALLENGES'
 };
 
 export const STREAMS_ACTIONS = {
@@ -139,6 +141,10 @@ export const STREAMS_ACTIONS = {
         type: STREAMS_TYPES.FETCHING_NEARBY_STREAMS,
         value: true
       });
+      dispatch({
+        type: STREAMS_TYPES.FETCHING_CHALLENGES,
+        value: true
+      });
 
       const authenticatedAxiosClient = axios(null, true);
       authenticatedAxiosClient
@@ -170,17 +176,18 @@ export const STREAMS_ACTIONS = {
             parsedResponse = {};
           }
 
+          console.log(response.data._id);
+
           dispatch({
             type: STREAMS_TYPES.FETCH_STREAM,
             stream: parsedResponse
           });
 
           // Get nearby streams
-          const filterUrlQuery = `limit=20&type=${parsedResponse.type}&near=${parsedResponse.geometry.coordinates[1]},${parsedResponse.geometry.coordinates[0]},500&sort=stake`; //TODO in meter?
-
+          const urlParametersNearbyStreams = `limit=20&type=${parsedResponse.type}&near=${parsedResponse.geometry.coordinates[1]},${parsedResponse.geometry.coordinates[0]},500&sort=stake`; //TODO in meter?
           const authenticatedAxiosClient = axios(null, true);
           authenticatedAxiosClient
-            .get(`/sensorregistry/list?${filterUrlQuery}`)
+            .get(`/sensorregistry/list?${urlParametersNearbyStreams}`)
             .then(response => {
               let parsedResponse = [];
               _.each(response.data.items, item => {
@@ -213,6 +220,20 @@ export const STREAMS_ACTIONS = {
               dispatch({
                 type: STREAMS_TYPES.FETCH_NEARBY_STREAMS,
                 streams: parsedResponse
+              });
+            });
+
+          //Get challenges
+          const urlParametersChallenges = `listing=${streamKey}`;
+          authenticatedAxiosClient
+            .get(`/challengeregistry/list`)
+            .then(response => {
+              console.log(response);
+              const parsedResponse = [];
+
+              dispatch({
+                type: STREAMS_TYPES.FETCH_CHALLENGES,
+                challenges: parsedResponse
               });
             });
         })
