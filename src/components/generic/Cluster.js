@@ -15,6 +15,7 @@ export default class Cluster extends Component {
       display:flex;
       justify-content: center;
       align-items: center;
+      cursor:pointer;
     `;
 
     const StyledInnerContainer = styled.div`
@@ -38,7 +39,7 @@ export default class Cluster extends Component {
         position={{ lat: this.props.position.lat, lng: this.props.position.lng }}
         mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
       >
-        <StyledOuterContainer>
+        <StyledOuterContainer onClick={this.props.onClickHandler}>
           <StyledInnerContainer>
             <StyledLabel>
               {this.props.label}
