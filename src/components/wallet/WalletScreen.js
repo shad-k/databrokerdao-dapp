@@ -65,7 +65,7 @@ class WalletScreen extends Component {
         <CenteredCard >
           <CardContent>
             <StyledTitleContainer>
-              <h1>DTX balance: &Xi; {DTXBalance}</h1>
+              <h1>DTX balance: {DTXBalance}</h1>
               <TitleCTAButton flat primary swapTheming disabled={this.props.mintingTokens} onClick={event => this.fundWallet()}>
                 {this.props.mintingTokens?"(funding in progress)":"Fund wallet (+ 500 DTX)"}
               </TitleCTAButton>
