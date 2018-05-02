@@ -21,7 +21,8 @@ export const DEFAULT_STATE = {
   nearbyStreams: [],
   fetchingNearbyStreams: false,
   challenges: [],
-  fetchingChallenges: false
+  fetchingChallenges: false,
+  formattedAddress: null
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
@@ -66,6 +67,9 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.FETCHING_CHALLENGES:{
       return Immutable.set(state, "fetchingChallenges", action.value);
+    }
+    case STREAMS_TYPES.FETCH_FORMATTED_ADDRESS:{
+      return Immutable.set(state, "formattedAddress", action.formattedAddress);
     }
     default:
       return state;

@@ -15,7 +15,8 @@ export const STREAMS_TYPES = {
   FETCH_NEARBY_STREAMS: 'FETCH_NEARBY_STREAMS',
   FETCHING_NEARBY_STREAMS: 'FETCHING_NEARBY_STREAMS',
   FETCH_CHALLENGES: 'FETCH_CHALLENGES',
-  FETCHING_CHALLENGES:'FETCHING_CHALLENGES'
+  FETCHING_CHALLENGES:'FETCHING_CHALLENGES',
+  FETCH_FORMATTED_ADDRESS:'FETCH_FORMATTED_ADDRESS'
 };
 
 export const STREAMS_ACTIONS = {
@@ -176,8 +177,6 @@ export const STREAMS_ACTIONS = {
             parsedResponse = {};
           }
 
-          console.log(response.data._id);
-
           dispatch({
             type: STREAMS_TYPES.FETCH_STREAM,
             stream: parsedResponse
@@ -236,6 +235,21 @@ export const STREAMS_ACTIONS = {
                 challenges: parsedResponse
               });
             });
+
+            //Get formatted address
+            const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";
+            const latlng = `${parsedResponse.geometry.coordinates[0]},${parsedResponse.geometry.coordinates[1]}`;
+            const nonAuthenticatedAxiosClient = axios(null, true, true);
+            nonAuthenticatedAxiosClient
+              .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${APIKey}&result_type=street_address`)
+              .then(response => {
+                const formattedAddress = response.data.results[0]?response.data.results[0].formatted_address:"Unkown address";
+
+                dispatch({
+                  type: STREAMS_TYPES.FETCH_FORMATTED_ADDRESS,
+                  formattedAddress:formattedAddress
+                });
+              });
         })
         .catch(error => {
           console.log(error);

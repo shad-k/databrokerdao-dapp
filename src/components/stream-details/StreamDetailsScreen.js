@@ -207,6 +207,10 @@ class StreamDetailsScreen extends Component {
                   <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>Price: {price} DTX per reading</StyledAttributeLabel>
                 </StyledSensorAttribute>
+                <StyledSensorAttribute>
+                  <Icon icon="location" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
+                  <StyledAttributeLabel>{this.props.formattedAddress}</StyledAttributeLabel>
+                </StyledSensorAttribute>
               </div>
             </CardContent>
           </CenteredCard>
@@ -271,7 +275,8 @@ function mapStateToProps(state, ownProps) {
     purchases:state.purchases.purchases,
     fetchingPurchases:state.purchases.fetchingPurchases,
     token: state.auth.token, //Used to verify if a user is signed in, if not we don't have to get purchases from API
-    nearbyStreams: state.streams.nearbyStreams
+    nearbyStreams: state.streams.nearbyStreams,
+    formattedAddress: state.streams.formattedAddress
   };
 }
 
