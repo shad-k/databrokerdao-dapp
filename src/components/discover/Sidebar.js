@@ -6,7 +6,7 @@ import faFilter from '@fortawesome/fontawesome-free-solid/faFilter';
 import Filter from './Filter';
 import DiscoverStreamsList from './DiscoverStreamsList';
 
-export default class TransactionDialog extends Component {
+export default class Sidebar extends Component {
   constructor(props){
     super(props);
 

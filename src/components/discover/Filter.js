@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Chip, Avatar } from 'react-md';
+import { Chip, Avatar, Autocomplete } from 'react-md';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Immutable from 'seamless-immutable';
@@ -10,6 +10,7 @@ import faTimesCircle from '@fortawesome/fontawesome-free-regular/faTimesCircle';
 import Icon from '../generic/Icon';
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
 import EnhancedSelectField from '../generic/EnhancedSelectField';
+import LocationAutocomplete from './LocationAutocomplete';
 
 class Filter extends Component {
   componentDidMount() {
@@ -159,7 +160,7 @@ class Filter extends Component {
           <StyledH2>Location</StyledH2>
           <CloseButton className="clickable" onClick={() => this.props.toggleFilterHandler()}><FontAwesomeIcon icon={faTimesCircle} style={{width:"17px",height:"17px",marginTop:"10px"}} /></CloseButton>
         </div>
-        <EnhancedSelectField
+        {/*<EnhancedSelectField
           id="location"
           fieldname="location"
           label=""
@@ -172,7 +173,8 @@ class Filter extends Component {
           error={false}
           touched={false}
           initialValue="leuven"
-        />
+        />*/}
+        <LocationAutocomplete/>
         <StyledH2>Type</StyledH2>
         <EnhancedSelectField
           id="location"

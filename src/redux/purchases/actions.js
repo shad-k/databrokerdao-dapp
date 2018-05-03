@@ -82,7 +82,7 @@ export const PURCHASES_ACTIONS = {
       }
 
       function getMetadataHash() {
-        return authenticatedAxiosClient.post('/ipfs/add/json', {
+        return authenticatedAxiosClient.post('/ipfs/add/jsaaaon', {
           data: {
             email: localStorage.getItem('email')
           }
@@ -125,7 +125,10 @@ export const PURCHASES_ACTIONS = {
           .catch(error => {
             console.log(error);
           });
-      });
+      })
+      .catch(error => {
+        console.log(error);
+      });;
     };
   }
 };

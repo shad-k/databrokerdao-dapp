@@ -139,7 +139,7 @@ class DiscoverMap extends Component {
     return (
       <GoogleMap
        zoom={this.state.zoom}
-       center={this.state.center}
+       center={{lat: this.props.map.lat, lng: this.props.map.lng}}
        options={MapOptions}
        onZoomChanged={() => this.mapChanged()}
        onDragEnd={() => this.mapChanged()}
@@ -160,7 +160,8 @@ const mapStateToProps = state => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStreams: (lng,lat,distance) => dispatch(STREAMS_ACTIONS.fetchStreams(null,lng,lat,distance))
+    fetchStreams: (lng,lat,distance) => dispatch(STREAMS_ACTIONS.fetchStreams(null,lng,lat,distance)),
+    updateMap: (map) => dispatch(STREAMS_ACTIONS.updateMap(map))
   }
 }
 

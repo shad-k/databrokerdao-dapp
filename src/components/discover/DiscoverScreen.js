@@ -58,7 +58,7 @@ class DiscoverScreen extends Component {
         <Sidebar setWidthHandler={(width) => this.setSidebarWidth(width)}/>
         <StyledContent>
           <DiscoverMap
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${APIKey}`}
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=${APIKey}`}
             loadingElement={<div style={mapElementsStyle} />}
             containerElement={<div style={{mapElementsStyle}} />}
             mapElement={<div style={mapElementsStyle} />}
