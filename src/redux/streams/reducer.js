@@ -51,8 +51,6 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
       return Immutable.merge(state, {filter: action.filter});
     }
     case STREAMS_TYPES.UPDATED_MAP:{
-      console.log("New map:");
-      console.log(action.map);
       return Immutable.merge(state, {map:action.map});
     }
     case STREAMS_TYPES.FETCH_STREAM_COUNTER:{

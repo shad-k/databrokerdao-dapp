@@ -15,8 +15,7 @@ class DiscoverMap extends Component {
     this.state = {
       clusteredMarkers:null,
       openedMapMarker:null,
-      mapRef:null,
-      mapBounds:null
+      mapRef:null
     };
   }
 
@@ -63,11 +62,9 @@ class DiscoverMap extends Component {
     const distanceBottomRightToPreviousCenter = this.distanceInMeter(bounds.f.b,bounds.b.f,this.props.map.fetchLat,this.props.map.fetchLng);
     if(distanceTopLeftToPreviousCenter > this.props.map.distance || distanceBottomRightToPreviousCenter > this.props.map.distance){
       this.props.fetchStreams(lat,lng,distance);
-      this.setState({mapBounds:bounds});//TODO causes double re-renders (1. new zoom in state, 2. new streams in state), but no big problem atm
       this.props.updateMap({...this.props.map,distance,lat,lng,zoom,fetchLat:lat,fetchLng:lng});
     }
     else{
-      this.setState({mapBounds:bounds});
       this.props.updateMap({...this.props.map,distance,lat,lng,zoom});
     }
   }
@@ -90,17 +87,12 @@ class DiscoverMap extends Component {
 
     //Only render markers and clusters within 1.25 times diagonal of screen
     //So if you zoom in you don't render too many!
-    //distanceInMeter(lat1, lon1, lat2, lon2) {
+    const bounds = this.state.mapRef.getBounds();
     const nearbyClusters = _.filter(clusters, cluster => {
-      if(this.state.mapBounds){
-        const distance = this.distanceInMeter(this.state.mapBounds.f.f,this.state.mapBounds.b.b,this.state.mapBounds.f.b,this.state.mapBounds.b.f) * 1.25;
-        const mapCenter = this.state.mapRef.getCenter();
-        const clusterDistance = this.distanceInMeter(cluster.geometry.coordinates[0],cluster.geometry.coordinates[1],mapCenter.lat(),mapCenter.lng());
-        return  clusterDistance <= distance;
-      }
-      else{
-        return true;
-      }
+      const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f)/2*1.25; //1.25 times diagonal from center (/2)
+      const mapCenter = this.state.mapRef.getCenter();
+      const clusterDistance = this.distanceInMeter(cluster.geometry.coordinates[0],cluster.geometry.coordinates[1],mapCenter.lat(),mapCenter.lng());
+      return  clusterDistance <= distance;
     });
 
     //Sort on lat to prevent (some) z-index issues
