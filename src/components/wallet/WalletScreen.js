@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Button } from 'react-md';
 import { BigNumber } from 'bignumber.js';
 import styled from 'styled-components';
 

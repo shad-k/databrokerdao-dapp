@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Chip, Avatar, Autocomplete } from 'react-md';
-import axios from '../../utils/axios';
+import { Autocomplete } from 'react-md';
 import { connect } from 'react-redux'
 
 import { STREAMS_ACTIONS } from '../../redux/streams/actions';
@@ -19,7 +18,6 @@ class LocationAutocomplete extends Component {
     this.props.setFilterAddress(value);
 
     //Get places from google api
-    const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";
     const autocompleteService = new window.google.maps.places.AutocompleteService();
     if(value){
       autocompleteService.getPlacePredictions({ input: value }, function(predictions, status){

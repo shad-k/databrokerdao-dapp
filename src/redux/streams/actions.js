@@ -2,6 +2,8 @@ import _ from 'lodash';
 import axios from '../../utils/axios';
 import Bluebird from 'bluebird';
 
+const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";
+
 export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',
   FETCHING_STREAMS: 'FETCHING_STREAMS',
@@ -238,7 +240,6 @@ export const STREAMS_ACTIONS = {
             });
 
             //Get formatted address
-            const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";
             const latlng = `${parsedResponse.geometry.coordinates[0]},${parsedResponse.geometry.coordinates[1]}`;
             const unAuthenticatedAxiosClient = axios(null, true, true);
             unAuthenticatedAxiosClient
@@ -350,7 +351,6 @@ export const STREAMS_ACTIONS = {
       });
 
       //Geocode map center to set value of location filter (so e.g. "Kessel-Lo" shows up when moving the map to Kessel-Lo)
-      const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";
       const latlng = `${map.lat},${map.lng}`;
       const unAuthenticatedAxiosClient = axios(null, true, true);
       unAuthenticatedAxiosClient

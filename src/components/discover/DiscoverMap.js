@@ -55,7 +55,6 @@ class DiscoverMap extends Component {
     //This means we fetch streams in a circle twice the bounds of map, in which user can pan around without having to fetch new streams from dapi
     const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f);
     const zoom = this.state.mapRef.getZoom();
-    const center = this.state.mapRef.getCenter();
 
     //Only get new streams if new map bounds are further away than distance from center of last time we got streams from server
     const distanceTopLeftToPreviousCenter = this.distanceInMeter(bounds.f.f,bounds.b.b,this.props.map.fetchLat,this.props.map.fetchLng);

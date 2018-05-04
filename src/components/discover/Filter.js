@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Chip, Avatar, Autocomplete } from 'react-md';
+import { Chip, Avatar } from 'react-md';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Immutable from 'seamless-immutable';
@@ -109,28 +109,6 @@ class Filter extends Component {
       }
     `;
 
-    const locationMenuItems = [
-      {
-        label: 'Berlin',
-        value: 'berlin',
-        disabled: true
-      },
-      {
-        label: 'Leuven',
-        value: 'leuven'
-      },
-      {
-        label: 'New York City',
-        value: 'newyorkcity',
-        disabled: true
-      },
-      {
-        label: 'Singapore',
-        value: 'singapore',
-        disabled: true
-      }
-    ];
-
     const typeMenuItems = [
       {
         label: 'Temperature',
@@ -160,20 +138,6 @@ class Filter extends Component {
           <StyledH2>Location</StyledH2>
           <CloseButton className="clickable" onClick={() => this.props.toggleFilterHandler()}><FontAwesomeIcon icon={faTimesCircle} style={{width:"17px",height:"17px",marginTop:"10px"}} /></CloseButton>
         </div>
-        {/*<EnhancedSelectField
-          id="location"
-          fieldname="location"
-          label=""
-          className="md-cell"
-          onChange={() => {}}
-          menuItems={locationMenuItems}
-          simplifiedMenu={true}
-          onBlur={() => {}}
-          style={{width:"100%"}}
-          error={false}
-          touched={false}
-          initialValue="leuven"
-        />*/}
         <LocationAutocomplete/>
         <StyledH2>Type</StyledH2>
         <EnhancedSelectField

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FontIcon, DropdownMenu, AccessibleFakeButton, IconSeparator, ListItem } from 'react-md';
+import { FontIcon, DropdownMenu, AccessibleFakeButton, IconSeparator, ListItem } from 'react-md';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
 import Mixpanel from 'mixpanel-browser';
@@ -72,16 +72,6 @@ class StreamDetailsScreen extends Component {
   }
 
   render() {
-    const StyledContentContainer = styled.div`
-      display:flex;
-      padding:30px;
-    `;
-
-    const StyledContentCell = styled.div`
-      //margin:15px;
-      flex:1;
-    `;
-
     const StyledSensorAttribute = styled.p`
       display: flex;
       align-content: center;
