@@ -40,6 +40,7 @@ class LocationAutocomplete extends Component {
         const lng = results[0].geometry.location.lng();
 
         this.props.updateMap({
+          ...this.props.map,
           distance: 0,
           lat: lat,
           lng: lng
@@ -64,10 +65,14 @@ class LocationAutocomplete extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  map: state.streams.map
+})
+
 function mapDispatchToProps(dispatch) {
   return {
     updateMap: (map) => dispatch(STREAMS_ACTIONS.updateMap(map))
   }
 }
 
-export default connect(null, mapDispatchToProps)(LocationAutocomplete);
+export default connect(mapStateToProps, mapDispatchToProps)(LocationAutocomplete);

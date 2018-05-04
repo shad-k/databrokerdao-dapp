@@ -347,9 +347,6 @@ export const STREAMS_ACTIONS = {
         type: STREAMS_TYPES.UPDATED_MAP,
         map
       });
-
-      //TODO not sure if necessary
-      STREAMS_ACTIONS.fetchStreams(dispatch);
     };
   },
   challengeStream: (stream, reason, amount) => {

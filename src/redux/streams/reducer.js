@@ -9,8 +9,11 @@ export const DEFAULT_STATE = {
   },
   map: {
     distance: 0,
+    fetchLat: 50.879844, //Lat at which we last fetched streams
+    fetchLng: 4.700518, //Lng at which we last fetched streams
     lat: 50.879844,
-    lng: 4.700518
+    lng: 4.700518,
+    zoom: 15
   },
   streams: {},
   landingStreams: {},
@@ -48,6 +51,8 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
       return Immutable.merge(state, {filter: action.filter});
     }
     case STREAMS_TYPES.UPDATED_MAP:{
+      console.log("New map:");
+      console.log(action.map);
       return Immutable.merge(state, {map:action.map});
     }
     case STREAMS_TYPES.FETCH_STREAM_COUNTER:{
