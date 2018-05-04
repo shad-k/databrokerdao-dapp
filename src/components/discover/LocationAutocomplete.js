@@ -15,9 +15,11 @@ class LocationAutocomplete extends Component {
   }
 
   onChangeHandler(value,event){
+    //Store current input in redux (because it's a controlled component - value is stored in redux because discovermap can also provide new value)
+    this.props.setFilterAddress(value);
+
     //Get places from google api
     const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";
-
     const autocompleteService = new window.google.maps.places.AutocompleteService();
     if(value){
       autocompleteService.getPlacePredictions({ input: value }, function(predictions, status){
@@ -60,18 +62,21 @@ class LocationAutocomplete extends Component {
         filter={Autocomplete.caseInsensitiveFilter}
         onChange={this.onChangeHandler.bind(this)}
         onAutocomplete={this.onAutocompleteHandler.bind(this)}
+        value={this.props.filterAddress}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  map: state.streams.map
+  map: state.streams.map,
+  filterAddress: state.streams.filterAddress
 })
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateMap: (map) => dispatch(STREAMS_ACTIONS.updateMap(map))
+    updateMap: (map) => dispatch(STREAMS_ACTIONS.updateMap(map)),
+    setFilterAddress: (filterAddress) => dispatch(STREAMS_ACTIONS.setFilterAddress(filterAddress))
   }
 }
 

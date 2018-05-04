@@ -74,6 +74,9 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     case STREAMS_TYPES.FETCH_FORMATTED_ADDRESS:{
       return Immutable.set(state, "formattedAddress", action.formattedAddress);
     }
+    case STREAMS_TYPES.FETCH_FILTER_ADDRESS:{
+      return Immutable.set(state, "filterAddress", action.filterAddress)
+    }
     default:
       return state;
   }

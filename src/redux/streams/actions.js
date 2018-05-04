@@ -16,7 +16,8 @@ export const STREAMS_TYPES = {
   FETCHING_NEARBY_STREAMS: 'FETCHING_NEARBY_STREAMS',
   FETCH_CHALLENGES: 'FETCH_CHALLENGES',
   FETCHING_CHALLENGES:'FETCHING_CHALLENGES',
-  FETCH_FORMATTED_ADDRESS:'FETCH_FORMATTED_ADDRESS'
+  FETCH_FORMATTED_ADDRESS:'FETCH_FORMATTED_ADDRESS', //Address in stream details
+  FETCH_FILTER_ADDRESS:'FETCH_FILTER_ADDRESS' //Address (city) in location filter
 };
 
 export const STREAMS_ACTIONS = {
@@ -346,6 +347,29 @@ export const STREAMS_ACTIONS = {
       dispatch({
         type: STREAMS_TYPES.UPDATED_MAP,
         map
+      });
+
+      //Geocode map center to set value of location filter (so e.g. "Kessel-Lo" shows up when moving the map to Kessel-Lo)
+      const APIKey = "AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg";
+      const latlng = `${map.lat},${map.lng}`;
+      const unAuthenticatedAxiosClient = axios(null, true, true);
+      unAuthenticatedAxiosClient
+        .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${APIKey}&result_type=locality`)
+        .then(response => {
+          const filterAddress = response.data.results[0]?response.data.results[0].formatted_address:"Unkown address";
+
+          dispatch({
+            type: STREAMS_TYPES.FETCH_FILTER_ADDRESS,
+            filterAddress
+          });
+        });
+    };
+  },
+  setFilterAddress: filterAddress => {
+    return (dispatch, getState) => {
+      dispatch({
+        type: STREAMS_TYPES.FETCH_FILTER_ADDRESS,
+        filterAddress
       });
     };
   },
