@@ -140,7 +140,7 @@ class StreamDetailsScreen extends Component {
 
       let purchaseEndTime = null;
       if(purchase)
-        purchaseEndTime = moment(parseInt(purchase.endTime)*1000).format('MMM D, YYYY');
+        purchaseEndTime = moment(parseInt(purchase.endTime,10)*1000).format('MMM D, YYYY');
 
       const menuItems =  [
         <ListItem
@@ -194,7 +194,7 @@ class StreamDetailsScreen extends Component {
                   <StyledAttributeLabel>Frequency: {updateInterval}</StyledAttributeLabel>
                 </StyledSensorAttribute>
                 <StyledSensorAttribute>
-                  <Icon icon="dtx" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
+                  <Icon icon="coins" style={{fill:"rgba(0,0,0,0.54)", width:"20px", height:"20px"}} />
                   <StyledAttributeLabel>Price: {price} DTX per reading</StyledAttributeLabel>
                 </StyledSensorAttribute>
                 <StyledSensorAttribute>

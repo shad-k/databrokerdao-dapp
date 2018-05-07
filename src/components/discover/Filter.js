@@ -46,7 +46,6 @@ class Filter extends Component {
 
     const options = [<option key="0" value="0">-- add stream type --</option>];
 
-    //Concatenate arrays
     return _.concat(options,_.map(types, type => {
       return(
         <option key={type.id} value={type.id}>

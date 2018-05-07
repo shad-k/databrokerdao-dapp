@@ -72,9 +72,13 @@ class DiscoverStreamsList extends Component {
   }
 
   render() {
+    const StyledTitle = styled.h2`
+      margin:10px 16px 0 16px;
+    `;
+
     return (
       <div>
-        <h2 style={{margin:"10px 16px 0 16px"}}>Available streams</h2>
+        <StyledTitle>Available streams</StyledTitle>
         <List>
           {this.renderStreamsListItems(this.props.streams)}
         </List>

@@ -186,7 +186,7 @@ export const STREAMS_ACTIONS = {
           });
 
           // Get nearby streams
-          const urlParametersNearbyStreams = `limit=20&type=${parsedResponse.type}&near=${parsedResponse.geometry.coordinates[1]},${parsedResponse.geometry.coordinates[0]},500&sort=stake`; //TODO in meter?
+          const urlParametersNearbyStreams = `limit=20&type=${parsedResponse.type}&near=${parsedResponse.geometry.coordinates[1]},${parsedResponse.geometry.coordinates[0]},500&sort=stake`;
           const authenticatedAxiosClient = axios(null, true);
           authenticatedAxiosClient
             .get(`/sensorregistry/list?${urlParametersNearbyStreams}`)
@@ -263,9 +263,7 @@ export const STREAMS_ACTIONS = {
     return (dispatch, getState) => {
       const authenticatedAxiosClient = axios(null, true);
       authenticatedAxiosClient
-        .get(
-          `/sensorregistry/list?limit=100&type[]=temperature&type[]=humidity&type[]=PM25&type[]=PM10&near=4.700518,50.879844,4000` //TODO add near parameter
-        )
+        .get(`/sensorregistry/list?limit=100&type[]=temperature&type[]=humidity&type[]=PM25&type[]=PM10&near=4.700518,50.879844,4000`)
         .then(response => {
           const parsedResponse = {};
           _.each(response.data.items, item => {

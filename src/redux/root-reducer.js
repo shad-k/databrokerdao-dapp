@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-// TODO: import reducers
 import { reducer as auth } from './authentication/reducer';
 import StreamsReducer from './streams/reducer';
 import PurchasesReducer from './purchases/reducer';
@@ -29,7 +28,6 @@ const rootReducer = (asyncReducers, initialState) => {
     purchases: PurchasesReducer,
     wallet: WalletReducer,
     listings: ListingsReducer,
-    // TODO: add reducers
     ...asyncReducers,
     ...missingReducers
   });

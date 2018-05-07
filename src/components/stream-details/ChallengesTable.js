@@ -32,7 +32,7 @@ export default class ChallengesTable extends Component {
         <TableBody>
           {this.props.challenges.map((challenge) => {
             const stake = this.convertWeiToDtx(challenge.stake);
-            const date = moment(parseInt(challenge.timestamp)*1000).format('MMM D, YYYY');
+            const date = moment(parseInt(challenge.timestamp,10)*1000).format('MMM D, YYYY');
 
             return(
               <TableRow key={challenge.reason}>

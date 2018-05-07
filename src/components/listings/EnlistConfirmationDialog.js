@@ -39,7 +39,7 @@ class EnlistConfirmationDialog extends Component {
         if(!this.props.token)
           this.setState({stepIndex:STEP_REGISTRATION});
         else{
-          const stakeDTX = BigNumber(parseInt(this.props.stream.stake)).times(BigNumber(10).pow(18));
+          const stakeDTX = BigNumber(parseInt(this.props.stream.stake,10)).times(BigNumber(10).pow(18));
           if(BigNumber(this.props.balance).isGreaterThan(stakeDTX)){
             this.props.enlistStream(this.props.stream);
             this.setState({stepIndex:STEP_ENLISTING});

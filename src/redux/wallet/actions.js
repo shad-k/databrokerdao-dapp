@@ -28,14 +28,6 @@ export const WALLET_ACTIONS = {
         console.log(error);
       });
 
-      //TODO temp code to test /events
-      authenticatedAxiosClient.get(
-        "/events?user=~0x75f472f3ffb3cc68722f0705053de94b8d4b1a91"
-      ).then(response => {
-        console.log("EVENTS:");
-        console.log(response);
-      });
-
     }
   },
   mintTokens: (amount) => {

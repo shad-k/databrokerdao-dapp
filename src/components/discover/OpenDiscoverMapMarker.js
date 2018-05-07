@@ -16,7 +16,6 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
   }
 
   render() {
-
     const StyledContentContainer = styled.div`
       padding:10px;
       width:240px;
@@ -54,6 +53,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
     `;
 
     const stream = this.props.stream;
+    const frequency = stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}''`;
 
     return (
         <div>
@@ -61,7 +61,7 @@ export default withRouter(class ClosedDiscoverMapMarker extends Component {
             <Icon icon={stream.type} style={{color:"white", width:"24px", height:"24px"}}/>
             <div style={{width:"196px"}}>
               <StyledSensorName onClick={event => this.onPurchaseButtonClicked()}>{stream.name}</StyledSensorName>
-              <StyledSensorDetails>Frequency: {stream.updateinterval === 86400000?"daily":`${stream.updateinterval/1000}''`}</StyledSensorDetails>
+              <StyledSensorDetails>Frequency: {frequency}</StyledSensorDetails>
               <StyledSensorDetails>Stake: {this.convertWeiToDtx(stream.stake)} DTX</StyledSensorDetails>
               <StyledSensorDetails>Challenges: {stream.numberofchallenges} ({this.convertWeiToDtx(stream.challengesstake)} DTX)</StyledSensorDetails>
             </div>
