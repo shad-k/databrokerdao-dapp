@@ -77,7 +77,7 @@ export default withRouter(
               }
             >
               <StyledTabBarItemIcon src={DiscoverIcon} alt="Streams" />
-              <StyledTabBarItemContent>Discover</StyledTabBarItemContent>
+              <StyledTabBarItemContent>Streams</StyledTabBarItemContent>
             </StyledTabBarItem>
 
             <StyledTabBarItem

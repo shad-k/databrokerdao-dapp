@@ -15,3 +15,9 @@ export function parseNumberWithoutDecimal(number, decimal) {
   }
   return baseNumber;
 }
+
+export function convertWeiToDtx(dtxValue) {
+  return BigNumber(dtxValue)
+    .div(BigNumber(10).pow(18))
+    .toString();
+}

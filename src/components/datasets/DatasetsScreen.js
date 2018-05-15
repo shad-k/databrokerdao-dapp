@@ -4,6 +4,7 @@ import Mixpanel from 'mixpanel-browser';
 
 import Toolbar from '../generic/Toolbar';
 import Sidebar from './Sidebar';
+import DatasetsList from './DatasetsList';
 
 class DatasetsScreen extends Component {
   componentDidMount() {
@@ -27,7 +28,7 @@ class DatasetsScreen extends Component {
       <div style={{ height: '100%', display: 'flex', alignItems: 'stretch' }}>
         <Toolbar showTabs={true} />
         <Sidebar setWidthHandler={width => this.setSidebarWidth(width)} />
-        <p>datasets</p>
+        <DatasetsList />
       </div>
     );
   }

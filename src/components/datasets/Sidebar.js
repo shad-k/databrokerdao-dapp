@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFilter from '@fortawesome/fontawesome-free-solid/faFilter';
 
+import Filter from './Filter';
+
 export default class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -66,6 +68,32 @@ export default class Sidebar extends Component {
       align-items: center;
     `;
 
-    return <StyledSidebar />;
+    return (
+      <StyledSidebar>
+        <DesktopContentContainer>
+          <FilterContainer>
+            <Filter />
+          </FilterContainer>
+        </DesktopContentContainer>
+        <MobileContentContainer>
+          {this.state.filterVisible && (
+            <FilterContainer>
+              <Filter toggleFilterHandler={() => this.toggleFilter()} />
+            </FilterContainer>
+          )}
+          {!this.state.filterVisible && (
+            <FilterButtonContainer>
+              <span
+                className="clickable"
+                onClick={() => this.toggleFilter()}
+                style={{ color: 'rgba(0,0,0,0.7)' }}
+              >
+                <FontAwesomeIcon icon={faFilter} />
+              </span>
+            </FilterButtonContainer>
+          )}
+        </MobileContentContainer>
+      </StyledSidebar>
+    );
   }
 }

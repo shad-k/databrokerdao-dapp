@@ -17,90 +17,106 @@ class Filter extends Component {
     this.props.fetchAvailableStreamTypes();
   }
 
-  constructor(props){
-    super(props);
-
-    this.state = {
-      selectedType: "0"
-    };
-  }
-
-  addTypeToFilter(value){
-    const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
+  addTypeToFilter(value) {
+    const newFilter = Immutable.asMutable(this.props.filter, { deep: true });
     const newType = value;
 
-    if(_.indexOf(newFilter.types, newType) === -1){
+    if (_.indexOf(newFilter.types, newType) === -1) {
       newFilter.types = _.concat(newFilter.types, newType);
       this.props.fetchStreams(newFilter);
     }
   }
 
-  removeTypeFromFilter(id){
-    const newFilter = Immutable.asMutable(this.props.filter, {deep:true});
+  removeTypeFromFilter(id) {
+    const newFilter = Immutable.asMutable(this.props.filter, { deep: true });
     newFilter.types = _.pull(newFilter.types, id);
     this.props.fetchStreams(newFilter);
   }
 
-  renderTypeListItems(){
+  renderTypeListItems() {
     const types = this.props.availableStreamTypes;
 
-    const options = [<option key="0" value="0">-- add stream type --</option>];
+    const options = [
+      <option key="0" value="0">
+        -- add stream type --
+      </option>
+    ];
 
-    return _.concat(options,_.map(types, type => {
-      return(
-        <option key={type.id} value={type.id}>
-          {type.name}
-        </option>
-      )
-    }));
+    return _.concat(
+      options,
+      _.map(types, type => {
+        return (
+          <option key={type.id} value={type.id}>
+            {type.name}
+          </option>
+        );
+      })
+    );
   }
 
-  renderTypeChips(){
+  renderTypeChips() {
     const StyledChip = styled(Chip)`
-      width:100%;
-      margin-bottom:16px;
+      width: 100%;
+      margin-bottom: 16px;
       cursor: pointer;
-      &:first-child{
-        margin-top:20px;
+      &:first-child {
+        margin-top: 20px;
       }
-      &:last-child{
-        margin-bottom:0;
+      &:last-child {
+        margin-bottom: 0;
       }
     `;
 
     const types = this.props.filter.types;
     const availableTypes = this.props.availableStreamTypes;
 
-    if(availableTypes.length === 0)
-      return '';
+    if (availableTypes.length === 0) return '';
 
     return _.map(types, type => {
-      return(
+      return (
         <StyledChip
           key={type}
           label={availableTypes[type].name}
-          avatar={<Avatar><Icon icon={type} style={{fill:"white", width:"15px", height:"15px"}} /></Avatar>}
+          avatar={
+            <Avatar>
+              <Icon
+                icon={type}
+                style={{ fill: 'white', width: '15px', height: '15px' }}
+              />
+            </Avatar>
+          }
           onClick={() => this.removeTypeFromFilter(type)}
-          children={<Icon icon="remove" style={{fill:"rgba(0,0,0,0.45)", width:"16px", height:"16px", marginRight:"7px", marginTop:"2px"}} />}
+          children={
+            <Icon
+              icon="remove"
+              style={{
+                fill: 'rgba(0,0,0,0.45)',
+                width: '16px',
+                height: '16px',
+                marginRight: '7px',
+                marginTop: '2px'
+              }}
+            />
+          }
           rotateIcon={false}
           removable
         />
-      )
+      );
     });
   }
 
   render() {
     const StyledH2 = styled.h2`
-      margin-top:22px;
-      margin-bottom:6px;
+      margin-top: 22px;
+      margin-bottom: 6px;
 
-      &:first-child{
-        margin-top:0;
+      &:first-child {
+        margin-top: 0;
       }
     `;
 
     const CloseButton = styled.span`
-      color:rgba(0,0,0,0.7);
+      color: rgba(0, 0, 0, 0.7);
       display: none;
 
       @media (max-width: ${props => props.theme.mobileBreakpoint}) {
@@ -112,51 +128,69 @@ class Filter extends Component {
       {
         label: 'Temperature',
         value: 'temperature',
-        disabled: _.findIndex(this.props.filter.types, type => {return type === "temperature"}) >= 0
+        disabled:
+          _.findIndex(this.props.filter.types, type => {
+            return type === 'temperature';
+          }) >= 0
       },
       {
         label: 'Humidity',
         value: 'humidity',
-        disabled: _.findIndex(this.props.filter.types, type => {return type === "humidity"}) >= 0
+        disabled:
+          _.findIndex(this.props.filter.types, type => {
+            return type === 'humidity';
+          }) >= 0
       },
       {
         label: 'PM 2.5',
         value: 'PM25',
-        disabled: _.findIndex(this.props.filter.types, type => {return type === "PM25"}) >= 0
+        disabled:
+          _.findIndex(this.props.filter.types, type => {
+            return type === 'PM25';
+          }) >= 0
       },
       {
         label: 'PM 10',
         value: 'PM10',
-        disabled: _.findIndex(this.props.filter.types, type => {return type === "PM10"}) >= 0
+        disabled:
+          _.findIndex(this.props.filter.types, type => {
+            return type === 'PM10';
+          }) >= 0
       }
     ];
 
     return (
-      <div style={{padding:"16px"}}>
-        <div style={{display:"flex", justifyContent:"space-between"}}>
+      <div style={{ padding: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <StyledH2>Location</StyledH2>
-          <CloseButton className="clickable" onClick={() => this.props.toggleFilterHandler()}><FontAwesomeIcon icon={faTimesCircle} style={{width:"17px",height:"17px",marginTop:"10px"}} /></CloseButton>
+          <CloseButton
+            className="clickable"
+            onClick={() => this.props.toggleFilterHandler()}
+          >
+            <FontAwesomeIcon
+              icon={faTimesCircle}
+              style={{ width: '17px', height: '17px', marginTop: '10px' }}
+            />
+          </CloseButton>
         </div>
-        <LocationAutocomplete/>
+        <LocationAutocomplete />
         <StyledH2>Type</StyledH2>
         <EnhancedSelectField
           id="location"
           fieldname="location"
           label=""
           className="md-cell"
-          onChange={(fieldname,value) => this.addTypeToFilter(value)}
+          onChange={(fieldname, value) => this.addTypeToFilter(value)}
           menuItems={typeMenuItems}
           simplifiedMenu={true}
           onBlur={() => {}}
-          style={{width:"100%"}}
+          style={{ width: '100%' }}
           error={false}
           touched={false}
           placeholder="Add stream type"
           initialValue={null}
         />
-        <div>
-          {this.renderTypeChips()}
-        </div>
+        <div>{this.renderTypeChips()}</div>
       </div>
     );
   }
@@ -164,14 +198,15 @@ class Filter extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStreams: (filter) => dispatch(STREAMS_ACTIONS.fetchStreams(filter)),
-    fetchAvailableStreamTypes: () => dispatch(STREAMS_ACTIONS.fetchAvailableStreamTypes())
-  }
+    fetchStreams: filter => dispatch(STREAMS_ACTIONS.fetchStreams(filter)),
+    fetchAvailableStreamTypes: () =>
+      dispatch(STREAMS_ACTIONS.fetchAvailableStreamTypes())
+  };
 }
 
 const mapStateToProps = state => ({
   availableStreamTypes: state.streams.availableStreamTypes,
   filter: state.streams.filter
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
