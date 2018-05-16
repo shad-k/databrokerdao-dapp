@@ -33,7 +33,7 @@ export const DATASET_ACTIONS = {
       });
 
       // Start with filtering only the datasets
-      let filterUrlQuery = 'sensortype=DATASET';
+      let filterUrlQuery = 'sensortype=DATASET&';
 
       // Filter on category
       const filter = _filter ? _filter : state.datasets.filter;
@@ -65,39 +65,35 @@ export const DATASET_ACTIONS = {
       const fetchDatasetCounter = state.datasets.fetchDatasetCounter + 1;
 
       // Counter to keep track of calls so when response arrives we can take the latest
-      // (counter => {
-      // fetchSensors(
-      //   authenticatedAxiosClient,
-      //   {
-      //     limit,
-      //     filterUrlQuery
-      //   },
-      //   true
-      // )
-      //   .then(response => {
-      const response = {
-        data: require('./test-datasets.json')
-      };
+      (counter => {
+        fetchSensors(
+          authenticatedAxiosClient,
+          {
+            limit,
+            filterUrlQuery
+          },
+          true
+        )
+          .then(response => {
+            if (counter !== getState().datasets.fetchDatasetCounter) {
+              return;
+            }
 
-      // if (counter !== getState().datasets.fetchDatasetCounter) {
-      //   return;
-      // }
+            const parsedResponse = parseDatasets(response.data.items);
 
-      const parsedResponse = parseDatasets(response.data.items);
-
+            dispatch({
+              type: DATASET_TYPES.FETCH_DATASETS,
+              datasets: parsedResponse
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      })(fetchDatasetCounter);
       dispatch({
-        type: DATASET_TYPES.FETCH_DATASETS,
-        datasets: parsedResponse
+        type: DATASET_TYPES.FETCH_DATASET_COUNTER,
+        value: fetchDatasetCounter
       });
-      // })
-      // .catch(error => {
-      //   console.log(error);
-      // });
-      // })(fetchDatasetCounter);
-      // dispatch({
-      //   type: DATASET_TYPES.FETCH_DATASET_COUNTER,
-      //   value: fetchDatasetCounter
-      // });
     };
   },
   fetchDataset: (dispatch, dataset) => {
@@ -109,38 +105,33 @@ export const DATASET_ACTIONS = {
 
       const authenticatedAxiosClient = axios(null, true);
 
-      const response = {
-        data_id: 1,
-        data: require('./test-datasets.json').items[0]
-      };
+      fetchSensor(authenticatedAxiosClient, dataset)
+        .then(response => {
+          let parsedResponse = response.data_id
+            ? parseDataset(response.data)
+            : {};
 
-      console.log(response);
+          dispatch({
+            type: DATASET_TYPES.FETCH_DATASET,
+            dataset: parsedResponse
+          });
 
-      // fetchSensor(authenticatedAxiosClient, dataset)
-      //   .then(response => {
-      let parsedResponse = response.data_id ? parseDataset(response.data) : {};
-
-      dispatch({
-        type: DATASET_TYPES.FETCH_DATASET,
-        dataset: parsedResponse
-      });
-
-      // Get challenges
-      // const urlParametersChallenges = `listing=${dataset}`;
-      // fetchChallenges(
-      //   authenticatedAxiosClient,
-      //   urlParametersChallenges
-      // ).then(response => {
-      // const parsedResponse = [];
-      // dispatch({
-      //   type: DATASET_TYPES.FETCH_CHALLENGES,
-      //   challenges: parsedResponse
-      // });
-      // });
-      // })
-      // .catch(error => {
-      //   console.log(error);
-      // });
+          // Get challenges
+          const urlParametersChallenges = `listing=${dataset}`;
+          fetchChallenges(
+            authenticatedAxiosClient,
+            urlParametersChallenges
+          ).then(response => {
+            const parsedResponse = [];
+            dispatch({
+              type: DATASET_TYPES.FETCH_CHALLENGES,
+              challenges: parsedResponse
+            });
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     };
   },
   fetchAvailableFiletypes: () => {
