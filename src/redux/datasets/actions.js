@@ -32,11 +32,12 @@ export const DATASET_ACTIONS = {
         value: true
       });
 
+      const filter = _filter ? _filter : state.datasets.filter;
+
       // Start with filtering only the datasets
       let filterUrlQuery = 'sensortype=DATASET&';
 
       // Filter on category
-      const filter = _filter ? _filter : state.datasets.filter;
       if (filter.categories && filter.categories.length === 1)
         filterUrlQuery += `category=${filter.categories[0]}`;
       else

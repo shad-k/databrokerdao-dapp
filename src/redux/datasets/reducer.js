@@ -44,6 +44,7 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
       });
     }
     case DATASET_TYPES.UPDATED_FILTER: {
+      console.log('---', action.filter);
       return Immutable.merge(state, { filter: action.filter });
     }
     case DATASET_TYPES.FETCH_DATASET_COUNTER: {

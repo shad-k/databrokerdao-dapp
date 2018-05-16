@@ -105,7 +105,7 @@ class Filter extends Component {
     const newCategory = value;
 
     if (_.indexOf(newFilter.categories, newCategory) === -1) {
-      newFilter.categories = _.concat(newFilter.types, newCategory);
+      newFilter.categories = _.concat(newFilter.categories, newCategory);
       this.props.fetchDatasets(newFilter);
     }
   }
