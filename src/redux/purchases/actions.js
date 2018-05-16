@@ -90,6 +90,7 @@ export const PURCHASES_ACTIONS = {
       function getMetadataHash() {
         return authenticatedAxiosClient.post('/ipfs/add/json', {
           data: {
+            sensortype: stream.sensortype || 'STREAM', // default to stream type, since old streams are not enlisted with the sensortype property.
             email: localStorage.getItem('email')
           }
         });
