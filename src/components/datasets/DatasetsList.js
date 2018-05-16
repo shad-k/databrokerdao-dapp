@@ -5,20 +5,26 @@ import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { convertWeiToDtx } from '../../utils/transforms';
+import TitleCTAButton from '../generic/TitleCTAButton';
 
 import Icon from '../generic/Icon';
 
 class DatasetsList extends Component {
-  // onStreamListItemClick(stream) {
-  //   this.props.history.push(`/stream-details/${stream.key}`);
-  // }
+  onListItemClick(dataset) {
+    this.props.history.push(`/dataset/${dataset.key}`);
+  }
 
   renderDatasetListItems(datasets) {
     const StyledListItem = styled.div`
-      padding: 18px 16px;
+      padding: 25px;
       cursor: pointer;
       display: flex;
       align-items: center;
+      border-top: 1px solid #e0e0e0;
+
+      &:first-child {
+        border: none;
+      }
 
       &:hover {
         background-color: #e0e0e0;
@@ -34,14 +40,18 @@ class DatasetsList extends Component {
       }
     `;
 
-    const DatasetName = styled.p`
-      font-size: 16px;
-      margin: 0 0 3px 0;
+    const DatasetName = styled.h3`
+      margin: 0 0 10px 0;
     `;
 
-    const StakeDetails = styled.p`
+    const DatasetDetails = styled.p`
       font-size: 14px;
       color: #b6b6b6;
+      margin: 0;
+    `;
+
+    const DatasetPrice = styled.p`
+      font-size: 14px;
       margin: 0;
     `;
 
@@ -49,27 +59,36 @@ class DatasetsList extends Component {
       return (
         <StyledListItem
           key={dataset.id}
-          // onClick={event => this.onStreamListItemClick(dataset)}
+          onClick={event => this.onListItemClick(dataset)}
           leftIcon={<FontIcon key="data">data_usage</FontIcon>}
         >
           <Icon
-            icon={dataset.type}
+            icon={dataset.category}
             style={{
               fill: 'rgba(0,0,0,0.5)',
               width: '20px',
               height: '20px',
-              marginRight: '13px'
+              marginRight: '25px'
             }}
           />
           <div style={{ flex: '1' }}>
             <DatasetName>{dataset.name}</DatasetName>
-            <StakeDetails>
-              Stake: {convertWeiToDtx(dataset.stake)}, Challenges:{' '}
+            <DatasetPrice>
+              Price: {convertWeiToDtx(dataset.price)} DTX
+            </DatasetPrice>
+            <DatasetDetails>
+              File type: {dataset.filetype}, Owner stake:{' '}
+              {convertWeiToDtx(dataset.stake)} DTX, Challenges:{' '}
               {dataset.numberofchallenges} ({convertWeiToDtx(
                 dataset.challengesstake
               )}{' '}
               DTX)
-            </StakeDetails>
+            </DatasetDetails>
+          </div>
+          <div>
+            <TitleCTAButton flat primary swapTheming onClick={event => {}}>
+              Purchase access
+            </TitleCTAButton>
           </div>
         </StyledListItem>
       );

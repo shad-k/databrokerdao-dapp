@@ -4,7 +4,7 @@ import { DATASET_TYPES } from './actions.js';
 
 export const DEFAULT_STATE = {
   filter: {
-    categories: ['agriculture', 'environment', 'publicsector', 'energy'],
+    categories: ['agriculture', 'environment', 'health', 'energy'],
     filetypes: ['json', 'xls', 'csv']
   },
   datasets: {},
@@ -30,7 +30,8 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case DATASET_TYPES.FETCH_DATASET: {
       const newDatasets = Immutable.asMutable(state, { deep: true }).datasets;
-      newDatasets[action.datasets.key] = action.datasets;
+      newDatasets[action.dataset.key] = action.dataset;
+      console.log(newDatasets);
       return Immutable.merge(state, { datasets: newDatasets });
     }
     case DATASET_TYPES.FETCH_AVAILABLE_FILETYPES: {

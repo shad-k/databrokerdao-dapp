@@ -13,7 +13,8 @@ import PurchasesScreen from './components/purchases/PurchasesScreen';
 import ListingsScreen from './components/listings/ListingsScreen';
 import EnlistScreen from './components/listings/EnlistScreen';
 import WalletScreen from './components/wallet/WalletScreen';
-import StreamDetailsScreen from './components/stream-details/StreamDetailsScreen';
+import StreamDetailsScreen from './components/details/stream/StreamDetailsScreen';
+import DatasetsDetailsScreen from './components/details/dataset/DatasetDetailsScreen';
 import DatasetsScreen from './components/datasets/DatasetsScreen';
 import UnsubscribedScreen from './components/unsubscribed/UnsubscribedScreen';
 import Mixpanel from 'mixpanel-browser';
@@ -72,8 +73,12 @@ const render = () => {
               component={withRouter(userIsAuthenticatedRedir(WalletScreen))}
             />
             <Route
-              path="/stream-details/:key"
+              path="/stream/:key"
               component={withRouter(StreamDetailsScreen)}
+            />
+            <Route
+              path="/dataset/:key"
+              component={withRouter(DatasetsDetailsScreen)}
             />
             <Route
               path="/unsubscribed"

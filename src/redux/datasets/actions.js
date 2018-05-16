@@ -1,7 +1,13 @@
 import _ from 'lodash';
 import axios from '../../utils/axios';
 import Bluebird from 'bluebird';
-import { fetchSensors } from '../../api/sensors';
+import {
+  fetchSensors,
+  fetchSensor,
+  parseDatasets,
+  parseDataset
+} from '../../api/sensors';
+import { fetchChallenges } from '../../api/challenges';
 
 export const DATASET_TYPES = {
   FETCHING_DATASETS: 'FETCHING_DATASETS',
@@ -77,24 +83,7 @@ export const DATASET_ACTIONS = {
       //   return;
       // }
 
-      const parsedResponse = {};
-      _.each(response.data.items, item => {
-        parsedResponse[item.key] = {
-          id: item._id,
-          key: item.key,
-          name: item.name,
-          type: item.type,
-          price: item.price,
-          stake: item.stake,
-          example: item.example,
-          owner: item.owner,
-          numberofchallenges: item.numberofchallenges,
-          challengesstake: item.challengesstake,
-          category: item.category,
-          filetype: item.filetype,
-          credentials: item.credentials
-        };
-      });
+      const parsedResponse = parseDatasets(response.data.items);
 
       dispatch({
         type: DATASET_TYPES.FETCH_DATASETS,
@@ -108,6 +97,49 @@ export const DATASET_ACTIONS = {
       // dispatch({
       //   type: DATASET_TYPES.FETCH_DATASET_COUNTER,
       //   value: fetchDatasetCounter
+      // });
+    };
+  },
+  fetchDataset: (dispatch, dataset) => {
+    return (dispatch, getState) => {
+      dispatch({
+        type: DATASET_TYPES.FETCHING_CHALLENGES,
+        value: true
+      });
+
+      const authenticatedAxiosClient = axios(null, true);
+
+      const response = {
+        data_id: 1,
+        data: require('./test-datasets.json').items[0]
+      };
+
+      console.log(response);
+
+      // fetchSensor(authenticatedAxiosClient, dataset)
+      //   .then(response => {
+      let parsedResponse = response.data_id ? parseDataset(response.data) : {};
+
+      dispatch({
+        type: DATASET_TYPES.FETCH_DATASET,
+        dataset: parsedResponse
+      });
+
+      // Get challenges
+      // const urlParametersChallenges = `listing=${dataset}`;
+      // fetchChallenges(
+      //   authenticatedAxiosClient,
+      //   urlParametersChallenges
+      // ).then(response => {
+      // const parsedResponse = [];
+      // dispatch({
+      //   type: DATASET_TYPES.FETCH_CHALLENGES,
+      //   challenges: parsedResponse
+      // });
+      // });
+      // })
+      // .catch(error => {
+      //   console.log(error);
       // });
     };
   },
@@ -145,9 +177,9 @@ export const DATASET_ACTIONS = {
             name: 'Environment',
             id: 'environment'
           },
-          publicsector: {
-            name: 'Public sector',
-            id: 'publicsector'
+          health: {
+            name: 'Health',
+            id: 'health'
           },
           energy: {
             name: 'Energy',

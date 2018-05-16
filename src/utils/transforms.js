@@ -17,6 +17,7 @@ export function parseNumberWithoutDecimal(number, decimal) {
 }
 
 export function convertWeiToDtx(dtxValue) {
+  // TODO: parse the number so that we don't get weird scientific notationb (f.e. 5e-7)
   return BigNumber(dtxValue)
     .div(BigNumber(10).pow(18))
     .toString();

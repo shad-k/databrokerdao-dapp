@@ -80,14 +80,6 @@ class Filter extends Component {
         <StyledChip
           key={file}
           label={availableFiletypes[file].name}
-          avatar={
-            <Avatar>
-              <Icon
-                icon={file}
-                style={{ fill: 'white', width: '15px', height: '15px' }}
-              />
-            </Avatar>
-          }
           onClick={() => this.removeFiletypeFromFilter(file)}
           children={
             <Icon
@@ -251,11 +243,11 @@ class Filter extends Component {
           }) >= 0
       },
       {
-        label: 'Public sector',
-        value: 'publicsector',
+        label: 'Health',
+        value: 'health',
         disabled:
           _.findIndex(this.props.filter.categories, type => {
-            return type === 'publicsector';
+            return type === 'health';
           }) >= 0
       },
       {
