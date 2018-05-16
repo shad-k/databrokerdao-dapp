@@ -44,11 +44,13 @@ export const DATASET_ACTIONS = {
           return `category[]=${cat}`;
         }).join('&');
 
+      filterUrlQuery += '&';
+
       // Filter on filetype
       if (filter.filetypes && filter.filetypes.length === 1)
         filterUrlQuery += `filetype=${filter.filetypes[0]}`;
       else
-        filterUrlQuery += _.map(filter.filetype, type => {
+        filterUrlQuery += _.map(filter.filetypes, type => {
           return `filetype[]=${type}`;
         }).join('&');
 
