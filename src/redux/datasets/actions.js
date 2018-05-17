@@ -34,6 +34,8 @@ export const DATASET_ACTIONS = {
 
       const filter = _filter ? _filter : state.datasets.filter;
 
+      console.log('FECTH', filter);
+
       // Start with filtering only the datasets
       let filterUrlQuery = 'sensortype=DATASET&';
 
@@ -62,7 +64,7 @@ export const DATASET_ACTIONS = {
         });
       }
 
-      const limit = 5000;
+      const { limit, start, dir } = filter;
 
       const authenticatedAxiosClient = axios(null, true);
       const fetchDatasetCounter = state.datasets.fetchDatasetCounter + 1;
@@ -73,6 +75,8 @@ export const DATASET_ACTIONS = {
           authenticatedAxiosClient,
           {
             limit,
+            start,
+            dir,
             filterUrlQuery
           },
           true

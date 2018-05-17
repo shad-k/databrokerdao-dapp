@@ -5,7 +5,10 @@ import { DATASET_TYPES } from './actions.js';
 export const DEFAULT_STATE = {
   filter: {
     categories: ['agriculture', 'environment', 'health', 'energy'],
-    filetypes: ['json', 'xls', 'csv']
+    filetypes: ['json', 'xls', 'csv'],
+    start: 0,
+    limit: 10,
+    dir: 'asc'
   },
   datasets: {},
   fetchingDatasets: false,

@@ -21,6 +21,8 @@ export default class Sidebar extends Component {
 
   render() {
     const StyledSidebar = styled.div`
+      height: 100vh;
+      // position: fixed;
       display: flex;
       align-items: stretch;
     `;

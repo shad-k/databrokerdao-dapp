@@ -8,6 +8,8 @@ import Immutable from 'seamless-immutable';
 import Icon from '../generic/Icon';
 import EnhancedSelectField from '../generic/EnhancedSelectField';
 import { DATASET_ACTIONS } from '../../redux/datasets/actions';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faTimesCircle from '@fortawesome/fontawesome-free-regular/faTimesCircle';
 
 class Filter extends Component {
   componentDidMount() {
@@ -198,6 +200,15 @@ class Filter extends Component {
       }
     `;
 
+    const CloseButton = styled.span`
+      color: rgba(0, 0, 0, 0.7);
+      display: none;
+
+      @media (max-width: ${props => props.theme.mobileBreakpoint}) {
+        display: block;
+      }
+    `;
+
     const filetypesMenuItems = [
       {
         label: 'json',
@@ -262,7 +273,18 @@ class Filter extends Component {
 
     return (
       <div style={{ padding: '16px' }}>
-        <StyledH2>Categories</StyledH2>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <StyledH2>Categories</StyledH2>
+          <CloseButton
+            className="clickable"
+            onClick={() => this.props.toggleFilterHandler()}
+          >
+            <FontAwesomeIcon
+              icon={faTimesCircle}
+              style={{ width: '17px', height: '17px', marginTop: '10px' }}
+            />
+          </CloseButton>
+        </div>
         <EnhancedSelectField
           id="category"
           fieldname="category"
