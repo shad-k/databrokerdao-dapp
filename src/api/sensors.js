@@ -57,7 +57,6 @@ export function parseDataset(sensor) {
     challengesstake: sensor.challengesstake,
     category: sensor.category,
     filetype: sensor.filetype,
-    credentials: sensor.credentials,
     description: sensor.description,
     updateinterval: sensor.updateinterval,
     sensortype: sensor.sensortype
