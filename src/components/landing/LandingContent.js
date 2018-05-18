@@ -88,7 +88,7 @@ class LandingContent extends Component {
     `;
 
     const StyledDiscoverButton = styled(Button)`
-      margin: 0 auto;
+      // margin: 0 auto;
       display: block;
     `;
 
@@ -117,7 +117,14 @@ class LandingContent extends Component {
     return (
       <div>
         <StyledCard className="md-block-centered">
-          <CardText>
+          <CardText
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
             <StyledH1>
               Buy sensor data on the global market for local data
             </StyledH1>
