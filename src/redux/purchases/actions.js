@@ -71,11 +71,13 @@ export const PURCHASES_ACTIONS = {
       const authenticatedAxiosClient = axios(null, true);
 
       // Multiply price for streams, use the indicated price for datasets that are a forever-purchase
+
       let purchasePrice;
+      let duration;
       if (endTime === 0) {
         purchasePrice = stream.price;
       } else {
-        const duration = moment.duration(moment(endTime).diff(moment()));
+        duration = moment.duration(moment(endTime).diff(moment()));
         purchasePrice = stream.price * duration;
       }
 
@@ -119,11 +121,11 @@ export const PURCHASES_ACTIONS = {
                 .post(`/purchaseregistry/purchaseaccess`, {
                   sensor: stream.key,
                   endtime:
-                    endTime > 0
+                    endTime !== 0
                       ? moment(endTime)
                           .unix()
                           .toString()
-                      : 0,
+                      : '0',
                   metadata: metadataHash
                 })
                 .then(response => {
