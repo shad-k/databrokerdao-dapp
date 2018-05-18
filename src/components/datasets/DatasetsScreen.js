@@ -27,7 +27,9 @@ class DatasetsScreen extends Component {
       <div style={{ height: '100%', display: 'flex', alignItems: 'stretch' }}>
         <Toolbar showTabs={true} />
         <Sidebar setWidthHandler={width => this.setSidebarWidth(width)} />
-        <DatasetsList />
+        <div style={{ height: '100vh', overflowY: 'auto' }}>
+          <DatasetsList />
+        </div>
       </div>
     );
   }
