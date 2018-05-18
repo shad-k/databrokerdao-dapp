@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Button } from 'react-md';
 import styled from 'styled-components';
 import { BigNumber } from 'bignumber.js';
+import { convertWeiToDtx } from '../../utils/transforms';
 
 import Icon from '../generic/Icon';
 
@@ -10,12 +11,6 @@ export default withRouter(
   class ClosedDiscoverMapMarker extends Component {
     onPurchaseButtonClicked() {
       this.props.history.push(`/stream/${this.props.stream.key}`);
-    }
-
-    convertWeiToDtx(dtxValue) {
-      return BigNumber(dtxValue)
-        .div(BigNumber(10).pow(18))
-        .toString();
     }
 
     render() {
@@ -62,7 +57,7 @@ export default withRouter(
           : `${stream.updateinterval / 1000}''`;
 
       return (
-        <div>
+        <div style={{ padding: '10px 10px 20px 10px' }}>
           <StyledContentContainer>
             <Icon
               icon={stream.type}
@@ -76,10 +71,10 @@ export default withRouter(
               </StyledSensorName>
               <StyledSensorDetails>Frequency: {frequency}</StyledSensorDetails>
               <StyledSensorDetails>
-                Stake: {this.convertWeiToDtx(stream.stake)} DTX
+                Stake: {convertWeiToDtx(stream.stake)} DTX
               </StyledSensorDetails>
               <StyledSensorDetails>
-                Challenges: {stream.numberofchallenges} ({this.convertWeiToDtx(
+                Challenges: {stream.numberofchallenges} ({convertWeiToDtx(
                   stream.challengesstake
                 )}{' '}
                 DTX)
