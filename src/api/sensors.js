@@ -8,7 +8,7 @@ import _ from 'lodash';
  * fetches all sensors, with query params.
  */
 export function fetchSensors(authenticatedAxiosClient, queryParams) {
-  const { limit, start, dir, filterUrlQuery } = queryParams;
+  const { limit, start = 0, dir = 'asc', filterUrlQuery } = queryParams;
   let url = `/sensorregistry/list?limit=${limit}&skip=${start}&dir=${dir}&${filterUrlQuery}&sort=stake`;
   return authenticatedAxiosClient.get(url).then(response => response);
 }
