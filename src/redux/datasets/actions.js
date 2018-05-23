@@ -16,7 +16,7 @@ export const DATASET_TYPES = {
   CHALLENGING_DATASET: 'CHALLENGING_DATASET',
   FETCH_CHALLENGES: 'FETCH_CHALLENGES',
   FETCHING_CHALLENGES: 'FETCHING_CHALLENGES',
-  UPDATED_FILTER: 'UPDATED_FILTER',
+  DATASET_UPDATED_FILTER: 'DATASET_UPDATED_FILTER',
   FETCH_DATASET_COUNTER: 'FETCH_DATASET_COUNTER',
   FETCH_AVAILABLE_CATEGORIES: 'FETCH_AVAILABLE_CATEGORIES',
   FETCH_AVAILABLE_FILETYPES: 'FETCH_AVAILABLE_FILETYPES'
@@ -33,8 +33,6 @@ export const DATASET_ACTIONS = {
       });
 
       const filter = _filter ? _filter : state.datasets.filter;
-
-      console.log('FECTH', filter);
 
       // Start with filtering only the datasets
       let filterUrlQuery = 'sensortype=DATASET&';
@@ -59,7 +57,7 @@ export const DATASET_ACTIONS = {
 
       if (_filter) {
         dispatch({
-          type: DATASET_TYPES.UPDATED_FILTER,
+          type: DATASET_TYPES.DATASET_UPDATED_FILTER,
           filter
         });
       }
