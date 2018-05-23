@@ -221,7 +221,13 @@ class DatasetDetailsScreen extends Component {
                   style={{ marginTop: '17px' }}
                 >
                   <AccessibleFakeButton>
-                    <IconSeparator label={`Purchased until ${purchaseEndTime}`}>
+                    <IconSeparator
+                      label={
+                        updateInterval
+                          ? `Purchased until ${purchaseEndTime}`
+                          : 'Purchased'
+                      }
+                    >
                       <FontIcon>arrow_drop_down</FontIcon>
                     </IconSeparator>
                   </AccessibleFakeButton>
