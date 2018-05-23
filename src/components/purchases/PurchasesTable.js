@@ -10,15 +10,37 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faQuestionCircle from '@fortawesome/fontawesome-free-regular/faQuestionCircle';
+import DeliveryExplainerDialog from './DeliveryExplainerDialog';
+
 import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 
 class PurchasesTable extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      DeliveryExplainerVisible: false
+    };
+  }
+
   componentDidMount() {
     if (this.props.token) this.props.fetchPurchases();
   }
 
-  onViewPurchaseDetails(key) {
-    this.props.history.push(`/stream/${key}`);
+  onViewPurchaseDetails(purchase) {
+    this.props.history.push(
+      `/${purchase.sensortype === 'DATASET' ? 'dataset' : 'stream'}/${
+        purchase.key
+      }`
+    );
+  }
+
+  toggleDeliveryExplainer() {
+    this.setState({
+      DeliveryExplainerVisible: !this.state.DeliveryExplainerVisible
+    });
   }
 
   render() {
@@ -44,27 +66,49 @@ class PurchasesTable extends Component {
       <DataTable baseId="purchases-table" plain>
         <TableHeader>
           <TableRow>
-            <LeftTableColumn grow>Name</LeftTableColumn>
+            <LeftTableColumn>Sensor</LeftTableColumn>
+            <TableColumn grow>Name</TableColumn>
             <TableColumn>Type</TableColumn>
             <TableColumn>Frequency</TableColumn>
           </TableRow>
         </TableHeader>
         <TableBody>
           {this.props.purchases.map(purchase => (
-            <StyledTableRow
-              key={purchase.key}
-              onClick={() => this.onViewPurchaseDetails(purchase.key)}
-            >
-              <LeftTableColumn>{purchase.name}</LeftTableColumn>
-              <TableColumn>{purchase.type}</TableColumn>
-              <TableColumn>
-                {purchase.updateinterval === 86400000
-                  ? 'daily'
-                  : `${purchase.updateinterval / 1000}''`}
+            <StyledTableRow key={purchase.key}>
+              <LeftTableColumn>
+                {purchase.sensortype.toLowerCase()}
+                {purchase.sensortype === 'STREAM' && (
+                  <span
+                    className="clickable"
+                    onClick={event => this.toggleDeliveryExplainer()}
+                  >
+                    <FontAwesomeIcon
+                      icon={faQuestionCircle}
+                      style={{ marginLeft: '4px' }}
+                    />
+                  </span>
+                )}
+              </LeftTableColumn>
+              <TableColumn onClick={() => this.onViewPurchaseDetails(purchase)}>
+                {purchase.name}
+              </TableColumn>
+              <TableColumn onClick={() => this.onViewPurchaseDetails(purchase)}>
+                {purchase.type}
+              </TableColumn>
+              <TableColumn onClick={() => this.onViewPurchaseDetails(purchase)}>
+                {purchase.updateinterval
+                  ? purchase.updateinterval === 86400000
+                    ? 'daily'
+                    : `${purchase.updateinterval / 1000}''`
+                  : ''}
               </TableColumn>
             </StyledTableRow>
           ))}
         </TableBody>
+        <DeliveryExplainerDialog
+          visible={this.state.DeliveryExplainerVisible}
+          hideEventHandler={() => this.toggleDeliveryExplainer()}
+        />
       </DataTable>
     );
   }

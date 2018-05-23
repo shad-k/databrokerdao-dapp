@@ -58,11 +58,12 @@ class DatasetsList extends Component {
 
     let listItems = _.map(datasets, (dataset, index) => {
       return (
-        <TableRow key={`${dataset.key}row${index}`}>
-          <TableColumn
-            onClick={event => this.onListItemClick(dataset)}
-            adjusted={false}
-          >
+        <TableRow
+          key={`${dataset.key}row${index}`}
+          onClick={event => this.onListItemClick(dataset)}
+          style={{ cursor: 'pointer' }}
+        >
+          <TableColumn adjusted={false}>
             <Icon
               icon={dataset.category}
               style={{

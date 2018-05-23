@@ -45,6 +45,7 @@ export const PURCHASES_ACTIONS = {
                 key: purchases[i].sensor,
                 name: streamDetails[i].data.name,
                 type: streamDetails[i].data.type,
+                sensortype: streamDetails[i].data.sensortype,
                 endTime: purchases[i].endtime,
                 updateinterval: streamDetails[i].data.updateinterval
               });

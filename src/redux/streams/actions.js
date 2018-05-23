@@ -244,24 +244,26 @@ export const STREAMS_ACTIONS = {
             });
 
           //Get formatted address
-          const latlng = `${parsedResponse.geometry.coordinates[0]},${
-            parsedResponse.geometry.coordinates[1]
-          }`;
-          const unAuthenticatedAxiosClient = axios(null, true, true);
-          unAuthenticatedAxiosClient
-            .get(
-              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${APIKey}&result_type=street_address`
-            )
-            .then(response => {
-              const formattedAddress = response.data.results[0]
-                ? response.data.results[0].formatted_address
-                : 'Unkown address';
+          if (parsedResponse.geometry) {
+            const latlng = `${parsedResponse.geometry.coordinates[0]},${
+              parsedResponse.geometry.coordinates[1]
+            }`;
+            const unAuthenticatedAxiosClient = axios(null, true, true);
+            unAuthenticatedAxiosClient
+              .get(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${APIKey}&result_type=street_address`
+              )
+              .then(response => {
+                const formattedAddress = response.data.results[0]
+                  ? response.data.results[0].formatted_address
+                  : 'Unkown address';
 
-              dispatch({
-                type: STREAMS_TYPES.FETCH_FORMATTED_ADDRESS,
-                formattedAddress: formattedAddress
+                dispatch({
+                  type: STREAMS_TYPES.FETCH_FORMATTED_ADDRESS,
+                  formattedAddress: formattedAddress
+                });
               });
-            });
+          }
         })
         .catch(error => {
           console.log(error);
