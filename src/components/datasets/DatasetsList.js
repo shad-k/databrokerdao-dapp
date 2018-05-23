@@ -17,11 +17,10 @@ import {
 import Icon from '../generic/Icon';
 import { DATASET_ACTIONS } from '../../redux/datasets/actions';
 
-const StyledListItem = styled.p`
+const StyledListItem = styled.span`
   cursor: pointer;
-  display: flex;
-  align-items: center;
   border-top: 1px solid #e0e0e0;
+  margin: 0;
 
   &:first-child {
     border: none;
@@ -59,50 +58,46 @@ class DatasetsList extends Component {
 
     let listItems = _.map(datasets, (dataset, index) => {
       return (
-        <StyledListItem
-          key={dataset.id}
-          onClick={event => this.onListItemClick(dataset)}
-        >
-          <TableRow
-            key={`${dataset.key}row${index}`}
-            style={{ padding: '15px', width: '100%' }}
+        <TableRow key={`${dataset.key}row${index}`}>
+          <TableColumn
+            onClick={event => this.onListItemClick(dataset)}
+            adjusted={false}
           >
-            <TableColumn style={{ maxWidth: '90px' }}>
-              <Icon
-                icon={dataset.category}
-                style={{
-                  fill: 'rgba(0,0,0,0.5)',
-                  width: '20px',
-                  height: '20px',
-                  marginRight: '25px'
-                }}
-              />
-            </TableColumn>
-            <TableColumn grow>
-              <div style={{ flex: '1' }}>
-                <DatasetName>{dataset.name}</DatasetName>
-                <DatasetPrice>
-                  Price: {convertWeiToDtx(dataset.price)} DTX
-                </DatasetPrice>
-                <DatasetDetails>
-                  File type: {dataset.filetype}, Owner stake:{' '}
-                  {convertWeiToDtx(dataset.stake)} DTX, Challenges:{' '}
-                  {dataset.numberofchallenges} ({convertWeiToDtx(
-                    dataset.challengesstake
-                  )}{' '}
-                  DTX)
-                </DatasetDetails>
-              </div>
-            </TableColumn>
-            <TableColumn style={{ minWidth: '200px' }}>
-              <div>
-                <TitleCTAButton flat primary swapTheming onClick={event => {}}>
-                  Purchase access
-                </TitleCTAButton>
-              </div>
-            </TableColumn>
-          </TableRow>
-        </StyledListItem>
+            <Icon
+              icon={dataset.category}
+              style={{
+                fill: 'rgba(0,0,0,0.5)',
+                width: '20px',
+                height: '20px',
+                display: 'block',
+                margin: '0 auto'
+              }}
+            />
+          </TableColumn>
+          <TableColumn grow style={{ padding: '20px 20px 20px 0' }}>
+            <div>
+              <DatasetName>{dataset.name}</DatasetName>
+              <DatasetPrice>
+                Price: {convertWeiToDtx(dataset.price)} DTX
+              </DatasetPrice>
+              <DatasetDetails>
+                File type: {dataset.filetype}, Owner stake:{' '}
+                {convertWeiToDtx(dataset.stake)} DTX, Challenges:{' '}
+                {dataset.numberofchallenges} ({convertWeiToDtx(
+                  dataset.challengesstake
+                )}{' '}
+                DTX)
+              </DatasetDetails>
+            </div>
+          </TableColumn>
+          <TableColumn style={{ minWidth: '200px' }}>
+            <div>
+              <TitleCTAButton flat primary swapTheming onClick={event => {}}>
+                Purchase access
+              </TitleCTAButton>
+            </div>
+          </TableColumn>
+        </TableRow>
       );
     });
 
@@ -131,7 +126,7 @@ class DatasetsList extends Component {
 
     return (
       <StyledList>
-        <DataTable plain fullWidth>
+        <DataTable plain>
           <TableBody>
             {this.renderDatasetListItems(this.props.datasets)}
           </TableBody>
