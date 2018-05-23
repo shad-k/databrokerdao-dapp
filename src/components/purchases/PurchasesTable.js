@@ -13,37 +13,34 @@ import { withRouter } from 'react-router-dom';
 import { PURCHASES_ACTIONS } from '../../redux/purchases/actions';
 
 class PurchasesTable extends Component {
-  componentDidMount(){
-    if(this.props.token)
-      this.props.fetchPurchases();
+  componentDidMount() {
+    if (this.props.token) this.props.fetchPurchases();
   }
 
   onViewPurchaseDetails(key) {
-    this.props.history.push(`/stream-details/${key}`);
+    this.props.history.push(`/stream/${key}`);
   }
 
-  render(){
+  render() {
     const LeftTableColumn = styled(TableColumn)`
-      padding-left:0 !important;
+      padding-left: 0 !important;
     `;
 
     const StyledTableRow = styled(TableRow)`
       cursor: pointer;
     `;
 
-    if(this.props.fetchingPurchases && this.props.purchases.length === 0){
-      return(
-        <p>Loading...</p>
-      );
+    if (this.props.fetchingPurchases && this.props.purchases.length === 0) {
+      return <p>Loading...</p>;
     }
 
-    if(this.props.purchases.length === 0){
-      return(
+    if (this.props.purchases.length === 0) {
+      return (
         <p>When you purchase access to a stream, it will be listed here.</p>
       );
     }
 
-    return(
+    return (
       <DataTable baseId="purchases-table" plain>
         <TableHeader>
           <TableRow>
@@ -53,11 +50,18 @@ class PurchasesTable extends Component {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {this.props.purchases.map((purchase) => (
-            <StyledTableRow key={purchase.key} onClick={() => this.onViewPurchaseDetails(purchase.key)}>
+          {this.props.purchases.map(purchase => (
+            <StyledTableRow
+              key={purchase.key}
+              onClick={() => this.onViewPurchaseDetails(purchase.key)}
+            >
               <LeftTableColumn>{purchase.name}</LeftTableColumn>
               <TableColumn>{purchase.type}</TableColumn>
-              <TableColumn>{purchase.updateinterval === 86400000?"daily":`${purchase.updateinterval/1000}''`}</TableColumn>
+              <TableColumn>
+                {purchase.updateinterval === 86400000
+                  ? 'daily'
+                  : `${purchase.updateinterval / 1000}''`}
+              </TableColumn>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -67,15 +71,17 @@ class PurchasesTable extends Component {
 }
 
 const mapStateToProps = state => ({
-  purchases:state.purchases.purchases,
-  fetchingPurchases:state.purchases.fetchingPurchases,
+  purchases: state.purchases.purchases,
+  fetchingPurchases: state.purchases.fetchingPurchases,
   token: state.auth.token //Used to verify if a user is signed in, if not we don't have to get purchases from API
-})
+});
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchPurchases: () => dispatch(PURCHASES_ACTIONS.fetchPurchases())
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PurchasesTable));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(PurchasesTable)
+);
