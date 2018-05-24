@@ -3715,4 +3715,6 @@ pre {
 
 /* Pagination on datasets table */
 .md-table-pagination--controls {
-  position: relative !important; }
+  position: relative !important;
+  float: right;
+  margin-left: 0 !important; }

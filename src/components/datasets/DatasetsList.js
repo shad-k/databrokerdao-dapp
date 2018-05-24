@@ -132,6 +132,7 @@ class DatasetsList extends Component {
             {this.renderDatasetListItems(this.props.datasets)}
           </TableBody>
           <TablePagination
+            style={{ marginLeft: 0 }}
             onPagination={this.handlePagination}
             defaultRowsPerPage={10}
             rows={_.size(this.props.datasets)}
