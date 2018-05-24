@@ -23,3 +23,7 @@ export function convertWeiToDtx(dtxValue) {
       .toString();
   }
 }
+
+export function convertDateToTimestamp(date) {
+  return date.getTime() / 1000;
+}
