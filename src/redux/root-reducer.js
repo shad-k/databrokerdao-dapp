@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-// TODO: import reducers
 import { reducer as auth } from './authentication/reducer';
 import StreamsReducer from './streams/reducer';
 import PurchasesReducer from './purchases/reducer';
 import WalletReducer from './wallet/reducer';
 import ListingsReducer from './listings/reducer';
+import DatasetsReducer from './datasets/reducer';
+import TransactionsReducer from './transactions/reducer';
 
 /**
  * This is the global reducer to which all reducers which are loaded at runtime are added.
@@ -29,7 +30,8 @@ const rootReducer = (asyncReducers, initialState) => {
     purchases: PurchasesReducer,
     wallet: WalletReducer,
     listings: ListingsReducer,
-    // TODO: add reducers
+    datasets: DatasetsReducer,
+    transactions: TransactionsReducer,
     ...asyncReducers,
     ...missingReducers
   });

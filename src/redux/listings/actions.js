@@ -62,7 +62,6 @@ export const LISTING_ACTIONS = {
         return authenticatedAxiosClient.get('/sensorregistry/list');
       }
 
-      //TODO error handling of stream parameter, could e.g. have missing attributes
       function getMetadataHash() {
         return authenticatedAxiosClient.post('/ipfs/add/json', {
           data: {

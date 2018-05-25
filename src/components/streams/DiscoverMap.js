@@ -15,10 +15,7 @@ class DiscoverMap extends Component {
     this.state = {
       clusteredMarkers:null,
       openedMapMarker:null,
-      mapRef:null,
-      mapBounds:null,
-      zoom:15,
-      center:{lat: this.props.map.lat, lng: this.props.map.lng}
+      mapRef:null
     };
   }
 
@@ -30,8 +27,10 @@ class DiscoverMap extends Component {
   }
 
   zoomOnCluster(position){
-    const zoom = this.state.zoom + 1;
-    this.setState({zoom:zoom,center:position});
+    const zoom = this.props.map.zoom + 1;
+    const lat = position.lat;
+    const lng = position.lng;
+    this.props.updateMap({...this.props.map,lat,lng,zoom});
   }
 
   onMapMounted(ref){
@@ -52,20 +51,20 @@ class DiscoverMap extends Component {
     const lat = this.state.mapRef.getCenter().lat();
     const lng = this.state.mapRef.getCenter().lng();
     const bounds = this.state.mapRef.getBounds();
-    const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f)*1.25;//* 1.25 so we don't have to fetch new streams for small movement or zoom change of map
+    //Distance = distance between top left and bottom right corner, so twice distance from center.
+    //This means we fetch streams in a circle twice the bounds of map, in which user can pan around without having to fetch new streams from dapi
+    const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f);
     const zoom = this.state.mapRef.getZoom();
-    const center = this.state.mapRef.getCenter();
 
     //Only get new streams if new map bounds are further away than distance from center of last time we got streams from server
-    const distanceTopLeftToPreviousCenter = this.distanceInMeter(bounds.f.f,bounds.b.b,this.props.map.lat,this.props.map.lng);
-    const distanceBottomRightToPreviousCenter = this.distanceInMeter(bounds.f.b,bounds.b.f,this.props.map.lat,this.props.map.lng);
+    const distanceTopLeftToPreviousCenter = this.distanceInMeter(bounds.f.f,bounds.b.b,this.props.map.fetchLat,this.props.map.fetchLng);
+    const distanceBottomRightToPreviousCenter = this.distanceInMeter(bounds.f.b,bounds.b.f,this.props.map.fetchLat,this.props.map.fetchLng);
     if(distanceTopLeftToPreviousCenter > this.props.map.distance || distanceBottomRightToPreviousCenter > this.props.map.distance){
       this.props.fetchStreams(lat,lng,distance);
-      this.setState({distance,center:{lat,lng},mapBounds:bounds,zoom:zoom,center:center});//TODO causes double re-renders (1. new zoom in state, 2. new streams in state), but no big problem atm
+      this.props.updateMap({...this.props.map,distance,lat,lng,zoom,fetchLat:lat,fetchLng:lng});
     }
     else{
-      //this.forceUpdate();
-      this.setState({mapBounds:bounds,zoom:zoom,center:center});
+      this.props.updateMap({...this.props.map,distance,lat,lng,zoom});
     }
   }
 
@@ -75,7 +74,7 @@ class DiscoverMap extends Component {
   }
 
   clusterMarkers(streams){
-    if(this.props.fetchingStreams || !this.state.mapRef)
+    if(this.props.fetchingStreams || !this.state.mapRef || !this.state.mapRef.getBounds())
       return;
 
     const clusterIndex = supercluster({
@@ -86,21 +85,16 @@ class DiscoverMap extends Component {
     const clusters = clusterIndex.getClusters([-180, -85, 180, 85], this.state.mapRef.getZoom()); //[westLng, southLat, eastLng, northLat], zoom
 
     //Only render markers and clusters within 1.25 times diagonal of screen
-    //So if you zoom in you don't render too many!
-    //distanceInMeter(lat1, lon1, lat2, lon2) {
+    //So if you zoom in you don't render streams that cannot be seen (= clipping)
+    const bounds = this.state.mapRef.getBounds();
     const nearbyClusters = _.filter(clusters, cluster => {
-      if(this.state.mapBounds){
-        const distance = this.distanceInMeter(this.state.mapBounds.f.f,this.state.mapBounds.b.b,this.state.mapBounds.f.b,this.state.mapBounds.b.f) * 1.25;
-        const mapCenter = this.state.mapRef.getCenter();
-        const clusterDistance = this.distanceInMeter(cluster.geometry.coordinates[0],cluster.geometry.coordinates[1],mapCenter.lat(),mapCenter.lng());
-        return  clusterDistance <= distance;
-      }
-      else{
-        return true;
-      }
+      const distance = this.distanceInMeter(bounds.f.f,bounds.b.b,bounds.f.b,bounds.b.f)/2*1.25; //divide by 2 to get distance from center, then *1.25 to have slightly larger circle
+      const mapCenter = this.state.mapRef.getCenter();
+      const clusterDistance = this.distanceInMeter(cluster.geometry.coordinates[0],cluster.geometry.coordinates[1],mapCenter.lat(),mapCenter.lng());
+      return  clusterDistance <= distance;
     });
 
-    //Sort on lat to prevent (some) z-index issues
+    //Sort on lat to prevent (most) z-index issues
     const sortedClusters = _.sortBy(nearbyClusters, cluster => { return (cluster.properties && cluster.properties.cluster === true)? -cluster.geometry.coordinates[0]*2:-cluster.geometry.coordinates[0]; });
 
     const clusteredMarkers = _.map(sortedClusters, cluster => {
@@ -130,6 +124,7 @@ class DiscoverMap extends Component {
   render() {
     const clusteredMarkers = this.clusterMarkers(this.props.streams);
 
+    //Google maps styling: https://mapstyle.withgoogle.com
     const MapOptions = {
       clickableIcons: false,
       minZoom: 6,
@@ -138,8 +133,8 @@ class DiscoverMap extends Component {
 
     return (
       <GoogleMap
-       zoom={this.state.zoom}
-       center={this.state.center}
+       zoom={this.props.map.zoom}
+       center={{lat: this.props.map.lat, lng: this.props.map.lng}}
        options={MapOptions}
        onZoomChanged={() => this.mapChanged()}
        onDragEnd={() => this.mapChanged()}
@@ -160,7 +155,8 @@ const mapStateToProps = state => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStreams: (lng,lat,distance) => dispatch(STREAMS_ACTIONS.fetchStreams(null,lng,lat,distance))
+    fetchStreams: (lng,lat,distance) => dispatch(STREAMS_ACTIONS.fetchStreams(null,lng,lat,distance)),
+    updateMap: (map) => dispatch(STREAMS_ACTIONS.updateMap(map))
   }
 }
 

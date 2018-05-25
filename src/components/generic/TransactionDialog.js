@@ -8,6 +8,7 @@ export default class TransactionDialog extends Component {
     super(props);
 
     //Outside render() function to allow input fields inside (https://labs.chiedo.com/blog/always-define-components-outside-react-render-method)
+    //If not, the input field would loose focus after each key stroke (because technically it's a NEW input field because of react re-render)
     this.StyledContentContainer = styled.div`
       h1 {
         text-align: center;

@@ -27,6 +27,7 @@ export const WALLET_ACTIONS = {
       }).catch(error => {
         console.log(error);
       });
+
     }
   },
   mintTokens: (amount) => {

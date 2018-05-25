@@ -1,6 +1,9 @@
 import _ from 'lodash';
 import axios from '../../utils/axios';
 import Bluebird from 'bluebird';
+import { fetchSensors } from '../../api/sensors';
+
+const APIKey = 'AIzaSyBv4e2Uj5ZFp82G8QXKfYv7Ea3YutD4eTg';
 
 export const STREAMS_TYPES = {
   FETCH_STREAMS: 'FETCH_STREAMS',
@@ -15,7 +18,9 @@ export const STREAMS_TYPES = {
   FETCH_NEARBY_STREAMS: 'FETCH_NEARBY_STREAMS',
   FETCHING_NEARBY_STREAMS: 'FETCHING_NEARBY_STREAMS',
   FETCH_CHALLENGES: 'FETCH_CHALLENGES',
-  FETCHING_CHALLENGES:'FETCHING_CHALLENGES'
+  FETCHING_CHALLENGES: 'FETCHING_CHALLENGES',
+  FETCH_FORMATTED_ADDRESS: 'FETCH_FORMATTED_ADDRESS', //Address in stream details
+  FETCH_FILTER_ADDRESS: 'FETCH_FILTER_ADDRESS' //Address (city) in location filter
 };
 
 export const STREAMS_ACTIONS = {
@@ -74,12 +79,12 @@ export const STREAMS_ACTIONS = {
 
       //Counter to keep track of calls so when response arrives we can take the latest
       (counter => {
-        authenticatedAxiosClient
-          .get(`/sensorregistry/list?limit=${limit}&${filterUrlQuery}&sort=stake`)
+        fetchSensors(authenticatedAxiosClient, {
+          limit,
+          filterUrlQuery
+        })
           .then(response => {
             if (counter !== getState().streams.fetchStreamCounter) {
-              // console.log(counter);
-              // console.log(getState().streams.fetchStreamCounter);
               return;
             }
             const parsedResponse = {};
@@ -176,15 +181,17 @@ export const STREAMS_ACTIONS = {
             parsedResponse = {};
           }
 
-          console.log(response.data._id);
-
           dispatch({
             type: STREAMS_TYPES.FETCH_STREAM,
             stream: parsedResponse
           });
 
           // Get nearby streams
-          const urlParametersNearbyStreams = `limit=20&type=${parsedResponse.type}&near=${parsedResponse.geometry.coordinates[1]},${parsedResponse.geometry.coordinates[0]},500&sort=stake`; //TODO in meter?
+          const urlParametersNearbyStreams = `limit=20&type=${
+            parsedResponse.type
+          }&near=${parsedResponse.geometry.coordinates[1]},${
+            parsedResponse.geometry.coordinates[0]
+          },500&sort=stake`;
           const authenticatedAxiosClient = axios(null, true);
           authenticatedAxiosClient
             .get(`/sensorregistry/list?${urlParametersNearbyStreams}`)
@@ -192,8 +199,7 @@ export const STREAMS_ACTIONS = {
               let parsedResponse = [];
               _.each(response.data.items, item => {
                 //The stream itself is not a similar nearby stream
-                if(item.key === streamKey)
-                  return;
+                if (item.key === streamKey) return;
 
                 parsedResponse.push({
                   id: item._id,
@@ -236,6 +242,28 @@ export const STREAMS_ACTIONS = {
                 challenges: parsedResponse
               });
             });
+
+          //Get formatted address
+          if (parsedResponse.geometry) {
+            const latlng = `${parsedResponse.geometry.coordinates[0]},${
+              parsedResponse.geometry.coordinates[1]
+            }`;
+            const unAuthenticatedAxiosClient = axios(null, true, true);
+            unAuthenticatedAxiosClient
+              .get(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${APIKey}&result_type=street_address`
+              )
+              .then(response => {
+                const formattedAddress = response.data.results[0]
+                  ? response.data.results[0].formatted_address
+                  : 'Unkown address';
+
+                dispatch({
+                  type: STREAMS_TYPES.FETCH_FORMATTED_ADDRESS,
+                  formattedAddress: formattedAddress
+                });
+              });
+          }
         })
         .catch(error => {
           console.log(error);
@@ -247,7 +275,7 @@ export const STREAMS_ACTIONS = {
       const authenticatedAxiosClient = axios(null, true);
       authenticatedAxiosClient
         .get(
-          `/sensorregistry/list?limit=100&type[]=temperature&type[]=humidity&type[]=PM25&type[]=PM10&near=4.700518,50.879844,4000` //TODO add near parameter
+          `/sensorregistry/list?limit=100&type[]=temperature&type[]=humidity&type[]=PM25&type[]=PM10&near=4.700518,50.879844,4000`
         )
         .then(response => {
           const parsedResponse = {};
@@ -326,6 +354,40 @@ export const STREAMS_ACTIONS = {
       STREAMS_ACTIONS.fetchStreams(dispatch, filter);
     };
   },
+  updateMap: map => {
+    return (dispatch, getState) => {
+      dispatch({
+        type: STREAMS_TYPES.UPDATED_MAP,
+        map
+      });
+
+      //Geocode map center to set value of location filter (so e.g. "Kessel-Lo" shows up when moving the map to Kessel-Lo)
+      const latlng = `${map.lat},${map.lng}`;
+      const unAuthenticatedAxiosClient = axios(null, true, true);
+      unAuthenticatedAxiosClient
+        .get(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${APIKey}&result_type=locality`
+        )
+        .then(response => {
+          const filterAddress = response.data.results[0]
+            ? response.data.results[0].formatted_address
+            : 'Unkown address';
+
+          dispatch({
+            type: STREAMS_TYPES.FETCH_FILTER_ADDRESS,
+            filterAddress
+          });
+        });
+    };
+  },
+  setFilterAddress: filterAddress => {
+    return (dispatch, getState) => {
+      dispatch({
+        type: STREAMS_TYPES.FETCH_FILTER_ADDRESS,
+        filterAddress
+      });
+    };
+  },
   challengeStream: (stream, reason, amount) => {
     return (dispatch, getState) => {
       dispatch({
@@ -351,39 +413,41 @@ export const STREAMS_ACTIONS = {
         });
       }
 
-      Bluebird.all([getDtxTokenRegistry(), getStreamRegistry(), getMetadataHash()]).then(
-        responses => {
-          const deployedTokenContractAddress =
-            responses[0].data.items[0].contractaddress;
-          const spenderAddress = responses[1].data.base.key;
-          const metadataHash = responses[2].data[0].hash;
+      Bluebird.all([
+        getDtxTokenRegistry(),
+        getStreamRegistry(),
+        getMetadataHash()
+      ]).then(responses => {
+        const deployedTokenContractAddress =
+          responses[0].data.items[0].contractaddress;
+        const spenderAddress = responses[1].data.base.key;
+        const metadataHash = responses[2].data[0].hash;
 
-          // Time to approve the tokens
-          authenticatedAxiosClient
-            .post(`/dtxtoken/${deployedTokenContractAddress}/approve`, {
-              spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
-              value: amount.toString()
-            })
-            .then(response => {
-              //Tokens have been allocated - now we can make the purchase!
-              authenticatedAxiosClient
-                .post(`/sensorregistry/challenge`, {
-                  listing: stream.key,
-                  stakeamount: amount,
-                  metadata: metadataHash
-                })
-                .then(response => {
-                  dispatch({
-                    type: STREAMS_TYPES.CHALLENGING_STREAM,
-                    value: false
-                  });
+        // Time to approve the tokens
+        authenticatedAxiosClient
+          .post(`/dtxtoken/${deployedTokenContractAddress}/approve`, {
+            spender: spenderAddress, // The contract that will spend the tokens (some function of the contract will)
+            value: amount.toString()
+          })
+          .then(response => {
+            //Tokens have been allocated - now we can make the purchase!
+            authenticatedAxiosClient
+              .post(`/sensorregistry/challenge`, {
+                listing: stream.key,
+                stakeamount: amount,
+                metadata: metadataHash
+              })
+              .then(response => {
+                dispatch({
+                  type: STREAMS_TYPES.CHALLENGING_STREAM,
+                  value: false
                 });
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        }
-      );
+              });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
     };
   }
 };

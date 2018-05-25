@@ -9,8 +9,11 @@ export const DEFAULT_STATE = {
   },
   map: {
     distance: 0,
+    fetchLat: 50.879844, //Lat at which we last fetched streams
+    fetchLng: 4.700518, //Lng at which we last fetched streams
     lat: 50.879844,
-    lng: 4.700518
+    lng: 4.700518,
+    zoom: 15
   },
   streams: {},
   landingStreams: {},
@@ -21,7 +24,8 @@ export const DEFAULT_STATE = {
   nearbyStreams: [],
   fetchingNearbyStreams: false,
   challenges: [],
-  fetchingChallenges: false
+  fetchingChallenges: false,
+  formattedAddress: null
 };
 
 export default function(state = Immutable(DEFAULT_STATE), action) {
@@ -66,6 +70,12 @@ export default function(state = Immutable(DEFAULT_STATE), action) {
     }
     case STREAMS_TYPES.FETCHING_CHALLENGES:{
       return Immutable.set(state, "fetchingChallenges", action.value);
+    }
+    case STREAMS_TYPES.FETCH_FORMATTED_ADDRESS:{
+      return Immutable.set(state, "formattedAddress", action.formattedAddress);
+    }
+    case STREAMS_TYPES.FETCH_FILTER_ADDRESS:{
+      return Immutable.set(state, "filterAddress", action.filterAddress)
     }
     default:
       return state;

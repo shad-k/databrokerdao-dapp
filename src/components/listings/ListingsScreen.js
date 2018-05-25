@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'react-md';
 import styled from 'styled-components';
 
 import Toolbar from '../generic/Toolbar';

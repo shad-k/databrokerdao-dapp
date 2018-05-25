@@ -61,8 +61,8 @@ class ChallengeStreamDialog extends Component {
       }
     }
     else if(step === STEP_STAKE){
-      if(parseInt(this.state.stakeAmount) > 0){
-        const amount = BigNumber(parseInt(this.state.stakeAmount)).times(BigNumber(10).pow(18)).toString();
+      if(parseInt(this.state.stakeAmount,10) > 0){
+        const amount = BigNumber(parseInt(this.state.stakeAmount,10)).times(BigNumber(10).pow(18)).toString();
         if(BigNumber(this.props.balance).isGreaterThan(amount)){
           this.props.challengeStream(this.props.stream,this.state.reason,amount);
           this.setState({stepIndex:STEP_CHALLENGING,modal:true});
