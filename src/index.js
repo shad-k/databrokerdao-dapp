@@ -127,7 +127,6 @@ const render = () => {
 // ========================================================
 
 render();
-registerServiceWorker();
-// if (process.env.NODE_ENV === 'production') {
-//   unregister(); // disable during dev/test
-// }
+if (process.env.NODE_ENV === 'production') {
+  registerServiceWorker(); // disable during dev/test
+}
