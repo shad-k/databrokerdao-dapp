@@ -21,15 +21,39 @@ import {
 import './index.css';
 import theme from './utils/theme';
 
-const AuthContainer = Loadermanager(() => import('./components/authentication/AuthContainer'));
-const LandingScreen = Loadermanager(() => import('./components/landing/LandingScreen'));
-const DiscoverScreen = Loadermanager(() => import('./components/discover/DiscoverScreen'));
-const PurchasesScreen = Loadermanager(() => import('./components/purchases/PurchasesScreen'));
-const ListingsScreen = Loadermanager(() => import('./components/listings/ListingsScreen'));
-const EnlistScreen = Loadermanager(() => import('./components/listings/EnlistScreen'));
-const WalletScreen = Loadermanager(() => import('./components/wallet/WalletScreen'));
-const StreamDetailsScreen = Loadermanager(() => import('./components/stream-details/StreamDetailsScreen'));
-const UnsubscribedScreen = Loadermanager(() => import('./components/unsubscribed/UnsubscribedScreen'));
+const AuthContainer = Loadermanager(() =>
+  import('./components/authentication/AuthContainer')
+);
+const LandingScreen = Loadermanager(() =>
+  import('./components/landing/LandingScreen')
+);
+const DiscoverScreen = Loadermanager(() =>
+  import('./components/streams/DiscoverScreen')
+);
+const PurchasesScreen = Loadermanager(() =>
+  import('./components/purchases/PurchasesScreen')
+);
+const ListingsScreen = Loadermanager(() =>
+  import('./components/listings/ListingsScreen')
+);
+const EnlistScreen = Loadermanager(() =>
+  import('./components/listings/EnlistScreen')
+);
+const WalletScreen = Loadermanager(() =>
+  import('./components/wallet/WalletScreen')
+);
+const StreamDetailsScreen = Loadermanager(() =>
+  import('./components/details/stream/StreamDetailsScreen')
+);
+const UnsubscribedScreen = Loadermanager(() =>
+  import('./components/unsubscribed/UnsubscribedScreen')
+);
+const DatasetsScreen = Loadermanager(() =>
+  import('./components/datasets/DatasetsScreen')
+);
+const DatasetsDetailsScreen = Loadermanager(() =>
+  import('./components/details/dataset/DatasetDetailsScreen')
+);
 
 WebFontLoader.load({
   google: {
@@ -68,7 +92,7 @@ const render = () => {
               path="/account"
               component={withRouter(userIsNotAuthenticatedRedir(AuthContainer))}
             />
-            <Route path="/streams" component={withRouter(StreamsScreen)} />
+            <Route path="/streams" component={withRouter(DiscoverScreen)} />
             <Route path="/purchases" component={withRouter(PurchasesScreen)} />
             <Route path="/listings" component={withRouter(ListingsScreen)} />
             <Route path="/enlist" component={withRouter(EnlistScreen)} />
