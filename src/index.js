@@ -1,26 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { unregister } from './registerServiceWorker';
+// import { unregister } from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { Switch, Route, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import createStore from './redux/create-store';
-import AuthContainer from './components/authentication/AuthContainer';
-import LandingScreen from './components/landing/LandingScreen';
-import StreamsScreen from './components/streams/DiscoverScreen';
-import PurchasesScreen from './components/purchases/PurchasesScreen';
-import ListingsScreen from './components/listings/ListingsScreen';
-import EnlistScreen from './components/listings/EnlistScreen';
-import WalletScreen from './components/wallet/WalletScreen';
-import StreamDetailsScreen from './components/details/stream/StreamDetailsScreen';
-import DatasetsDetailsScreen from './components/details/dataset/DatasetDetailsScreen';
-import DatasetsScreen from './components/datasets/DatasetsScreen';
-import UnsubscribedScreen from './components/unsubscribed/UnsubscribedScreen';
 import Mixpanel from 'mixpanel-browser';
 import { ThemeProvider } from 'styled-components';
 import BigNumber from 'bignumber.js';
 
+import Loadermanager from './utils/Loadermanager';
 import './styles/index.css';
 import WebFontLoader from 'webfontloader';
 import {
@@ -29,6 +20,16 @@ import {
 } from './utils/auth';
 import './index.css';
 import theme from './utils/theme';
+
+const AuthContainer = Loadermanager(() => import('./components/authentication/AuthContainer'));
+const LandingScreen = Loadermanager(() => import('./components/landing/LandingScreen'));
+const DiscoverScreen = Loadermanager(() => import('./components/discover/DiscoverScreen'));
+const PurchasesScreen = Loadermanager(() => import('./components/purchases/PurchasesScreen'));
+const ListingsScreen = Loadermanager(() => import('./components/listings/ListingsScreen'));
+const EnlistScreen = Loadermanager(() => import('./components/listings/EnlistScreen'));
+const WalletScreen = Loadermanager(() => import('./components/wallet/WalletScreen'));
+const StreamDetailsScreen = Loadermanager(() => import('./components/stream-details/StreamDetailsScreen'));
+const UnsubscribedScreen = Loadermanager(() => import('./components/unsubscribed/UnsubscribedScreen'));
 
 WebFontLoader.load({
   google: {
@@ -102,6 +103,7 @@ const render = () => {
 // ========================================================
 
 render();
-if (process.env.NODE_ENV === 'production') {
-  unregister(); // disable during dev/test
-}
+registerServiceWorker();
+// if (process.env.NODE_ENV === 'production') {
+//   unregister(); // disable during dev/test
+// }
