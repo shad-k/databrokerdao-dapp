@@ -46,9 +46,7 @@ h3,
 .md-title {
   margin-bottom: 14px; }
 
-
-h5,
-.md-subheading-1,
+h5, .md-subheading-1,
 h4,
 .md-subheading-2,
 p,
@@ -58,7 +56,6 @@ h6,
 caption,
 .md-caption {
   margin-bottom: 10px; }
-
 
 .md-display-3,
 .md-display-4,
@@ -81,24 +78,19 @@ caption,
 .md-caption {
   font-weight: 400; }
 
-
-h3,
-.md-title,
+h3, .md-title,
 h6,
 .md-body-2 {
   font-weight: 500; }
-
 
 .md-display-4 {
   font-size: 112px;
   font-weight: 300;
   line-height: 128px; }
 
-
 .md-display-3 {
   font-size: 56px;
   line-height: 84px; }
-
 
 .md-display-2 {
   font-size: 45px;
@@ -108,41 +100,27 @@ h1, .md-display-1 {
   font-size: 34px;
   line-height: 40px; }
 
-
-h2,
-.md-headline {
+h2, .md-headline {
   font-size: 24px;
   line-height: 32px; }
 
-
-h3,
-.md-title {
+h3, .md-title {
   font-size: 20px;
   line-height: 28px; }
 
-
-h4,
-.md-subheading-2 {
+h4, .md-subheading-2 {
   line-height: 28px; }
 
-
-h5,
-.md-subheading-1 {
+h5, .md-subheading-1 {
   line-height: 24px; }
 
-
-p,
-.md-body-1 {
+p, .md-body-1 {
   line-height: 20px; }
 
-
-h6,
-.md-body-2 {
+h6, .md-body-2 {
   line-height: 24px; }
 
-
-caption,
-.md-caption {
+caption, .md-caption {
   font-size: 12px; }
 
 .md-text-left, .md-picker-control {
@@ -266,7 +244,7 @@ caption,
 *::before,
 *::after {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
 
 html {
@@ -282,9 +260,7 @@ body {
   line-height: 1.42857;
   text-rendering: optimizeLegibility; }
 
-
-h2,
-.md-headline,
+h2, .md-headline,
 h3,
 .md-title,
 h4,
@@ -297,10 +273,11 @@ p,
 .md-body-1 {
   color: rgba(0, 0, 0, 0.87); }
 
-
 .md-display-4,
 .md-display-3,
-.md-display-2, h1, .md-display-1,
+.md-display-2,
+h1,
+.md-display-1,
 caption,
 .md-caption {
   color: rgba(0, 0, 0, 0.54); }
@@ -2274,7 +2251,7 @@ svg.md-icon {
 
 @media (orientation: portrait) {
   .md-picker {
-    width: 330px; }
+    width: 320px; }
     .md-picker .md-picker-header {
       height: 110px; }
     .md-picker .md-time-periods {
@@ -2284,7 +2261,7 @@ svg.md-icon {
     .md-picker .md-picker-content {
       height: 340px; }
     .md-picker .md-display-3 {
-      font-size: 5em;
+      font-size: 4.8em;
       line-height: 1; }
     .md-picker .md-calendar-dows {
       padding-bottom: 12px; }
@@ -2296,22 +2273,22 @@ svg.md-icon {
         height: 36px;
         width: 36px; }
     .md-picker .md-clock-face {
-      height: 282px;
-      width: 282px; }
+      height: 272px;
+      width: 272px; }
     .md-picker .md-clock-hand {
-      width: 121px; }
+      width: 116px; }
       .md-picker .md-clock-hand--inner {
-        width: 85px; } }
+        width: 80px; } }
 
 @media (orientation: landscape) {
   .md-picker {
     display: flex;
     width: 560px; }
     .md-picker .md-picker-header {
-      width: 190px; }
+      width: 180px; }
     .md-picker .md-picker-content {
       height: 280px;
-      width: 370px; }
+      width: 380px; }
     .md-picker .md-calendar-date--btn {
       height: 35px; }
       .md-picker .md-calendar-date--btn::after {
@@ -2340,7 +2317,7 @@ svg.md-icon {
 @media (max-height: 320px) and (orientation: landscape) {
   .md-picker .md-picker-content {
     height: 256px;
-    width: calc(100vw - 206px); } }
+    width: calc(100vw - 196px); } }
 
 .md-picker--date .md-picker-control {
   display: block; }
