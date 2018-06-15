@@ -1,6 +1,6 @@
 import Wallet from 'ethereumjs-wallet';
 import axios from '../../utils/axios';
-import { ecies } from './ecies';
+import { ECIES } from './ecies';
 import Notifications from 'react-notification-system-redux';
 
 // ------------------------------------
@@ -27,7 +27,7 @@ async function createNewWallet(axiosClient, email, password) {
 async function encryptedPrivateKeyAndAddress(wallet, password) {
   const walletObject = Wallet.fromV3(wallet, password);
   const privateKey = walletObject.getPrivateKey();
-  const encryptedPrivateKey = ecies
+  const encryptedPrivateKey = new ECIES()
     .encryptMessage(
       privateKey,
       Buffer.from(process.env.REACT_APP_SERVER_PUBLIC_KEY, 'hex'),
