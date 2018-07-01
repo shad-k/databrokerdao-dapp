@@ -36,7 +36,6 @@
     "npm-run-all": "^4.1.2",
     "p-iteration": "^1.1.5",
     "react": "^16.2.0",
-    "react-baidu-maps": "^1.0.6",
     "react-dom": "^16.2.0",
     "react-google-maps": "^9.4.5",
     "react-loadable": "^5.4.0",
