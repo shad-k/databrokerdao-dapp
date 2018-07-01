@@ -5,6 +5,7 @@ import Mixpanel from 'mixpanel-browser';
 import Toolbar from '../generic/Toolbar';
 import DiscoverMap from './DiscoverMap';
 import Sidebar from './Sidebar';
+import MapErrorBoundary from '../generic/MapErrorBoundary';
 
 export default class DiscoverScreen extends Component {
   componentDidMount() {
@@ -43,12 +44,18 @@ export default class DiscoverScreen extends Component {
         <Toolbar showTabs={true} />
         <Sidebar setWidthHandler={width => this.setSidebarWidth(width)} />
         <StyledContent>
-          <DiscoverMap
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=${APIKey}`}
-            loadingElement={<div style={mapElementsStyle} />}
-            containerElement={<div style={{ mapElementsStyle }} />}
-            mapElement={<div style={mapElementsStyle} />}
-          />
+          <MapErrorBoundary>
+          {
+            (error) => {
+              return <DiscoverMap
+                googleMapURL={!error.message ? `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=${APIKey}` : `https://maps.google.cn/maps/api/js?v=3.exp&libraries=places&key=${APIKey}`}
+                loadingElement={<div style={mapElementsStyle} />}
+                containerElement={<div style={{ mapElementsStyle }} />}
+                mapElement={<div style={mapElementsStyle} />}
+              />
+            }
+          }
+          </MapErrorBoundary>
         </StyledContent>
       </div>
     );

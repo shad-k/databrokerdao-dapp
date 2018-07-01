@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import DetailsMap from './StreamDetailsMap';
+import MapErrorBoundary from '../../generic/MapErrorBoundary';
 
 export default class StreamDetailsBackground extends Component {
   render() {
@@ -28,15 +29,21 @@ export default class StreamDetailsBackground extends Component {
 
     return (
       <div>
-        <DetailsMap
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${APIKey}`}
-          loadingElement={<div style={mapElementsStyle} />}
-          containerElement={
-            <div style={{ zIndex: '-1', ...mapElementsStyle }} />
+        <MapErrorBoundary>
+        {
+          (error) => {
+            return <DetailsMap
+              googleMapURL={!error.message ? `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${APIKey}` : `https://maps.google.cn/maps/api/js?v=3.exp&key=${APIKey}`}
+              loadingElement={<div style={mapElementsStyle} />}
+              containerElement={
+                <div style={{ zIndex: '-1', ...mapElementsStyle }} />
+              }
+              mapElement={<div style={mapElementsStyle} />}
+              stream={this.props.stream}
+            />
           }
-          mapElement={<div style={mapElementsStyle} />}
-          stream={this.props.stream}
-        />
+        }
+        </MapErrorBoundary>
         <StyledGradient />
       </div>
     );
