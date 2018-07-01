@@ -16,7 +16,7 @@ export default class LandingBackground extends Component {
 
     return (
       <LandingMap
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&key=${APIKey}`}
+        googleMapURL={!this.props.error.message ? `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${APIKey}` : `https://maps.google.cn/maps/api/js?v=3.exp&key=${APIKey}`}
         loadingElement={<div style={mapElementsStyle} />}
         containerElement={<div style={{zIndex:"-1", ...mapElementsStyle}} />}
         mapElement={<div style={mapElementsStyle} />}
